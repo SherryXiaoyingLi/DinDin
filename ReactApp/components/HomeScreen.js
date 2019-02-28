@@ -1,16 +1,17 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { Constants } from 'expo'
 
 export default class App extends React.Component {
-  constructor(props){
-    super(props)
-  }
-
+  
   render() {
     return (
       <View style={styles.container}>
-        <Image style={styles.splashImg} source={require('./assets/Design/splash_variations/Splash.png')} />
-        <TouchableOpacity onPress={()=>this.props.navigation.navigate('Player')} />
+        <View style={styles.top}>
+          <Image source={require('../assets/Sliced/sidemenubtn.png')}></Image>
+          <Image source={require('../assets/Sliced/searchbtn.png')}></Image>
+        </View>
+        
       </View>
     );
   }
@@ -29,5 +30,11 @@ const styles = StyleSheet.create({
   },
   text: {
     flexDirection: 'row',
+  },
+  top: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems:'center',
+    paddingTop: Constants.statusBarHeight,
   }
 });

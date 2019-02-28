@@ -1,17 +1,21 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
-import {createDrawerNavigator, createAppContainer} from 'react-navigation';
+import {createDrawerNavigator, createAppContainer} from 'react-navigation'
 import HomeScreen from './components/HomeScreen';
+// import PlayerScreen from './components/PlayerScreen'
+import Splash from './components/Splash'
+
 
 const rootStack = createDrawerNavigator({
-  Home: HomeScreen,
-  //Player: PlayerScreen
-},{
-  initalRouteName: 'Home'
-}
+    spl: Splash,
+    Home: HomeScreen
+  },{
+    initalRouteName: 'spl'
+  }
 ) 
 
+
 const AppContainer = createAppContainer(rootStack)
+
 
 export default class App extends React.Component {
   render() {
