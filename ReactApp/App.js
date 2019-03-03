@@ -9,7 +9,7 @@ const rootStack = createDrawerNavigator({
     spl: Splash,
     Home: HomeScreen
   },{
-    initalRouteName: 'spl'
+    initialRouteName: 'spl'
   }
 ) 
 

@@ -1,17 +1,21 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { Constants } from 'expo'
+import Header from './Header'
+import InviteHoriScroll from './InviteHoriScroll'
+import InviteVertiScroll from './InviteVertiScroll'
 
 export default class App extends React.Component {
+  constructor(props){
+    super(props)
+  }
   
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.top}>
-          <Image source={require('../assets/Sliced/sidemenubtn.png')}></Image>
-          <Image source={require('../assets/Sliced/searchbtn.png')}></Image>
-        </View>
-        
+      <Header navigation={this.props.navigation} style={styles.header}/>
+      <InviteHoriScroll/>
+      <InviteVertiScroll/>
       </View>
     );
   }
@@ -21,20 +25,13 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center', // flex-start, center, flex-end, stretch
-    justifyContent: 'center', // flex-start, center, flex-end, space-around, space-between, space-evenly
-  },
-  splashImg: {
-    width: 380,
-    height: 820
-  },
-  text: {
-    flexDirection: 'row',
-  },
-  top: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignItems:'center',
+    //alignItems: 'center', // flex-start, center, flex-end, stretch
+    flexDirection: 'column',
     paddingTop: Constants.statusBarHeight,
+    //justifyContent: 'center', // flex-start, center, flex-end, space-around, space-between, space-evenly
+  },
+  header: {
+    //paddingTop: Constants.statusBarHeight,
+    marginTop: 5,
   }
 });
