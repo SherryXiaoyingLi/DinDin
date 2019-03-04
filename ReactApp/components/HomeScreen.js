@@ -21,7 +21,7 @@ export default class App extends React.Component {
   async login(email,pass){
     try {
       await firebase.auth()
-        .signInWithEmailAndPassword('ys2ws@virginia.edu','bvt4w4]B0506');
+        .signInWithEmailAndPassword(email, pass);
       console.log('Logged In!');
     } catch (error) {
       console.log(error.toString())
