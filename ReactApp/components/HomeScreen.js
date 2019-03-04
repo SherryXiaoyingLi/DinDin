@@ -4,16 +4,38 @@ import { Constants } from 'expo'
 import Header from './Header'
 import InviteHoriScroll from './InviteHoriScroll'
 import InviteVertiScroll from './InviteVertiScroll'
+import firebase from '../constants/firebase'
+
 
 export default class App extends React.Component {
   constructor(props){
-    super(props)
+    super(props);
+
+    //initialize firebase
+    // if (!firebase.apps.length) {
+    //   firebase.initializeApp(ApiKeys.FirebaseConfig)
+    // }
+
+
   }
-  
+  async login(email,pass){
+    try {
+      await firebase.auth()
+        .signInWithEmailAndPassword('ys2ws@virginia.edu','bvt4w4]B0506');
+      console.log('Logged In!');
+    } catch (error) {
+      console.log(error.toString())
+    }
+  }
+  user =firebase.database().ref('messages/').orderByKey().on('text', function(data){
+    console.log(data.key);
+  });
+
   render() {
     return (
       <View style={styles.container}>
       <Header navigation={this.props.navigation} style={styles.header}/>
+      <Text></Text>
       <InviteHoriScroll/>
       <InviteVertiScroll/>
       </View>
