@@ -4,7 +4,6 @@ import HomeScreen from './components/HomeScreen';
 // import PlayerScreen from './components/PlayerScreen'
 import Splash from './components/Splash'
 
-
 const rootStack = createDrawerNavigator({
     spl: Splash,
     Home: HomeScreen
