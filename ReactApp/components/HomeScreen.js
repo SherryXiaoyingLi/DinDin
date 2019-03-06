@@ -5,6 +5,7 @@ import Header from './Header'
 import InviteHoriScroll from './InviteHoriScroll'
 import InviteVertiScroll from './InviteVertiScroll'
 import firebase from '../constants/firebase'
+import InvitePending from './InvitePending'
 
 
 export default class App extends React.Component {
@@ -36,7 +37,8 @@ export default class App extends React.Component {
       <View style={styles.container}>
       <Header navigation={this.props.navigation} style={styles.header}/>
       <Text></Text>
-      <InviteHoriScroll/>
+      {/* <InviteHoriScroll/> */}
+      <InvitePending/>
       <InviteVertiScroll/>
       </View>
     );
