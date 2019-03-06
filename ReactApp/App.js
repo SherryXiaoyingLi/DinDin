@@ -17,6 +17,7 @@ const AppContainer = createAppContainer(rootStack)
 
 
 export default class App extends React.Component {
+  
   render() {
     return (
       <AppContainer persistenceKey={"NavigationState"} />
