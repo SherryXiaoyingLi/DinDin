@@ -1,3 +1,3 @@
 export default {
-    getStarted: 'abcabc'
+    getStarted: 'البدء'
 }
