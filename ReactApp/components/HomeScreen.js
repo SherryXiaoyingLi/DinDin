@@ -18,18 +18,18 @@ export default class App extends React.Component {
 
 
   }
-  async login(email,pass){
-    try {
-      await firebase.auth()
-        .signInWithEmailAndPassword(email, pass);
-      console.log('Logged In!');
-    } catch (error) {
-      console.log(error.toString())
-    }
-  }
-  user =firebase.database().ref('messages/').orderByKey().on('text', function(data){
-    console.log(data.key);
-  });
+  // async login(email,pass){
+  //   try {
+  //     await firebase.auth()
+  //       .signInWithEmailAndPassword(email, pass);
+  //     console.log('Logged In!');
+  //   } catch (error) {
+  //     console.log(error.toString())
+  //   }
+  // }
+  // user =firebase.database().ref('messages/').orderByKey().on('text', function(data){
+  //   console.log(data.key);
+  // });
 
   render() {
     return (
