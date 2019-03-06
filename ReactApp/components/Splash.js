@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Animated } from 'react-native';
 import utility from './language.utility'
-import I18n from 'react-native-i18n';
+//import I18n from 'react-native-i18n';
 
 export default class Splash extends React.Component {
     
@@ -53,9 +53,9 @@ export default class Splash extends React.Component {
               </Animated.View>
               </View>
               <View style={styles.title}>
-              <Text style={styles.dindin}>DinDin</Text>
+              <Text style={styles.dindin}>{utility.t('dindin')}</Text>
               {/* <Text style={styles.dindin}>DinDin </Text> */}
-              <Text style={styles.subtitle}>{I18n.t('getStarted')}</Text>
+              <Text style={styles.subtitle}>{utility.t('connectFood')}</Text>
               </View>
               <View style={styles.start}>
               <TouchableOpacity onPress={() => this.props.navigation.navigate('Home')}>
@@ -66,17 +66,6 @@ export default class Splash extends React.Component {
         )
       }
 }
-I18n.fallbacks = true;
-
-I18n.translations = {
-  
-  en: {
-    getStarted: 'Connecting food lovers',
-  },
-  ar: {
-    getStarted: 'توصيل عشاق الطعام',
-  },
-};
 
 const styles = StyleSheet.create({
     container: {

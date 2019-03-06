@@ -1,3 +1,5 @@
 export default {
-    getStarted: 'البدء'
+    getStarted: 'البدء',
+    connectFood: 'توصيل عشاق الطعام',
+    dindin: 'الدين الدين'
 }
