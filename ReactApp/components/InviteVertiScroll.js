@@ -1,10 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Dimensions} from 'react-native';
 import { Constants } from 'expo'
 
+var windowWidth = Dimensions.get('window').width
+var windowHeight = Dimensions.get('window').height
+
 export default class InviteVertiScroll extends React.Component{
-    constructor(){
-        super()
+    constructor(prop){
+        super(prop)
         this.state ={
             podCastList: null
         }
@@ -28,12 +31,14 @@ export default class InviteVertiScroll extends React.Component{
     }
 
     renderRow({item}){
-        console.log(item.row[0].image)
         return(
             <View style={styles.rowContainer}>
                 <View style={styles.podCastContainer}>
-                    <Image style={styles.podImages} source={{uri: item.row[0].image}}/>
-                    <Text style={styles.podCastTile}>{item.row[0].title}</Text>
+                    <View style={styles.titleView}>
+                    <Text style={{fontFamily: 'System', fontSize: 13, color: '#000000', letterSpacing: 0 }}>Thursday 7 March</Text>
+                    </View>
+                    <View style={styles.card}>
+                    </View>
                 </View> 
             </View>
         )
@@ -43,15 +48,11 @@ export default class InviteVertiScroll extends React.Component{
         if(this.state.podCastList !== null){
         return(
             <View style={styles.container}>
-                <View style={styles.titleSection}>
-                    <Text style={styles.title}> My PodCast</Text>
-                </View>
                  <FlatList
                     style={styles.ScollablePodCasts}
                     data={this.state.podCastList}
                     renderItem={this.renderRow}
                     keyExtractor={this.keyExtractor}
-                    
                 /> 
                 
                 </View>
@@ -64,43 +65,28 @@ export default class InviteVertiScroll extends React.Component{
 
 const styles = StyleSheet.create(
     {
-        conatiner:{
-            flex:1,
-            flexDirection:'row',
-            justifyContent: 'space-between',
-            padding:20
-        },
-        titleSection:{
-            height: 29,
-            flexDirection:'row', 
-            justifyContent: 'space-between',
-            alignItems:'center'
-        },
-
-        title: {
-            fontSize: 24,
-            color: "#FFFFFF",
-            letterSpacing: 0.35,
-            textAlign: "left",
-        },
-
-        dotdot:{
-            paddingLeft: 10
+        container:{
+            flex:1.5,
+            flexDirection:'column',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            backgroundColor: '#696969'
         },
 
         ScollablePodCasts:{
-            
+            width: windowWidth,
             },
 
         rowContainer:{
-            flexDirection:'column', 
-            justifyContent: 'space-between',
-            padding: 15
+            flexDirection:'row', 
+            justifyContent: 'space-evenly',
+            alignItems: 'center',
         },
 
         podCastContainer:{
-            flexDirection:'row', 
-            justifyContent: 'space-evenly',
+            flexDirection:'column', 
+            justifyContent: 'space-between',
+            alignItems: 'center'
         },
 
         podCastTile:{
@@ -110,11 +96,21 @@ const styles = StyleSheet.create(
             textAlign: "left",
             paddingTop: 10
         }, 
+        card: {
+            backgroundColor: '#FFFFFF',
+            height: 0.12 * windowHeight, 
+            width: windowWidth,
+        },
+        titleView: {
+            width:windowWidth, 
+            height:0.06 * windowHeight, 
+            backgroundColor:'#1e90ff', 
+            flexDirection:'row', 
+            justifyContent: 'space-between',
+            alignItems:'center',
+            padding: 12
+        }
 
-        podImages:{
-            height: 128, 
-            width: 128,
-        }     
 
     }
 )

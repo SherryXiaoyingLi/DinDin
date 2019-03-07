@@ -1,10 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, } from 'react-native';
-import { Constants } from 'expo'
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Dimensions} from 'react-native';
+import CardHori from './CardHori'
+import {  LinearGradient} from 'expo';
+
+var windowWidth = Dimensions.get('window').width
+var windowHeight = Dimensions.get('window').height
 
 export default class InviteHoriScroll extends React.Component{
-    constructor(){
-        super()
+    constructor(prop){
+        super(prop)
         this.state ={
             podCastList: null
         }
@@ -28,12 +32,10 @@ export default class InviteHoriScroll extends React.Component{
     }
 
     renderRow({item}){
-        console.log(item.row[0].image)
         return(
             <View style={styles.rowContainer}>
                 <View style={styles.podCastContainer}>
-                    <View style={styles.card}>
-                    </View>
+                    <CardHori/>
                 </View> 
             </View>
         )
@@ -43,9 +45,16 @@ export default class InviteHoriScroll extends React.Component{
         if(this.state.podCastList !== null){
         return(
             <View style={styles.container}>
-                <View style={styles.titleSection}>
+                <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']}
+                style={{width: windowWidth, height:  0.3 * windowHeight, flex: 1}}
+                start={[1,1]}
+                end={[0.4, 0.3]} >
+
+                <View style={[styles.container, {alignItems:'center'}]}>
+                <View style={[styles.titleSection, {left: -0.4 * windowWidth}]}>
                     <Text style={styles.title}> PENDING</Text>
                 </View>
+                <View style={{height: 0.22 * windowHeight, width: 0.92 * windowWidth, }}>
                  <FlatList 
                     style={styles.ScollablePodCasts}
                     data={this.state.podCastList}
@@ -53,8 +62,11 @@ export default class InviteHoriScroll extends React.Component{
                     keyExtractor={this.keyExtractor}
                     horizontal={true}
                 /> 
-                
                 </View>
+                </View>
+
+                </LinearGradient>
+            </View>
         )
         }else{
             return(<View style={{flex:1}}/>)
@@ -64,44 +76,46 @@ export default class InviteHoriScroll extends React.Component{
 
 const styles = StyleSheet.create(
     {
-        conatiner:{
-            flex:1,
-            flexDirection:'row',
-            justifyContent: 'space-between',
-            padding:20,
+        container:{
+            flex: 0.84,
+            flexWrap: 'wrap',
+            flexDirection:'column',
+            height:  0.3 * windowHeight,
         },
         titleSection:{
             height: 29,
             flexDirection:'row', 
             justifyContent: 'space-between',
-            alignItems:'center'
+            alignItems:'center',
+            
         },
         title: {
-            fontSize: 24,
-            color: "black",
-            letterSpacing: 0.35,
-            textAlign: "left",
-        },
-
-        dotdot:{
-            paddingLeft: 10
+            fontSize: 14,
+            fontFamily: 'System',
+            opacity: 0.8,
+            color: '#000000',
+            letterSpacing: 0,
+            //padding: 18,
         },
 
         ScollablePodCasts:{
-            height: 100,
-            width: '80%',
-            backgroundColor:'gray',
+            // width: 0.92 * windowWidth, 
+            // height: 0.22 * windowHeight,
+            backgroundColor: 'gray',
+            
             },
 
         rowContainer:{
             flexDirection:'column', 
-            justifyContent: 'space-between',
+            justifyContent: 'space-evenly',
+            alignItems: 'center',
             padding: 15
         },
 
         podCastContainer:{
             flexDirection:'row', 
-            justifyContent: 'space-evenly',
+            justifyContent: 'space-between',
+            alignItems: 'center'
         },
 
         podCastTile:{
@@ -114,8 +128,8 @@ const styles = StyleSheet.create(
 
         card: {
             backgroundColor: '#FFFFFF',
-            height: 128, 
-            width: 128,
+            height: 0.2 * windowHeight, 
+            width: 0.86 * windowWidth,
         }
 
     }
