@@ -36,10 +36,8 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
       <Header navigation={this.props.navigation} style={styles.header}/>
-      <Text></Text>
-      {/* <InviteHoriScroll/> */}
       <InvitePending/>
-      <InviteVertiScroll/>
+      <InviteVertiScroll style={{paddingTop: 10}}/>
       </View>
     );
   }
@@ -51,6 +49,7 @@ const styles = StyleSheet.create({
     flex: 1,
     //alignItems: 'center', // flex-start, center, flex-end, stretch
     flexDirection: 'column',
+    //justifyContent: 'space-between',
     paddingTop: Constants.statusBarHeight,
     //justifyContent: 'center', // flex-start, center, flex-end, space-around, space-between, space-evenly
   },

@@ -32,18 +32,21 @@ const styles = StyleSheet.create({
     
     text: {
       flexDirection: 'row',
-      fontSize: 24,
+      fontSize: 17,
+      fontFamily: 'System',
+      color: '#353535',
+      letterSpacing: 0,
       textAlign: 'center'
 
     },
     left: {
         margin: 16,
-        width: 20,
-        height: 20
+        width: 15,
+        height: 16
     },
     right:{
         margin: 16,
-        width: 20,
-        height: 20
+        width: 15,
+        height: 16
     }
   });

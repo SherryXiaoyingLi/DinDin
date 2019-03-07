@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Animated } from 'react-native';
+import { Dimensions, StyleSheet, Text, View, Image, TouchableOpacity, Animated, ImageBackground } from 'react-native';
 import utility from './language.utility'
 //import I18n from 'react-native-i18n';
 
@@ -10,24 +10,70 @@ export default class Splash extends React.Component {
         super(props)
         this.state = {
           fadeAnim: new Animated.Value(0),
+          fadeAnim2: new Animated.Value(0),
+          fadeAnim3: new Animated.Value(0),
         }
         
     }
-    fadeIn(){
+    fadeIn(anim){
       Animated.timing(          // Animate over time
-        this.state.fadeAnim,    // The animated value to drive
+        anim,    // The animated value to drive
         {
           toValue: 1,           // Animate to opacity: 1 (opaque)
           duration: 1000,       // 2000ms
         }
-      ).start(()=>this.fadeOut());                // Starts the animation
+      ).start(()=>this.fadeOut(anim));                // Starts the animation
     }
 
 
-    fadeOut(){
-      this.setState({fadeAnim: new Animated.Value(1)})
+    fadeOut(anim){
+      this.setState({anim: new Animated.Value(1)})
       Animated.timing(          // Animate over time
-        this.state.fadeAnim, // The animated value to drive
+        anim, // The animated value to drive
+        {
+          toValue: 0,           // Animate to opacity: 1 (opaque)
+          duration: 1000,       // 2000ms
+        }
+      ).start(()=>this.fadeIn2(this.state.fadeAnim2));                // Starts the animation
+    }
+
+    fadeIn2(anim){
+      Animated.timing(          // Animate over time
+        anim,    // The animated value to drive
+        {
+          toValue: 1,           // Animate to opacity: 1 (opaque)
+          duration: 1000,       // 2000ms
+        }
+      ).start(()=>this.fadeOut2(anim));                // Starts the animation
+    }
+
+
+    fadeOut2(anim){
+      this.setState({anim: new Animated.Value(1)})
+      Animated.timing(          // Animate over time
+        anim, // The animated value to drive
+        {
+          toValue: 0,           // Animate to opacity: 1 (opaque)
+          duration: 1000,       // 2000ms
+        }
+      ).start(()=>this.fadeIn3(this.state.fadeAnim3));                // Starts the animation
+    }
+
+    fadeIn3(anim){
+      Animated.timing(          // Animate over time
+        anim,    // The animated value to drive
+        {
+          toValue: 1,           // Animate to opacity: 1 (opaque)
+          duration: 1000,       // 2000ms
+        }
+      ).start(()=>this.fadeOut3(anim));                // Starts the animation
+    }
+
+
+    fadeOut3(anim){
+      this.setState({anim: new Animated.Value(1)})
+      Animated.timing(          // Animate over time
+        anim, // The animated value to drive
         {
           toValue: 0,           // Animate to opacity: 1 (opaque)
           duration: 1000,       // 2000ms
@@ -35,31 +81,34 @@ export default class Splash extends React.Component {
       ).start();                // Starts the animation
     }
 
+    componentWillMount() {
+      this.fadeIn(this.state.fadeAnim)
+    }
     componentDidMount() {
-      this.timerId = setInterval(()=>this.fadeIn(),2000)
+      this.timerId = setInterval(()=>this.fadeIn(this.state.fadeAnim),6000)
     }
     
 
     render() {
       let {fadeAnim} = this.state;
+      let {fadeAnim2} = this.state;
+      let {fadeAnim3} = this.state;
         return (
           <View style={styles.container}>
               <View style={styles.images}>
               <Image style={styles.logo} source={require('../assets/Sliced/Ovals.png')} />
-              <Animated.View style={{opacity: fadeAnim}}>
-              <Image style={styles.people1} source={require('../assets/Sliced/Page1.png')} />
-              <Image style={styles.people2} source={require('../assets/Sliced/Page2.png')} />
-              <Image style={styles.people3} source={require('../assets/Sliced/Page3.png')} />
-              </Animated.View>
+              <Animated.Image style={[styles.people1, {opacity: fadeAnim}]} source={require('../assets/Sliced/Page1.png')} />
+              <Animated.Image style={[styles.people2, {opacity: fadeAnim2}]} source={require('../assets/Sliced/Page2.png')} />
+              <Animated.Image style={[styles.people3, {opacity: fadeAnim3}]} source={require('../assets/Sliced/Page3.png')} />
               </View>
               <View style={styles.title}>
               <Text style={styles.dindin}>{utility.t('dindin')}</Text>
-              {/* <Text style={styles.dindin}>DinDin </Text> */}
               <Text style={styles.subtitle}>{utility.t('connectFood')}</Text>
               </View>
               <View style={styles.start}>
               <TouchableOpacity onPress={() => this.props.navigation.navigate('Home')}>
-                <Image source={require('../assets/Sliced/getStarted.png')}></Image>
+                <Image style={styles.buttonBar} source={require('../assets/Sliced/buttonBar.png')}></Image>
+                <View style={styles.textView}><Text style={styles.buttonText}>{utility.t('getStarted')}</Text></View>
               </TouchableOpacity>
               </View>
           </View>
@@ -67,11 +116,15 @@ export default class Splash extends React.Component {
       }
 }
 
+var windowWidth = Dimensions.get('window').width
+var windowHeight = Dimensions.get('window').height
+
 const styles = StyleSheet.create({
     container: {
       flex: 1,
       alignItems: 'center', 
       justifyContent: 'center', 
+      
     },
     images: {
       top: 90,
@@ -105,11 +158,29 @@ const styles = StyleSheet.create({
     },
     start: {
       position: 'absolute',
-      width: '100%',
       alignItems: 'center', 
       justifyContent: 'center',
       bottom: 0,
       height: 48
+    },
+    textView: {
+      position: 'absolute',
+      left: 0,
+      top: 0,
+      right:0,
+      bottom:0,
+      alignItems: 'center', 
+      justifyContent: 'center',
+    },
+    buttonBar: {
+      width: windowWidth
+    },
+    buttonText: {
+      fontFamily: 'System',
+      fontSize: 14,
+      letterSpacing: 0,
+      textAlign: 'center',
+      color: '#FFFFFF'
     },
     people1: {
       width: 54,
