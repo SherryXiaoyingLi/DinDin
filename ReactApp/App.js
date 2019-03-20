@@ -12,6 +12,11 @@ const rootStack = createDrawerNavigator({
   }
 ) 
 
+// persistent key: so it stay on the last screen you are on
+// navigation is part of the props of the this
+//
+
+// asychronouns requests that have tokens assciocated with your app
 
 const AppContainer = createAppContainer(rootStack)
 

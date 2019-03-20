@@ -10,8 +10,9 @@ export default class Header extends React.Component{
     render(){
         return(
             <View style={styles.container}>
-   
-          <Image source={require('../assets/Sliced/sidemenubtn.png')} style={styles.left}></Image>
+          <TouchableOpacity onPress={()=>{this.props.navigation.toggleDrawer()}}>
+                <Image style={styles.left} source={require('../assets/Sliced/sidemenubtn.png')}/>
+            </TouchableOpacity>
           <Text style={styles.text}>DinDin</Text>
           <Image source={require('../assets/Sliced/searchbtn.png')} style={styles.right}></Image>
         
@@ -32,21 +33,18 @@ const styles = StyleSheet.create({
     
     text: {
       flexDirection: 'row',
-      fontSize: 17,
-      fontFamily: 'System',
-      color: '#353535',
-      letterSpacing: 0,
+      fontSize: 24,
       textAlign: 'center'
 
     },
     left: {
         margin: 16,
-        width: 15,
-        height: 16
+        width: 20,
+        height: 20
     },
     right:{
         margin: 16,
-        width: 15,
-        height: 16
+        width: 20,
+        height: 20
     }
   });
