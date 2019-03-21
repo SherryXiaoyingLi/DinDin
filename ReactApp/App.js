@@ -3,7 +3,9 @@ import {createDrawerNavigator, createSwitchNavigator, createStackNavigator,creat
 import HomeScreen from './components/HomeScreen';
 import Splash from './components/Splash'
 import Login from './components/Login'
+import testscreen from './components/testscreen'
 import { Facebook } from 'expo';
+import * as firebase from 'firebase';
 
 
 // let result = async function handleFacebookLogin() {
@@ -33,13 +35,25 @@ import { Facebook } from 'expo';
 // }
 // }
 
+
+var firebaseConfig = {
+  apiKey: "AIzaSyAb1dFerO9kEe7ljjLBT3epQRuZ_qM4-Ic",
+  authDomain: "expo-firebase-79661.firebaseapp.com",
+  databaseURL: "https://expo-firebase-79661.firebaseio.com",
+  projectId: "expo-firebase-79661",
+  storageBucket: "expo-firebase-79661.appspot.com",
+  messagingSenderId: "90512570982"
+};
+firebase.initializeApp(firebaseConfig);
+
 const homeStack = createDrawerNavigator({home: HomeScreen}) 
 const authStack = createDrawerNavigator({login: Login});
 const AppContainer = createAppContainer(
   createSwitchNavigator({
     spl: Splash,
     home: homeStack,
-    auth: authStack
+    auth: authStack,
+    test: testscreen,
   },
   {
     initialRouteName: 'spl'
