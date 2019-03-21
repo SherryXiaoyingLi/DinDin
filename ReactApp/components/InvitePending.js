@@ -101,21 +101,22 @@ const styles = StyleSheet.create(
         ScollablePodCasts:{
             // width: 0.92 * windowWidth, 
             // height: 0.22 * windowHeight,
-            backgroundColor: 'gray',
+            //backgroundColor: 'gray',
             
             },
 
         rowContainer:{
+            flex: 1,
             flexDirection:'column', 
             justifyContent: 'space-evenly',
             alignItems: 'center',
-            padding: 15
+            padding: 15,
         },
 
         podCastContainer:{
             flexDirection:'row', 
             justifyContent: 'space-between',
-            alignItems: 'center'
+            alignItems: 'center',
         },
 
         podCastTile:{

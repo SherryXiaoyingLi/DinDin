@@ -3,8 +3,10 @@ import { Dimensions, StyleSheet, Text, View, Image, TouchableOpacity, Animated, 
 import utility from './language.utility'
 //import I18n from 'react-native-i18n';
 
+
+
 export default class Splash extends React.Component {
-    
+    _isMounted = false;
 
     constructor(props){
         super(props)
@@ -27,7 +29,9 @@ export default class Splash extends React.Component {
 
 
     fadeOut(anim){
+      if (this._isMounted) {
       this.setState({anim: new Animated.Value(1)})
+      }
       Animated.timing(          // Animate over time
         anim, // The animated value to drive
         {
@@ -49,7 +53,9 @@ export default class Splash extends React.Component {
 
 
     fadeOut2(anim){
+      if (this._isMounted) {
       this.setState({anim: new Animated.Value(1)})
+      }
       Animated.timing(          // Animate over time
         anim, // The animated value to drive
         {
@@ -71,7 +77,9 @@ export default class Splash extends React.Component {
 
 
     fadeOut3(anim){
+      if (this._isMounted){
       this.setState({anim: new Animated.Value(1)})
+      }
       Animated.timing(          // Animate over time
         anim, // The animated value to drive
         {
@@ -85,7 +93,13 @@ export default class Splash extends React.Component {
       this.fadeIn(this.state.fadeAnim)
     }
     componentDidMount() {
+      this._isMounted = true
       this.timerId = setInterval(()=>this.fadeIn(this.state.fadeAnim),6000)
+    }
+
+    componentWillUnmount(){
+      this._isMounted = false
+      // clearInterval(this.timerId)
     }
     
 
@@ -106,7 +120,7 @@ export default class Splash extends React.Component {
               <Text style={styles.subtitle}>{utility.t('connectFood')}</Text>
               </View>
               <View style={styles.start}>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('Home')}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('auth')}>
                 <Image style={styles.buttonBar} source={require('../assets/Sliced/buttonBar.png')}></Image>
                 <View style={styles.textView}><Text style={styles.buttonText}>{utility.t('getStarted')}</Text></View>
               </TouchableOpacity>

@@ -10,10 +10,10 @@ export default class Header extends React.Component{
     render(){
         return(
             <View style={styles.container}>
-   
-          <Image source={require('../assets/Sliced/sidemenubtn.png')} style={styles.left}></Image>
-          <Text style={styles.text}>DinDin</Text>
-          <Image source={require('../assets/Sliced/searchbtn.png')} style={styles.right}></Image>
+            <TouchableOpacity onPress={()=>{this.props.navigation.toggleDrawer()}}>
+                <Image style={styles.left} source={require('../assets/Sliced/sidemenubtn.png')}/>
+            </TouchableOpacity><Text style={styles.text}>DinDin</Text>
+            <Image source={require('../assets/Sliced/searchbtn.png')} style={styles.right}></Image>
         
         
             </View>
