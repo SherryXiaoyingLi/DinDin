@@ -54,8 +54,7 @@ export default class InviteVertiScroll extends React.Component{
                     renderItem={this.renderRow}
                     keyExtractor={this.keyExtractor}
                 /> 
-                
-                </View>
+            </View>
         )
         }else{
             return(<View style={{flex:1}}/>)
@@ -70,7 +69,7 @@ const styles = StyleSheet.create(
             flexDirection:'column',
             flexWrap: 'wrap',
             alignItems: 'center',
-            backgroundColor: '#696969'
+            backgroundColor: '#FFFFFF'
         },
 
         ScollablePodCasts:{
@@ -94,17 +93,21 @@ const styles = StyleSheet.create(
             color: "#FFFFFF",
             letterSpacing: -0.15,
             textAlign: "left",
-            paddingTop: 10
+            paddingTop: 0
         }, 
         card: {
             backgroundColor: '#FFFFFF',
             height: 0.12 * windowHeight, 
             width: windowWidth,
+            borderBottomWidth: 0.5,
+            borderBottomColor: '#D3D3D3',
+            borderTopWidth: 0.5,
+            borderTopColor: '#D3D3D3',
         },
         titleView: {
             width:windowWidth, 
             height:0.06 * windowHeight, 
-            backgroundColor:'#1e90ff', 
+            backgroundColor:'#FFFFFF', 
             flexDirection:'row', 
             justifyContent: 'space-between',
             alignItems:'center',

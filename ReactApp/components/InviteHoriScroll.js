@@ -3,8 +3,8 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, } from 'reac
 import { Constants } from 'expo'
 
 export default class InviteHoriScroll extends React.Component{
-    constructor(){
-        super()
+    constructor(prop){
+        super(prop)
         this.state ={
             podCastList: null
         }
@@ -64,7 +64,7 @@ export default class InviteHoriScroll extends React.Component{
 
 const styles = StyleSheet.create(
     {
-        conatiner:{
+        container:{
             flex:1,
             flexDirection:'row',
             justifyContent: 'space-between',
