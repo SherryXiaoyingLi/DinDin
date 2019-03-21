@@ -3,7 +3,10 @@ import { Text, View, Image, StyleSheet, Button, Alert } from 'react-native';
 //import { StackNavigator } from 'react-navigation';
 import { Constants, Facebook } from 'expo';
 import HomeScreen from './HomeScreen';
-import * as firebase from 'firebase'; 
+//import * as firebase from 'firebase'; 
+import firebase from '../constants/firebase'
+import {auth} from 'firebase'
+
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
@@ -34,8 +37,7 @@ export default class LoginScreen extends React.Component {
           const profile = await response.json();
           console.log("Was Successful")
           navigation.navigate('home', { profile });
-          
-          const credential = firebase.auth.FacebookAuthProvider.credential(token)
+          const credential = auth.FacebookAuthProvider.credential(token)
           firebase.auth().signInAndRetrieveDataWithCredential(credential).catch((error) => {
             console.log(error)
           })
