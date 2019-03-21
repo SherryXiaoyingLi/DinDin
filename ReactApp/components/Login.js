@@ -3,10 +3,14 @@ import { Text, View, Image, StyleSheet, Button, Alert } from 'react-native';
 //import { StackNavigator } from 'react-navigation';
 import { Constants, Facebook } from 'expo';
 import HomeScreen from './HomeScreen';
+<<<<<<< Updated upstream
 //import * as firebase from 'firebase'; 
 import firebase from '../constants/firebase'
 import {auth} from 'firebase'
 
+=======
+import * as firebase from 'firebase'
+>>>>>>> Stashed changes
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
