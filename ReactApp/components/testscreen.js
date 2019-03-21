@@ -1,43 +1,42 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Dimensions} from 'react-native';
+import { Constants } from 'expo'
 import * as firebase from 'firebase'
 import 'firebase/firestore';
+
 
 var windowWidth = Dimensions.get('window').width
 var windowHeight = Dimensions.get('window').height
 
-export default class cardHori extends React.Component{
+
+export default class testscreen extends React.Component{
     constructor(prop){
         super(prop);
-
+        this.state = ({
+            users : []
+        })
+        this.ref = firebase.firestore().collection('users')
     }
     
     
 
     render(){
         return(
+            
             <View style={styles.container}>
-            <View style={styles.top}>
-            <Image style={styles.avatar} source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}/>
-            <View style={{paddingLeft: 0.008 * windowWidth, flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start'}}>
-                <Text style={{fontFamily: 'System', fontSize: 14, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>Alma Evans</Text>
-                <Text style={{fontFamily: 'System', fontSize: 14, opacity: 0.5, color: '#000000', letterSpacing:0}}>Sunday 10 March - 16:30pm</Text>
-            </View>
-            </View>
-            <View style={styles.bottom}>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate()}>
-            <View style={styles.bottomLeft}>
-                <Image style={styles.cross} source={require('../assets/Sliced/cross.png')}></Image>
-                <Text style={{fontFamily: 'System',color: '#FF3B3B', fontSize:13, paddingLeft: 0.02 * windowWidth}}>Decline</Text>
-            </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate()}>
-            <View style={styles.bottomRight}>
-                <Image style={styles.check} source={require('../assets/Sliced/check.png')}></Image>
-                <Text style={{fontFamily: 'System',color: '#38D459', fontSize:13, paddingLeft: 0.02 * windowWidth}}>Accept</Text>
-            </View>
-            </TouchableOpacity>
-            </View>
+            <Text>listing items</Text>
+            <FlatList
+                data = {this.state.users} 
+                renderItem = {({item,index})=>{
+                    
+                    return (
+                        <Text>{item.name}</Text>
+
+                    )
+                
+                }}>
+
+            </FlatList>
             </View>
         )
     }
@@ -51,7 +50,9 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         borderRadius: 10,
         borderWidth: 0.5,
-        borderColor: '#7cfc00'
+        borderColor: '#7cfc00',
+        alignItems: 'center',
+        justifyContent:'center',
     },
     top: {
         width: 0.86 * windowWidth,
