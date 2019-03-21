@@ -12,7 +12,7 @@ export default class LoginScreen extends React.Component {
   async handleFacebookLogin(navigation) {
     try {
       const { type, token } = await Facebook.logInWithReadPermissionsAsync(
-        '1201211719949057', // Replace with your own app id in standalone app
+        '818762215127916', // Replace with your own app id in standalone app
         { permissions: ['public_profile'] }
       );
       console.log(type + " "+ token)

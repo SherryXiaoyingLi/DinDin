@@ -45,10 +45,14 @@ export default class InviteHoriScroll extends React.Component{
         if(this.state.podCastList !== null){
         return(
             <View style={styles.container}>
-                <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']}
+                <LinearGradient 
+                //colors={['#4c669f', '#3b5998', '#192f6a']}
                 style={{width: windowWidth, height:  0.3 * windowHeight, flex: 1}}
-                start={[1,1]}
-                end={[0.4, 0.3]} >
+                colors={['#FFFFFF', '#B0C4DE']}
+                start={ [0, 1] }
+                end={ [0, 0] }
+             
+                >
 
                 <View style={[styles.container, {alignItems:'center'}]}>
                 <View style={[styles.titleSection, {left: -0.4 * windowWidth}]}>

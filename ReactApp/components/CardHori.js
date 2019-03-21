@@ -45,13 +45,13 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         borderRadius: 10,
         borderWidth: 0.5,
-        borderColor: '#7cfc00'
+        borderColor: '#D3D3D3'
     },
     top: {
         width: 0.86 * windowWidth,
         height: 0.12 * windowHeight,
         borderBottomWidth: 0.5,
-        borderBottomColor: '#7cfc00',
+        borderBottomColor: '#D3D3D3',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-evenly'
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
         width: 0.43 * windowWidth,
         height: 0.08 * windowHeight,
         borderRightWidth: 0.5,
-        borderRightColor: '#7cfc00',
+        borderRightColor: '#D3D3D3',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
