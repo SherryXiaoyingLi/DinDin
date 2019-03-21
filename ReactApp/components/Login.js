@@ -3,12 +3,20 @@ import { Text, View, Image, StyleSheet, Button, Alert } from 'react-native';
 //import { StackNavigator } from 'react-navigation';
 import { Constants, Facebook } from 'expo';
 import HomeScreen from './HomeScreen';
+import * as firebase from 'firebase'; 
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
   }
-
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged((user) => {
+      console.log('on change')
+      if (user != null) {
+        console.log('user')
+      }
+    })
+  }
   async handleFacebookLogin(navigation) {
     try {
       const { type, token } = await Facebook.logInWithReadPermissionsAsync(
@@ -26,7 +34,11 @@ export default class LoginScreen extends React.Component {
           const profile = await response.json();
           console.log("Was Successful")
           navigation.navigate('home', { profile });
-
+          
+          const credential = firebase.auth.FacebookAuthProvider.credential(token)
+          firebase.auth().signInAndRetrieveDataWithCredential(credential).catch((error) => {
+            console.log(error)
+          })
           break;
         }
         case 'cancel': {
