@@ -5,6 +5,10 @@ import Splash from './components/Splash'
 import Login from './components/Login'
 import testscreen from './components/testscreen'
 import { Facebook } from 'expo';
+<<<<<<< Updated upstream
+=======
+import * as firebase from 'firebase'
+>>>>>>> Stashed changes
 
 
 // let result = async function handleFacebookLogin() {
@@ -48,6 +52,7 @@ import { Facebook } from 'expo';
 // //firebase.initializeApp(functions.config().firebase)
 // var db = firebase.firestore()
 
+<<<<<<< Updated upstream
 // function query(db) {
 //   var query = db.collection('users')
 //     .get()
@@ -62,6 +67,9 @@ import { Facebook } from 'expo';
 //   return query;
 // }
 // query(db)
+=======
+
+>>>>>>> Stashed changes
 
 const homeStack = createDrawerNavigator({home: HomeScreen}) 
 const authStack = createDrawerNavigator({login: Login});
@@ -73,11 +81,19 @@ const AppContainer = createAppContainer(
     test: testscreen,
   },
   {
-    initialRouteName: 'spl'
+    initialRouteName: 'home'
   }
   ))
 
-
+  var firebaseConfig = {
+    apiKey: "AIzaSyAb1dFerO9kEe7ljjLBT3epQRuZ_qM4-Ic",
+    authDomain: "expo-firebase-79661.firebaseapp.com",
+    databaseURL: "https://expo-firebase-79661.firebaseio.com",
+    projectId: "expo-firebase-79661",
+    storageBucket: "expo-firebase-79661.appspot.com",
+    messagingSenderId: "90512570982"
+  };
+  firebase.initializeApp(firebaseConfig);
 export default AppContainer;
 
 // export default class App extends React.Component {
