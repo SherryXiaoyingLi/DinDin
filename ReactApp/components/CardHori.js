@@ -1,18 +1,17 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity} from 'react-native';
-import * as firebase from 'firebase'
-import 'firebase/firestore';
+//import firebase from '../constants/firebase'
 
 var windowWidth = Dimensions.get('window').width
 var windowHeight = Dimensions.get('window').height
+//var db = firebase.firestore()
 
 export default class cardHori extends React.Component{
     constructor(prop){
         super(prop);
 
     }
-    
-    
+
 
     render(){
         return(

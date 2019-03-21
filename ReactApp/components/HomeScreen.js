@@ -4,9 +4,11 @@ import { Constants } from 'expo'
 import Header from './Header'
 import InviteHoriScroll from './InviteHoriScroll'
 import InviteVertiScroll from './InviteVertiScroll'
-import firebase from '../constants/firebase'
 import InvitePending from './InvitePending'
+// import 'firebase/firestore';
+// import firebase from '../constants/firebase'
 
+// var db = firebase.firestore()
 
 export default class App extends React.Component {
   constructor(props){

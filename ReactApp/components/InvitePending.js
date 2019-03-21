@@ -1,10 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Dimensions} from 'react-native';
 import CardHori from './CardHori'
-import {  LinearGradient} from 'expo';
+import { LinearGradient } from 'expo';
+import firebase from '../constants/firebase'
+import 'firebase/firestore';
 
 var windowWidth = Dimensions.get('window').width
 var windowHeight = Dimensions.get('window').height
+var db = firebase.firestore()
 
 export default class InviteHoriScroll extends React.Component{
     constructor(prop){
@@ -22,7 +25,25 @@ export default class InviteHoriScroll extends React.Component{
         })
     }
 
+    query(db) {
+        var query = db.collection('users')
+        .get()
+        .then(snapshot => {
+        snapshot.forEach(doc => {
+        doc.data().phone_num
+        console.log(doc.data().phone_num)
+        });
+        })
+        .catch(err => {
+        // console.log('Error getting documents', err);
+        });
+    return query;
+    }
+
+    
+
     componentWillMount(){
+        // this.query(db)
         this.getPodCastData()
     }
     
@@ -36,6 +57,7 @@ export default class InviteHoriScroll extends React.Component{
             <View style={styles.rowContainer}>
                 <View style={styles.podCastContainer}>
                     <CardHori/>
+                    
                 </View> 
             </View>
         )
@@ -51,7 +73,6 @@ export default class InviteHoriScroll extends React.Component{
                 colors={['#FFFFFF', '#B0C4DE']}
                 start={ [0, 1] }
                 end={ [0, 0] }
-             
                 >
 
                 <View style={[styles.container, {alignItems:'center'}]}>
