@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Dimensions} from 'react-native';
 import { Constants } from 'expo'
+
 //import * as firebase from 'firebase'
 //import 'firebase/firestore';
 
@@ -24,20 +25,22 @@ function query(db) {
   return query;
 }
 
-
 export default class testscreen extends React.Component{
     constructor(prop){
         super(prop);
-    }
+
+    };
 
     render(){
         // console.log('testscreen printout')
         // var result = query(db)
         return(
             
+
             <View >
                 {/* <Text>testscreen printout</Text>
                 <Text>{result.map(res => <div>{res}<div>)}</Text> */}
+
             </View>
         )
     }

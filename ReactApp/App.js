@@ -81,8 +81,16 @@ const AppContainer = createAppContainer(
   }
   ))
 
-
-export default AppContainer;
+//   var firebaseConfig = {
+//     apiKey: "AIzaSyAb1dFerO9kEe7ljjLBT3epQRuZ_qM4-Ic",
+//     authDomain: "expo-firebase-79661.firebaseapp.com",
+//     databaseURL: "https://expo-firebase-79661.firebaseio.com",
+//     projectId: "expo-firebase-79661",
+//     storageBucket: "expo-firebase-79661.appspot.com",
+//     messagingSenderId: "90512570982"
+//   };
+//   firebase.initializeApp(firebaseConfig);
+ export default AppContainer;
 
 // export default class App extends React.Component {
   

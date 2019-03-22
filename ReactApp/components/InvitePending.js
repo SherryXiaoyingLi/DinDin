@@ -8,43 +8,81 @@ import 'firebase/firestore';
 var windowWidth = Dimensions.get('window').width
 var windowHeight = Dimensions.get('window').height
 var db = firebase.firestore()
+//var uid = '1IGWOQNMDL9CsnEV6vtO'
 
 export default class InviteHoriScroll extends React.Component{
     constructor(prop){
         super(prop)
         this.state ={
-            podCastList: null
+            queryPendingList: null
         }
     }
     
-    async getPodCastData(){
-        let response = await fetch("https://www.cs.virginia.edu/~dgg6b/Mobile/PodCast/podCastList.json")
-        let extractedJson = await response.json()
-        this.setState({
-            podCastList: extractedJson.podCastList
-        })
-    }
+    //query a specific uid
+    // async queryUser(uid) {
+    //     var query_result = []
+    //     var query = await db.collection('users')
+    //     .doc(uid)
+    //     .get()
+    //     .then( 
+    //             async function(doc) {
+                   
+    //             var obj = doc.data()
+    //             Object.assign(obj, {id: uid})
+    //             query_result.push(obj)
+    //     })
+    //     console.log(query_result)
+    //     // this.setState({
+    //     //     queryResultList: query_result
+    //     // }
+    //     // )
+    // }
 
-    query(db) {
-        var query = db.collection('users')
+    //query pending list assoc w/ a specific uid
+    async queryPendingInvite() {
+        var uid = this.props.uid
+        var query_result = []
+        var query = await db.collection('users')
+        .doc(uid)
         .get()
-        .then(snapshot => {
-        snapshot.forEach(doc => {
-        doc.data().phone_num
-        console.log(doc.data().phone_num)
-        });
+        .then( 
+            async function (udoc) {
+            var subresult = await udoc.ref.collection('pending').get()
+            .then(function(snapshot){
+                snapshot.forEach(async function(doc){
+                    var obj = doc.data()
+                    Object.assign(obj, {id: doc.id})
+                    query_result.push(obj)
+                })
+            })
+            
         })
-        .catch(err => {
-        // console.log('Error getting documents', err);
-        });
-    return query;
-    }
+        console.log(query_result)
+        this.setState({
+            queryPendingList: query_result
+        })
+        }
 
-    
+    // query general user
+    // async queryUser(db) {
+    //     var query_result = []
+    //     var query = await db.collection('users')
+    //     .get()
+    //     .then( function(snapshot){
+    //         snapshot.forEach( 
+    //             async function(doc) {
+    //             var obj = doc.data()
+    //             Object.assign(obj, {id: uid})
+    //             query_result.push(obj)
+                
+    //         })
+    //     })
+    //     console.log(query_result)
+      
+    // }
 
     componentWillMount(){
-        // this.query(db)
-        this.getPodCastData()
+         this.queryPendingInvite()
     }
     
 
@@ -53,22 +91,21 @@ export default class InviteHoriScroll extends React.Component{
     }
 
     renderRow({item}){
+        console.log(item)
         return(
             <View style={styles.rowContainer}>
                 <View style={styles.podCastContainer}>
-                    <CardHori/>
-                    
+                    <CardHori invitePending = {item}/>
                 </View> 
             </View>
         )
     }
 
     render(){
-        if(this.state.podCastList !== null){
+        if(this.state.queryPendingList !== null){
         return(
             <View style={styles.container}>
                 <LinearGradient 
-                //colors={['#4c669f', '#3b5998', '#192f6a']}
                 style={{width: windowWidth, height:  0.3 * windowHeight, flex: 1}}
                 colors={['#FFFFFF', '#B0C4DE']}
                 start={ [0, 1] }
@@ -82,7 +119,7 @@ export default class InviteHoriScroll extends React.Component{
                 <View style={{height: 0.22 * windowHeight, width: 0.92 * windowWidth, }}>
                  <FlatList 
                     style={styles.ScollablePodCasts}
-                    data={this.state.podCastList}
+                    data={this.state.queryPendingList}
                     renderItem={this.renderRow}
                     keyExtractor={this.keyExtractor}
                     horizontal={true}
