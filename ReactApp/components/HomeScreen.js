@@ -39,6 +39,7 @@ export default class App extends React.Component {
       <View style={styles.container}>
       <Header navigation={this.props.navigation} style={styles.header}/>
       <InvitePending/>
+      {/* <InviteHoriScroll/> */}
       <InviteVertiScroll style={{paddingTop: 10}}/>
       </View>
     );

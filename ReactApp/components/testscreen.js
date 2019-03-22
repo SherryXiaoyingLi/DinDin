@@ -31,24 +31,6 @@ export default class testscreen extends React.Component{
 
     };
 
-    _getNormalData = () => {
-
-        const normalDatabseRef = firestore.collection("users").doc("azLw7vw6yjDKrRNMq9Ld");
-
-        normalDatabseRef.get().then( doc => {
-
-            console.log('--------------- Normal Database ---------------');
-
-            if (doc.exists) console.log(doc.data());
-             else console.log('El documento no existe');
-
-            console.log('-----------------------------------------------');
-
-
-        }).catch(function(error) {
-            console.log("Error getting document:", error);
-        });
-    }
     render(){
         // console.log('testscreen printout')
         // var result = query(db)
