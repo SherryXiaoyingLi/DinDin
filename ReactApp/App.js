@@ -3,8 +3,11 @@ import {createDrawerNavigator, createSwitchNavigator, createStackNavigator,creat
 import HomeScreen from './components/HomeScreen';
 import Splash from './components/Splash'
 import Login from './components/Login'
+import event from './components/EventDetail'
+
 import testscreen from './components/testscreen'
 import { Facebook } from 'expo';
+
 
 
 // let result = async function handleFacebookLogin() {
@@ -71,6 +74,7 @@ const AppContainer = createAppContainer(
     home: homeStack,
     auth: authStack,
     test: testscreen,
+    eventDetail: event,
   },
   {
     initialRouteName: 'spl'
