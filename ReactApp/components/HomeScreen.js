@@ -9,6 +9,7 @@ import InvitePending from './InvitePending'
 // import firebase from '../constants/firebase'
 
 // var db = firebase.firestore()
+var uid = '1IGWOQNMDL9CsnEV6vtO'
 
 export default class App extends React.Component {
   constructor(props){
@@ -38,8 +39,8 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
       <Header navigation={this.props.navigation} style={styles.header}/>
-      <InvitePending/>
-      <InviteVertiScroll style={{paddingTop: 10}}/>
+      <InvitePending uid = {uid}/>
+      <InviteVertiScroll style={{paddingTop: 10} }  uid = {uid}/>
       </View>
     );
   }
