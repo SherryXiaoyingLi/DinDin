@@ -8,7 +8,7 @@ import 'firebase/firestore';
 var windowWidth = Dimensions.get('window').width
 var windowHeight = Dimensions.get('window').height
 var db = firebase.firestore()
-var uid = '1IGWOQNMDL9CsnEV6vtO'
+//var uid = '1IGWOQNMDL9CsnEV6vtO'
 
 export default class InviteHoriScroll extends React.Component{
     constructor(prop){
@@ -18,7 +18,7 @@ export default class InviteHoriScroll extends React.Component{
         }
     }
     
-    // //query a specific uid
+    //query a specific uid
     // async queryUser(uid) {
     //     var query_result = []
     //     var query = await db.collection('users')
@@ -40,6 +40,7 @@ export default class InviteHoriScroll extends React.Component{
 
     //query pending list assoc w/ a specific uid
     async queryPendingInvite() {
+        var uid = this.props.uid
         var query_result = []
         var query = await db.collection('users')
         .doc(uid)
