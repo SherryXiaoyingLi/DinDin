@@ -16,6 +16,7 @@ export default class InviteHoriScroll extends React.Component{
         this.setState({
             podCastList: extractedJson.podCastList
         })
+        console.log(extractedJson.podCastList)
     }
 
     componentWillMount(){
