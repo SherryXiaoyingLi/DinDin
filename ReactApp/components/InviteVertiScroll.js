@@ -1,28 +1,48 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Dimensions} from 'react-native';
 import { Constants } from 'expo'
+import firebase from '../constants/firebase'
+import 'firebase/firestore';
 
 var windowWidth = Dimensions.get('window').width
 var windowHeight = Dimensions.get('window').height
+var db = firebase.firestore()
+//var uid = '1IGWOQNMDL9CsnEV6vtO'
 
 export default class InviteVertiScroll extends React.Component{
     constructor(prop){
         super(prop)
         this.state ={
-            podCastList: null
+            queryAcceptedList: null
         }
     }
-    
-    async getPodCastData(){
-        let response = await fetch("https://www.cs.virginia.edu/~dgg6b/Mobile/PodCast/podCastList.json")
-        let extractedJson = await response.json()
+
+    async queryAcceptedInvite(){
+        var uid = this.props.uid
+        var query_result = []
+        var query = await db.collection('users')
+        .doc(uid)
+        .get()
+        .then( 
+            async function (udoc) {
+            var subresult = await udoc.ref.collection('accepted').get()
+            .then(function(snapshot){
+                snapshot.forEach(async function(doc){
+                    var obj = doc.data()
+                    Object.assign(obj, {id: doc.id})
+                    query_result.push(obj)
+                })
+            })
+            
+        })
+        console.log(query_result)
         this.setState({
-            podCastList: extractedJson.podCastList
+            queryAcceptedList: query_result
         })
     }
 
     componentWillMount(){
-        this.getPodCastData()
+        this.queryAcceptedInvite();
     }
     
 
@@ -41,11 +61,10 @@ export default class InviteVertiScroll extends React.Component{
                     <View style={styles.top}>
                     <Image style={styles.avatar} source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}/>
                     <View style={{paddingLeft: 0.008 * windowWidth, flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start'}}>
-                    <Text style={{fontFamily: 'System', fontSize: 14, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>Alma Evans</Text>
-                    <Text style={{fontFamily: 'System', fontSize: 14, opacity: 0.5, color: '#000000', letterSpacing:0}}>16:30pm</Text>
+                    <Text style={{fontFamily: 'System', fontSize: 14, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>{item.inviter}</Text>
+                    <Text style={{fontFamily: 'System', fontSize: 14, opacity: 0.5, color: '#000000', letterSpacing:0}}>{item.time.seconds}</Text>
                     </View>
                     
-
                     </View>
                     <View style={styles.buttons}>
                         <TouchableOpacity onPress={()=>{this.props.navigation.toggleDrawer()}}>
@@ -63,12 +82,12 @@ export default class InviteVertiScroll extends React.Component{
     }
 
     render(){
-        if(this.state.podCastList !== null){
+        if(this.state.queryAcceptedList !== null){
         return(
             <View style={styles.container}>
                  <FlatList
                     style={styles.ScollablePodCasts}
-                    data={this.state.podCastList}
+                    data={this.state.queryAcceptedList}
                     renderItem={this.renderRow}
                     keyExtractor={this.keyExtractor}
                 /> 
