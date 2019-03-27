@@ -38,8 +38,8 @@ export default class testscreen extends React.Component{
             
 
             <View >
-                {/* <Text>testscreen printout</Text>
-                <Text>{result.map(res => <div>{res}<div>)}</Text> */}
+                        <Image   source={require('../assets/Sliced/cancelbtn.png')}></Image>
+
 
             </View>
         )
