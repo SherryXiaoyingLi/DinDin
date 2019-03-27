@@ -68,16 +68,17 @@ import { Facebook } from 'expo';
 
 const homeStack = createDrawerNavigator({home: HomeScreen}) 
 const authStack = createDrawerNavigator({login: Login});
+const eventStack = createDrawerNavigator({eventDetail: event})
 const AppContainer = createAppContainer(
   createSwitchNavigator({
     spl: Splash,
     home: homeStack,
     auth: authStack,
     test: testscreen,
-    eventDetail: event,
+    eventDetail: eventStack,
   },
   {
-    initialRouteName: 'eventDetail'
+    initialRouteName: 'spl'
   }
   ))
 
