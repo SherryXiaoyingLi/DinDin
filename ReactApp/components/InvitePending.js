@@ -4,6 +4,8 @@ import CardHori from './CardHori'
 import { LinearGradient } from 'expo';
 import firebase from '../constants/firebase'
 import 'firebase/firestore';
+import utility from './language.utility'
+
 
 var windowWidth = Dimensions.get('window').width
 var windowHeight = Dimensions.get('window').height
@@ -114,7 +116,7 @@ export default class InviteHoriScroll extends React.Component{
 
                 <View style={[styles.container, {alignItems:'center'}]}>
                 <View style={[styles.titleSection, {left: -0.4 * windowWidth}]}>
-                    <Text style={styles.title}> PENDING</Text>
+                    <Text style={styles.title}> {utility.t('pending')}</Text>
                 </View>
                 <View style={{height: 0.22 * windowHeight, width: 0.92 * windowWidth, }}>
                  <FlatList 

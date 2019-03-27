@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { Constants } from 'expo'
+import utility from './language.utility'
 
 export default class Header extends React.Component{
     constructor(props){
@@ -12,7 +13,7 @@ export default class Header extends React.Component{
             <View style={styles.container}>
             <TouchableOpacity onPress={()=>{this.props.navigation.toggleDrawer()}}>
                 <Image style={styles.left} source={require('../assets/Sliced/sidemenubtn.png')}/>
-            </TouchableOpacity><Text style={styles.text}>DinDin</Text>
+            </TouchableOpacity><Text style={styles.text}>{utility.t('dindin')}</Text>
             <Image source={require('../assets/Sliced/searchbtn.png')} style={styles.right}></Image>
         
         

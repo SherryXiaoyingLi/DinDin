@@ -32,32 +32,32 @@ export default class EventDetail extends React.Component {
                 start={ [0, 1] }
                 end={ [0, 0] }
                 >
-        
+            <View style={{flexDirection:'column',alignItems:"center",justifyContent:'center'}}>
             <View style={styles.card}>
+            <Image style={{height:24,width:24}}source={require('../assets/Sliced/food.png')}></Image>
             <View style={{paddingLeft: 0.008 * windowWidth, flexDirection: 'column', justifyContent: 'center'}}>
                 <Text style={{fontFamily: 'System', fontSize: 14, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>Alma Evans</Text>
-                <Text style={{fontFamily: 'System', fontSize: 14, opacity: 0.5, color: '#000000', letterSpacing:0}}>Sunday 10 March - 16:30pm</Text>
+                <Text style={{fontFamily: 'System', fontSize: 14, opacity: 0.55, color: '#000000', letterSpacing:0}}>Sunday 10 March - 16:30pm</Text>
+                <Text style={{fontFamily: 'System', fontSize: 14, opacity: 0.45, color: '#000000', letterSpacing:0}}> {utility.t('hostby')}</Text>
+            </View>
             </View>
             </View>
         </LinearGradient>
         <View style={{justifyContent:'center',alignItems:'center', height:0.06*windowHeight,width:0.3*windowWidth}}>
-            <Text style={{opacity:0.55,color: '#000000',}}>Who's coming</Text>
+            <Text style={{opacity:0.55,color: '#000000',}}>{utility.t('whoscoming')}</Text>
         </View>
         <EventAccepted value={true}/>
         <View style={{justifyContent:'center',alignItems:'center', height:0.06*windowHeight,width:0.3*windowWidth}}>
-            <Text style={{opacity:0.55,color: '#000000',}}>Can't make it</Text>
+            <Text style={{opacity:0.55,color: '#000000',}}>{utility.t('cantmakeit')}</Text>
         </View>
         <EventDenied value={false}/>
 
-        
-        
 
-        <View style={styles.cancel}>
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('auth')}>
-                <Image  style={styles.buttonBar} source={require('../assets/Sliced/buttonBar.png')}></Image>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('home')}>
+                <Image style={{height:0.076*windowHeight}}  source={require('../assets/Sliced/cancelbtn.png')}></Image>
                 <View style={styles.textView}><Text style={styles.buttonText}>{utility.t('cancel')}</Text></View>
-              </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
+        
 
         </View>
       );
@@ -80,24 +80,16 @@ export default class EventDetail extends React.Component {
     },
     card: {
         backgroundColor: '#FFFFFF',
-        height: 0.22 * windowHeight, 
+        height: 0.2 * windowHeight, 
         width: 0.86 * windowWidth,
-        flexDirection: 'row',
+        flexDirection: 'column',
         borderRadius: 10,
         borderWidth: 0.5,
         borderColor: '#D3D3D3',
         justifyContent:'center',
         alignItems:'center',
-
-
     },
 
-    cancel: {
-        alignItems: 'center', 
-        justifyContent: 'center',
-        bottom: 0,
-        height: 0.076*windowHeight,  
-      },
       textView: {
         position: 'absolute',
         left: 0,
@@ -107,11 +99,7 @@ export default class EventDetail extends React.Component {
         alignItems: 'center', 
         justifyContent: 'center',
       },
-      buttonBar: {
-        // flex:1,
-        width:1*windowWidth,
-        height:windowHeight*0.076,
-      },
+
       buttonText: {
         fontFamily: 'System',
         fontSize: 14,
