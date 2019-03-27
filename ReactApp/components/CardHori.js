@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity} from 'react-native';
 //import firebase from '../constants/firebase'
+import utility from './language.utility'
+
 
 var windowWidth = Dimensions.get('window').width
 var windowHeight = Dimensions.get('window').height
@@ -27,13 +29,13 @@ export default class cardHori extends React.Component{
             <TouchableOpacity onPress={() => this.props.navigation.navigate()}>
             <View style={styles.bottomLeft}>
                 <Image style={styles.cross} source={require('../assets/Sliced/cross.png')}></Image>
-                <Text style={{fontFamily: 'System',color: '#FF3B3B', fontSize:13, paddingLeft: 0.02 * windowWidth}}>Decline</Text>
+                <Text style={{fontFamily: 'System',color: '#FF3B3B', fontSize:13, paddingLeft: 0.02 * windowWidth}}>{utility.t('decline')}</Text>
             </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => this.props.navigation.navigate()}>
             <View style={styles.bottomRight}>
                 <Image style={styles.check} source={require('../assets/Sliced/check.png')}></Image>
-                <Text style={{fontFamily: 'System',color: '#38D459', fontSize:13, paddingLeft: 0.02 * windowWidth}}>Accept</Text>
+                <Text style={{fontFamily: 'System',color: '#38D459', fontSize:13, paddingLeft: 0.02 * windowWidth}}>{utility.t('accept')}</Text>
             </View>
             </TouchableOpacity>
             </View>

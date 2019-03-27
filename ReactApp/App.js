@@ -77,7 +77,7 @@ const AppContainer = createAppContainer(
     eventDetail: event,
   },
   {
-    initialRouteName: 'spl'
+    initialRouteName: 'eventDetail'
   }
   ))
 
