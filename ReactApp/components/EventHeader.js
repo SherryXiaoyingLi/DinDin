@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions } from 'react-native';
 import { Constants } from 'expo'
 import utility from './language.utility'
+import { createAppContainer, createStackNavigator } from 'react-navigation';
 
 var windowWidth = Dimensions.get('window').width
 var windowHeight = Dimensions.get('window').height
@@ -14,7 +15,7 @@ export default class Header extends React.Component{
     render(){
         return(
             <View style={styles.container}>
-            <TouchableOpacity onPress={()=>{this.props.navigation.toggleDrawer()}}>
+            <TouchableOpacity onPress={()=>{this.props.navigation.navigate('home')}}>
                 <Image style={styles.left} source={require('../assets/Sliced/back3x.png')}/>
             </TouchableOpacity><Text style={styles.text}>{utility.t('dindin')}</Text>
            

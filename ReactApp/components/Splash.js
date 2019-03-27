@@ -120,7 +120,7 @@ export default class Splash extends React.Component {
               <Text style={styles.subtitle}>{utility.t('connectFood')}</Text>
               </View>
               <View style={styles.start}>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('auth')}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('eventDetail')}>
                 <Image style={styles.buttonBar} source={require('../assets/Sliced/buttonBar.png')}></Image>
                 <View style={styles.textView}><Text style={styles.buttonText}>{utility.t('getStarted')}</Text></View>
               </TouchableOpacity>
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
       alignItems: 'center', 
       justifyContent: 'center',
       bottom: 0,
-      height: 48
+      height: 0.076*windowHeight,
     },
     textView: {
       position: 'absolute',
@@ -187,7 +187,8 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
     buttonBar: {
-      width: windowWidth
+      width: windowWidth,
+      height: 0.076*windowHeight,
     },
     buttonText: {
       fontFamily: 'System',
