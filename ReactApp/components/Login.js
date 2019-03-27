@@ -6,6 +6,7 @@ import HomeScreen from './HomeScreen';
 //import * as firebase from 'firebase'; 
 import firebase from '../constants/firebase'
 import {auth} from 'firebase'
+import utility from './language.utility'
 
 
 export default class LoginScreen extends React.Component {
@@ -61,7 +62,7 @@ export default class LoginScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Button
-          title="Login with Facebook"
+          title={utility.t('loginfb')}
           onPress={() => this.handleFacebookLogin(this.props.navigation)}
         />
       </View>
@@ -74,5 +75,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     paddingTop: Constants.statusBarHeight,
+    justifyContent:'center',
+    alignItems:'center',
+    
   },
 });

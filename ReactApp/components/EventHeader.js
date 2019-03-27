@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions } from 'react-native';
 import { Constants } from 'expo'
+import utility from './language.utility'
+
 var windowWidth = Dimensions.get('window').width
 var windowHeight = Dimensions.get('window').height
 
@@ -14,9 +16,9 @@ export default class Header extends React.Component{
             <View style={styles.container}>
             <TouchableOpacity onPress={()=>{this.props.navigation.toggleDrawer()}}>
                 <Image style={styles.left} source={require('../assets/Sliced/back3x.png')}/>
-            </TouchableOpacity><Text style={styles.text}>DinDin</Text>
+            </TouchableOpacity><Text style={styles.text}>{utility.t('dindin')}</Text>
            
-            <Text style={styles.edit}>Edit</Text>
+            <Text style={styles.edit}>{utility.t('edit')}</Text>
         
         
             </View>
