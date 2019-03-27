@@ -24,7 +24,7 @@ export default class EventDetail extends React.Component {
     render() {
       return (
         <View style={styles.container}>
-        <EventHeader/>
+        <EventHeader navigation={this.props.navigation}/>
         <LinearGradient 
                 //colors={['#4c669f', '#3b5998', '#192f6a']}
                 style={{width: windowWidth, height:  0.22 * windowHeight, flex: 1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}
