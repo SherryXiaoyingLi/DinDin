@@ -68,7 +68,7 @@ export default class App extends React.Component {
          
   
 
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('home')}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('createEvent2')}>
                   <Image style={{height:0.076*windowHeight}}  source={require('../assets/Sliced/buttonBar.png')}></Image>
                   <View style={styles.textView}><Text style={styles.buttonText}>{utility.t('invitePeople')}</Text></View>
           </TouchableOpacity>
