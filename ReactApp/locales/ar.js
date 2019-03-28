@@ -11,5 +11,7 @@ export default {
     decline:'انخفاض',
     pending:'قيد الانتظار',
     loginfb:'تسجيل الدخول باستخدام الفيسبوك',
-    invitePeople: 'ادعو الناس'
+    invitePeople: 'ادعو الناس',
+    whoinvite:'من الذي تريد دعوته؟',
+    send:'يرسل دعوات',
 }
