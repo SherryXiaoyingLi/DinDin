@@ -10,5 +10,7 @@ export default {
     accept: 'Accept',
     decline:'Decline',
     pending:'PENDING',
-    loginfb: 'Login With Facebook'
+    loginfb: 'Login With Facebook',
+    whoinvite:'Who do you want to invite?',
+    send:'Send Invitations'
 }
