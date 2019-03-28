@@ -6,6 +6,8 @@ import Login from './components/Login'
 import event from './components/EventDetail'
 import create from './components/CreateEvent'
 
+import create2 from './components/CreateEvent2'
+
 import testscreen from './components/testscreen'
 import { Facebook } from 'expo';
 
@@ -71,6 +73,8 @@ const homeStack = createDrawerNavigator({home: HomeScreen})
 const authStack = createDrawerNavigator({login: Login})
 const eventStack = createDrawerNavigator({eventDetail: event})
 const createStack = createDrawerNavigator({createEvent: create})
+const createStack2 = createDrawerNavigator({createEvent:create2})
+
 const AppContainer = createAppContainer(
   createSwitchNavigator({
     spl: Splash,
@@ -78,10 +82,11 @@ const AppContainer = createAppContainer(
     auth: authStack,
     test: testscreen,
     eventDetail: eventStack,
-    createEvent: createStack
+    createEvent: createStack,
+    createEvent2: createStack2,
   },
   {
-    initialRouteName: 'createEvent'
+    initialRouteName: 'createEvent2'
   }
   ))
 
