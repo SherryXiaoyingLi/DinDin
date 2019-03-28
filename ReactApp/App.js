@@ -4,6 +4,7 @@ import HomeScreen from './components/HomeScreen';
 import Splash from './components/Splash'
 import Login from './components/Login'
 import event from './components/EventDetail'
+import create from './components/CreateEvent'
 
 import testscreen from './components/testscreen'
 import { Facebook } from 'expo';
@@ -67,8 +68,9 @@ import { Facebook } from 'expo';
 // query(db)
 
 const homeStack = createDrawerNavigator({home: HomeScreen}) 
-const authStack = createDrawerNavigator({login: Login});
+const authStack = createDrawerNavigator({login: Login})
 const eventStack = createDrawerNavigator({eventDetail: event})
+const createStack = createDrawerNavigator({createEvent: create})
 const AppContainer = createAppContainer(
   createSwitchNavigator({
     spl: Splash,
@@ -76,9 +78,10 @@ const AppContainer = createAppContainer(
     auth: authStack,
     test: testscreen,
     eventDetail: eventStack,
+    createEvent: createStack
   },
   {
-    initialRouteName: 'spl'
+    initialRouteName: 'createEvent'
   }
   ))
 
