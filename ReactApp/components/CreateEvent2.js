@@ -50,7 +50,7 @@ export default class EventDetail extends React.Component {
         </View>
        
 
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('home')}>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('eventDetail')}>
                 <Image style={{height:0.076*windowHeight}}  source={require('../assets/Sliced/buttonBar.png')}></Image>
                 <View style={styles.textView}><Text style={styles.buttonText}>{utility.t('send')}</Text></View>
         </TouchableOpacity>
