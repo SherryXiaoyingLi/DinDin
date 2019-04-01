@@ -1,18 +1,19 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Dimensions, CheckBox} from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Dimensions} from 'react-native';
+import {CheckBox} from 'react-native-elements'
 import { Constants } from 'expo'
 
 var windowWidth = Dimensions.get('window').width
 var windowHeight = Dimensions.get('window').height
-
+var guess = true
+var bool = false
 export default class EventDenied extends React.Component{
-    constructor(prop){
-        super(prop)
-        bool = this.props.value
-        this.state ={
-            podCastList: null,
-
-        }
+    constructor(props){
+        super(props)
+        this.state = {
+          checked: false,
+          podCastList:null,
+        };
     }
     
     async getPodCastData(){
@@ -48,8 +49,14 @@ export default class EventDenied extends React.Component{
 
                     </View>
                     <View style={styles.buttons}>
-                        {/* <CheckBox value={true}/> */}
-                        <TouchableOpacity onPress={() => bool=true}>
+                    {/* <CheckBox
+          title="Press me"
+          checked={this.state.checked}
+          onPress={() => this.setState({ checked: !this.state.checked })}
+        /> */}      
+        <CheckBox title='press' checked={guess} onPress={() => guess = !guess}/>
+
+                        <TouchableOpacity >
                         
                         <Image style={{width: 0.03 * windowHeight,height: 0.03 * windowHeight,}} source={bool ? require('../assets/Sliced/Selected.png'): require('../assets/Sliced/Select.png')}></Image>
                         </TouchableOpacity>

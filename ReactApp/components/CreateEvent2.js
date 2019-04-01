@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions, CheckBox } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions} from 'react-native';
 import { Constants,LinearGradient } from 'expo'
-
+import {CheckBox} from 'react-native-elements'
 import EventHeader from './EventHeader'
 import utility from './language.utility'
 import PeopleList from './PeopleList';
@@ -14,8 +14,7 @@ export default class EventDetail extends React.Component {
     constructor(props){
       super(props);
       this.state = {
-        selected : false,
-        value:false,
+        checked:false,
       }
   
     }
