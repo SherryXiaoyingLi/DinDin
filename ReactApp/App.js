@@ -85,7 +85,7 @@ const AppContainer = createAppContainer(
     createEvent2: createStack2,
   },
   {
-    initialRouteName: 'createEvent2'
+    initialRouteName: 'test'
   }
   ))
 

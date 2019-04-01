@@ -1,64 +1,67 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Dimensions, Picker, DatePickerIOS} from 'react-native';
-import { Constants } from 'expo'
+import React, { Component } from 'react';
+import { Text, View, StyleSheet, Alert, FlatList} from 'react-native';
+import { Constants } from 'expo';
+import Dimensions from 'Dimensions';
+import { CheckBox } from 'react-native-elements'
+import '@expo/vector-icons';
 
-//import * as firebase from 'firebase'
-//import 'firebase/firestore';
-
-//const admin = require('firebase-admin');
-import firebase from '../constants/firebase'
-
-var db = firebase.firestore()
-
-function query(db) {
-  var query = db.collection('users')
-    .get()
-    .then(snapshot => {
-      snapshot.forEach(doc => {
-        //console.log(doc.id, ' => ', doc.data().phone_num);
-        doc.data().phone_num
-      });
-    })
-    .catch(err => {
-      console.log('Error getting documents', err);
-    });
-  return query;
+export default class App extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      checked:[],
+      data : [
+      {
+        "name": "ALL",
+      },
+      {
+        "name": "Android",
+      },
+      {
+        "name": "iOS",
+      },
+      {
+        "name": "React Native",
+      }
+    ]}
+ 
+    
+}
+handleChange = (index) => {
+  let checked = [...this.state.checked];
+  checked[index] = !checked[index];
+  this.setState({ checked });
 }
 
-export default class testscreen extends React.Component{
-    constructor(prop){
-        super(prop);
-        this.state = {chosenDate: new Date()};
-
-    this.setDate = this.setDate.bind(this);
-    };
-    setDate(newDate) {
-      this.setState({chosenDate: newDate});
-    }
   
 
-    render(){
-        // console.log('testscreen printout')
-        // var result = query(db)
-        return (
-          <View style={styles.container}>
-            <DatePickerIOS
-              date={this.state.chosenDate}
-              onDateChange={this.setDate}
-            />
-          </View>
-        );
-    }
-
+  render() {
+    let { data, checked } = this.state;
+    return (
+      <FlatList
+      data={data}
+      extraData={this.state}
+      renderItem={({ item, index }) =>
+        <CheckBox
+          center
+          title={item.name}
+          onPress={() => this.handleChange(index)}
+          checkedIcon='check-circle'
+          uncheckedIcon='circle-o'
+          fontFamily='System'
+          checked={checked[index]} />
+      }
+    />
+    );
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: Constants.statusBarHeight,
+    backgroundColor: '#ecf0f1',
   },
-  header: {
-    //paddingTop: Constants.statusBarHeight,
-    marginTop: 5,
-  }
 });
