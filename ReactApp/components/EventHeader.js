@@ -18,7 +18,6 @@ export default class Header extends React.Component{
             <TouchableOpacity onPress={()=>{this.props.navigation.navigate('home')}}>
                 <Image style={styles.left} source={require('../assets/Sliced/back3x.png')}/>
             </TouchableOpacity><Text style={styles.text}>{utility.t('dindin')}</Text>
-           
             <Text style={styles.edit}>{utility.t('edit')}</Text>
         
         
