@@ -3,14 +3,17 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Dimensions} 
 import CardHori from './CardHori'
 import { LinearGradient } from 'expo';
 import firebase from '../constants/firebase'
-import 'firebase/firestore';
+//import 'firebase/firestore';
 import utility from './language.utility'
+//import console = require('console');
+//import { database } from 'firebase';
 
 
 var windowWidth = Dimensions.get('window').width
 var windowHeight = Dimensions.get('window').height
-var db = firebase.firestore()
-//var uid = '1IGWOQNMDL9CsnEV6vtO'
+var db = firebase.database()
+var leadsRef_Users = db.ref('UsersTable');
+
 
 export default class InviteHoriScroll extends React.Component{
     constructor(prop){
@@ -20,71 +23,39 @@ export default class InviteHoriScroll extends React.Component{
         }
     }
     
-    //query a specific uid
-    // async queryUser(uid) {
-    //     var query_result = []
-    //     var query = await db.collection('users')
-    //     .doc(uid)
-    //     .get()
-    //     .then( 
-    //             async function(doc) {
-                   
-    //             var obj = doc.data()
-    //             Object.assign(obj, {id: uid})
-    //             query_result.push(obj)
-    //     })
-    //     console.log(query_result)
-    //     // this.setState({
-    //     //     queryResultList: query_result
-    //     // }
-    //     // )
-    // }
-
-    //query pending list assoc w/ a specific uid
-    async queryPendingInvite() {
-        var uid = this.props.uid
+    async queryUsersTable() {
         var query_result = []
-        var query = await db.collection('users')
-        .doc(uid)
-        .get()
-        .then( 
-            async function (udoc) {
-            var subresult = await udoc.ref.collection('pending').get()
-            .then(function(snapshot){
-                snapshot.forEach(async function(doc){
-                    var obj = doc.data()
-                    Object.assign(obj, {id: doc.id})
-                    query_result.push(obj)
-                })
+        var that = this
+        var res = await leadsRef_Users.on('value', async function(snapshot){
+            var subresult = await snapshot.forEach( function(childSnapshot){
+                var item = childSnapshot.toJSON()
+                var key = childSnapshot.key;
+                var obj = Object.assign(item, {id: key})
+                query_result.push(obj)
+               
             })
-            
-        })
-        console.log(query_result)
-        this.setState({
-            queryPendingList: query_result
-        })
-        }
+            that.setState({
+                    queryPendingList: query_result
+                })
+        }).bind(this)
+    }
 
-    // query general user
-    // async queryUser(db) {
-    //     var query_result = []
-    //     var query = await db.collection('users')
-    //     .get()
-    //     .then( function(snapshot){
-    //         snapshot.forEach( 
-    //             async function(doc) {
-    //             var obj = doc.data()
-    //             Object.assign(obj, {id: uid})
-    //             query_result.push(obj)
-                
-    //         })
-    //     })
-    //     console.log(query_result)
-      
-    // }
+    async writeUserTable() {
+            firebase.database().ref('UsersTable/' + 2).set({
+              name: 'Black',
+              phone_num: 123456700,
+              accepted:[1,2], 
+              pending:[], 
+              host:[]
+            });
+          
+    }
+   
+  
 
     componentWillMount(){
-         this.queryPendingInvite()
+        this.queryUsersTable()
+        //this.writeUserTable()
     }
     
 
@@ -93,7 +64,8 @@ export default class InviteHoriScroll extends React.Component{
     }
 
     renderRow({item}){
-        console.log(item)
+        //console.log("Success")
+        //console.log(item)
         return(
             <View style={styles.rowContainer}>
                 <View style={styles.podCastContainer}>
@@ -105,6 +77,7 @@ export default class InviteHoriScroll extends React.Component{
 
     render(){
         if(this.state.queryPendingList !== null){
+            //console.log(this.state.queryPendingList)
         return(
             <View style={styles.container}>
                 <LinearGradient 

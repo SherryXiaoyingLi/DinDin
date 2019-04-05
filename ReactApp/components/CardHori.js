@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity} from 'react-native';
 //import firebase from '../constants/firebase'
 import utility from './language.utility'
+//import console = require('console');
 
 
 var windowWidth = Dimensions.get('window').width
@@ -16,13 +17,14 @@ export default class cardHori extends React.Component{
 
 
     render(){
+       console.log(this.props.invitePending)
         return(
             <View style={styles.container}>
             <View style={styles.top}>
             <Image style={styles.avatar} source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}/>
             <View style={{paddingLeft: 0.008 * windowWidth, flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start'}}>
-                <Text style={{fontFamily: 'System', fontSize: 14, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>{this.props.invitePending.inviter}</Text>
-                <Text style={{fontFamily: 'System', fontSize: 14, opacity: 0.5, color: '#000000', letterSpacing:0}}>{this.props.invitePending.time.seconds}</Text>
+                <Text style={{fontFamily: 'System', fontSize: 14, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>{this.props.invitePending.name}</Text>
+                <Text style={{fontFamily: 'System', fontSize: 14, opacity: 0.5, color: '#000000', letterSpacing:0}}>{this.props.invitePending.phone_num}</Text>
             </View>
             </View>
             <View style={styles.bottom}>
