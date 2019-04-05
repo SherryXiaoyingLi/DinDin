@@ -1,20 +1,51 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Dimensions} from 'react-native';
 import {CheckBox} from 'react-native-elements'
+// import {CheckBox} from 'native-base'
 import { Constants } from 'expo'
+import 'firebase/firestore';
+import firebase from '../constants/firebase'
+
+
 
 var windowWidth = Dimensions.get('window').width
 var windowHeight = Dimensions.get('window').height
-var guess = true
-var bool = false
+
+var db = firebase.firestore()
+
 export default class EventDenied extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-          checked: false,
+          checked:[],
+          letter:'a',
           podCastList:null,
         };
     }
+    async queryPendingInvite() {
+        var uid = this.props.uid
+        var query_result = []
+        var query = await db.collection('users')
+        .doc(uid)
+        .get()
+        .then( 
+            async function (udoc) {
+            var subresult = await udoc.ref.collection('pending').get()
+            .then(function(snapshot){
+                snapshot.forEach(async function(doc){
+                    var obj = doc.data()
+                    Object.assign(obj, {id: doc.id})
+                    query_result.push(obj)
+                })
+            })
+            
+        })
+        console.log(query_result)
+        this.setState({
+            queryPendingList: query_result
+        })
+        }
+
     
     async getPodCastData(){
         let response = await fetch("https://www.cs.virginia.edu/~dgg6b/Mobile/PodCast/podCastList.json")
@@ -26,6 +57,7 @@ export default class EventDenied extends React.Component{
 
     componentWillMount(){
         this.getPodCastData()
+        this.queryPendingInvite()
     }
     
 
@@ -33,7 +65,32 @@ export default class EventDenied extends React.Component{
         return item.id.toString()
     }
 
-    renderRow({item}){
+    countArr(array){
+        ct = 0
+        for (var i=0; i<array.length;i++){
+            if (array[i]==true){
+                ct ++
+            }
+        }
+        return ct
+    }
+
+    handleChange (index){
+    
+        let newChecked = [...this.state.checked];
+
+        newChecked[index] = !newChecked[index];
+        this.setState({ checked:newChecked });
+        ct = this.countArr(newChecked)
+        this.props.countSelected(ct)
+        console.log(newChecked)
+      }
+
+    renderRow({item,index}){
+        // console.log(item)
+        // console.log(index)
+        // console.log(this.state)
+        // console.log(this.state.checked)
         return(
             <View style={styles.rowContainer}>
                 <View style={styles.podCastContainer}>
@@ -49,18 +106,16 @@ export default class EventDenied extends React.Component{
 
                     </View>
                     <View style={styles.buttons}>
-                    {/* <CheckBox
-          title="Press me"
-          checked={this.state.checked}
-          onPress={() => this.setState({ checked: !this.state.checked })}
-        /> */}      
-        <CheckBox title='press' checked={guess} onPress={() => guess = !guess}/>
-
-                        <TouchableOpacity >
-                        
-                        <Image style={{width: 0.03 * windowHeight,height: 0.03 * windowHeight,}} source={bool ? require('../assets/Sliced/Selected.png'): require('../assets/Sliced/Select.png')}></Image>
-                        </TouchableOpacity>
                     
+        <CheckBox 
+        checked={this.state.checked[index]}
+        color='#C0C0C0'
+        checkedIcon={<Image source={require('../assets/Sliced/Selected.png')} style={{width:25,height:25}}/>}
+        uncheckedIcon={<Image source={require('../assets/Sliced/Select.png')} style={{width:25,height:25}}/>}   
+        onPress={() => this.handleChange(index)}
+        />
+
+                   
                     </View>
                     
                     </View>
@@ -72,14 +127,19 @@ export default class EventDenied extends React.Component{
     render(){
         if(this.state.podCastList !== null){
         return(
+            
             <View style={styles.container}>
+            
                  <FlatList
                     style={styles.ScollablePodCasts}
                     data={this.state.podCastList}
-                    renderItem={this.renderRow}
+                    extraData={this.state}
+                    renderItem={this.renderRow.bind(this)}
                     keyExtractor={this.keyExtractor}
                 /> 
             </View>
+            
+            
         )
         }else{
             return(<View style={{flex:1}}/>)

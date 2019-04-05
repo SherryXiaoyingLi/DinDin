@@ -6,6 +6,7 @@ import Login from './components/Login'
 import event from './components/EventDetail'
 import create from './components/CreateEvent'
 import create2 from './components/CreateEvent2'
+import testScreen from './components/testscreen'
 import cardHori from './components/CardHori'
 import invitePending from './components/InvitePending'
 //import testscreen from './components/testscreen'
@@ -27,12 +28,15 @@ const AppContainer = createAppContainer(
     eventDetail: eventStack,
     createEvent: createStack,
     createEvent2: createStack2,
+    testScreen: testScreen,
     // card: cardStack,
     // pending: pendingStack
   },
   {
 
-    initialRouteName: 'createEvent'
+    initialRouteName: 'createEvent2'
+
+
   }
   ))
 

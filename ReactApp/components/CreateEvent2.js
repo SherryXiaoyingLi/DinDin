@@ -15,10 +15,15 @@ export default class EventDetail extends React.Component {
       super(props);
       this.state = {
         checked:false,
+        numSelected:0,
       }
   
     }
-
+    countSelected(num){
+      this.setState({
+        numSelected:num,
+      })
+    }
   
     render() {
       return (
@@ -41,12 +46,13 @@ export default class EventDetail extends React.Component {
             </View>
             </View>
         </LinearGradient>
-        <View style={{justifyContent:'center',alignItems:'flex-start', margin:10,height:0.06*windowHeight,width:windowWidth}}>
+        <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'flex-start', margin:10,height:0.06*windowHeight,width:0.96*windowWidth}}>
             <Text style={{opacity:0.55,color: '#000000',}}>{utility.t('whoinvite')}</Text>
+            <Text style={{color: '#1e90ff',}}>{this.state.numSelected} {utility.t('selected')}</Text>
         </View>
         <View 
             style={{justifyContent:'center',alignItems:'center',width:windowWidth,height:0.5*windowHeight,flexDirection:'row'}}>
-            <PeopleList value={false}/>
+            <PeopleList countSelected={this.countSelected.bind(this)}/>
         </View>
        
 
