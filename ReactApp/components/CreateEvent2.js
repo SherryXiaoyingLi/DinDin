@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions} from 'react-native';
 import { Constants,LinearGradient } from 'expo'
-import {CheckBox} from 'react-native-elements'
+//import {CheckBox} from 'react-native-elements'
 import EventHeader from './EventHeader'
 import utility from './language.utility'
 import PeopleList from './PeopleList';
