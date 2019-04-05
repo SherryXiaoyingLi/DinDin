@@ -31,7 +31,7 @@ const AppContainer = createAppContainer(
     // pending: pendingStack
   },
   {
-    initialRouteName: 'createEvent'
+    initialRouteName: 'home'
   }
   ))
 

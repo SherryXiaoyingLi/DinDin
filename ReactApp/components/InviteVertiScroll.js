@@ -35,7 +35,7 @@ export default class InviteVertiScroll extends React.Component{
             })
             
         })
-        console.log(query_result)
+        //console.log(query_result)
         this.setState({
             queryAcceptedList: query_result
         })
