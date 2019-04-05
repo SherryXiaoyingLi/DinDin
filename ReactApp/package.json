@@ -11,16 +11,14 @@
     "firebase": "^5.9.0",
     "firebase-admin": "^7.1.1",
     "firebase-functions": "^2.2.1",
+    "native-base": "^2.12.1",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
     "react-native-elements": "^1.1.0",
     "react-native-i18n": "^2.0.15",
     "react-native-localization": "^2.1.0",
-<<<<<<< HEAD
-    "react-native-vector-icons": "^6.4.2",
-=======
     "react-native-modal-datetime-picker": "^6.1.0",
->>>>>>> 7f4d358defc687bb29cf4b04004313d44078925c
+    "react-native-vector-icons": "^6.4.2",
     "react-navigation": "^3.3.2",
     "rn-nodeify": "^10.0.1"
   },
