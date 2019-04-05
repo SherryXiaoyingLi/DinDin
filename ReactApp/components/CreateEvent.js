@@ -1,9 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions, DatePickerIOS } from 'react-native';
-import { Constants, LinearGradient } from 'expo'
+import { Constants, LinearGradient, MapView } from 'expo'
 import utility from './language.utility'
 import EventHeader from './EventHeader'
 //import DateTimePicker from 'react-native-modal-datetime-picker';
+import MapComponent from './MapComponent'
 
 
 var windowWidth = Dimensions.get('window').width
@@ -13,18 +14,29 @@ export default class App extends React.Component {
     constructor(props){
       super(props);
       this.state = {chosenDate: new Date()};
-
       this.setDate = this.setDate.bind(this);
     }
 
 
   setDate(newDate) {
-    console.log(newDate)
     this.setState({chosenDate: newDate});
+    //console.log(newDate.getMonth())
+    var time = newDate.toLocaleString("en-US",{timeZone:"America/New_York"})
+    var month = newDate.toLocaleString("en-US", {month: "long"})
   }
-      render() {
+
+  render() {
+    //console.log(this.state.chosenDate)
         return (
           <View style={styles.container}>
+          {/* <MapView style= {styles.container}>
+              style={{ flex: 1 }}
+        initialRegion={{
+          latitude: 37.78825,
+          longitude: -122.4324,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}> */}
           <EventHeader navigation={this.props.navigation} value={false} />
           <LinearGradient 
                   style={{width: windowWidth, height:  0.22 * windowHeight, flex: 1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}
@@ -32,10 +44,9 @@ export default class App extends React.Component {
                   start={ [1, 0] }
                   end={ [1, 1] }
                   >
+              <View style={{width: windowWidth, height:  0.22 * windowHeight, flex: 1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
               <View style={{flexDirection:'column',alignItems:"center",justifyContent:'center'}}>
-
               <View style={styles.card}>
-
               <View style={styles.pickTime}>
               <View style={{width: 0.86 * windowWidth, height: 0.05 * windowHeight, alignItems:'center',justifyContent:'center',}}>
               <Text style={{fontFamily: 'System', fontSize: 14, letterSpacing: 0, textAlign: 'center', opacity:0.5, }}>What time is dinner?</Text>
@@ -52,18 +63,21 @@ export default class App extends React.Component {
               <View style={{width: 0.86 * windowWidth, height: 0.05 * windowHeight, alignItems:'center',justifyContent:'center',}}>
               <Text style={{fontFamily: 'System', fontSize: 14, letterSpacing: 0, textAlign: 'center', opacity:0.5, }}>Choose a location</Text>
               </View>
-
+              </View>
               </View>
 
+              <View style = {styles.map}>
+                    <MapComponent/>
               </View>
-
-              <View style= {styles.map}>
-
-              </View>
-
-              </View>
-
+                  </View>
+                  {/* <View style = {styles.map}></View> */}
               
+        {/* ></MapView> */}
+              
+
+              </View>
+
+       
           </LinearGradient>
          
   
@@ -75,6 +89,7 @@ export default class App extends React.Component {
           
   
           </View>
+          // </MapView>
         );
       }
     }

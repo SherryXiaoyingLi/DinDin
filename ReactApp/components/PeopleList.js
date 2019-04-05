@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Dimensions} from 'react-native';
-import {CheckBox} from 'react-native-elements'
+//import {CheckBox} from 'react-native-elements'
 import { Constants } from 'expo'
 
 var windowWidth = Dimensions.get('window').width

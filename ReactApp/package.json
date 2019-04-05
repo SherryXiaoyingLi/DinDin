@@ -16,11 +16,7 @@
     "react-native-elements": "^1.1.0",
     "react-native-i18n": "^2.0.15",
     "react-native-localization": "^2.1.0",
-<<<<<<< HEAD
-    "react-native-vector-icons": "^6.4.2",
-=======
     "react-native-modal-datetime-picker": "^6.1.0",
->>>>>>> 7f4d358defc687bb29cf4b04004313d44078925c
     "react-navigation": "^3.3.2",
     "rn-nodeify": "^10.0.1"
   },
