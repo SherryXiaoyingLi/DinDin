@@ -1,7 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Dimensions} from 'react-native';
+<<<<<<< HEAD
 import {CheckBox} from 'react-native-elements'
 // import {CheckBox} from 'native-base'
+=======
+//import {CheckBox} from 'react-native-elements'
+>>>>>>> cfbdb1e2853d123d86e5239189fb939772175988
 import { Constants } from 'expo'
 import 'firebase/firestore';
 import firebase from '../constants/firebase'
