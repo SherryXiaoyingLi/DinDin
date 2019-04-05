@@ -16,12 +16,19 @@ export default class EventDetail extends React.Component {
       this.state = {
         checked:false,
         numSelected:0,
+        sendTo:[]
       }
   
     }
     countSelected(num){
       this.setState({
         numSelected:num,
+      })
+    }
+
+    getSendTo(arr){
+      this.setState({
+        sendTo:arr,
       })
     }
   
@@ -52,7 +59,7 @@ export default class EventDetail extends React.Component {
         </View>
         <View 
             style={{justifyContent:'center',alignItems:'center',width:windowWidth,height:0.5*windowHeight,flexDirection:'row'}}>
-            <PeopleList countSelected={this.countSelected.bind(this)}/>
+            <PeopleList countSelected={this.countSelected.bind(this)} getSendTo={this.getSendTo.bind(this)}/>
         </View>
        
 

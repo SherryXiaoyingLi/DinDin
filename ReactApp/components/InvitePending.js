@@ -41,21 +41,14 @@ export default class InviteHoriScroll extends React.Component{
     }
 
     async writeUserTable() {
-            firebase.database().ref('UsersTable/' + 2).set({
-              name: 'Black',
-              phone_num: 123456700,
-              accepted:[1,2], 
-              pending:[], 
-              host:[]
-            });
-          
-    }
-   
-  
+            firebase.database().ref('Accepted/' + 1).set(
+{inviter: 2,accepted: [3,4], declined:[], pending: [1], location: 'Richmond', time: '2019-04-8T00:59:01.000z',month:4}                
+            )
+            }
 
     componentWillMount(){
         this.queryUsersTable()
-        //this.writeUserTable()
+        // this.writeUserTable()
     }
     
 
@@ -77,7 +70,7 @@ export default class InviteHoriScroll extends React.Component{
 
     render(){
         if(this.state.queryPendingList !== null){
-            //console.log(this.state.queryPendingList)
+            console.log(this.state.queryPendingList)
         return(
             <View style={styles.container}>
                 <LinearGradient 

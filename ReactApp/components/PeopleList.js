@@ -10,41 +10,37 @@ import firebase from '../constants/firebase'
 
 var windowWidth = Dimensions.get('window').width
 var windowHeight = Dimensions.get('window').height
+var db = firebase.database()
+var leadsRef_Users = db.ref('UsersTable');
 
-var db = firebase.firestore()
 
 export default class EventDenied extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-          checked:[],
-          letter:'a',
+          checked:[false,false,false,false,false],
+          sendTo:[],
           podCastList:null,
+          queryPendingList: null
         };
     }
-    async queryPendingInvite() {
-        var uid = this.props.uid
+    async queryUsersTable() {
         var query_result = []
-        var query = await db.collection('users')
-        .doc(uid)
-        .get()
-        .then( 
-            async function (udoc) {
-            var subresult = await udoc.ref.collection('pending').get()
-            .then(function(snapshot){
-                snapshot.forEach(async function(doc){
-                    var obj = doc.data()
-                    Object.assign(obj, {id: doc.id})
-                    query_result.push(obj)
-                })
+        var that = this
+        var res = await leadsRef_Users.on('value', async function(snapshot){
+            var subresult = await snapshot.forEach( function(childSnapshot){
+                var item = childSnapshot.toJSON()
+                var key = childSnapshot.key;
+                var obj = Object.assign(item, {id: key})
+                query_result.push(obj)
+               
             })
-            
-        })
+            that.setState({
+                    queryPendingList: query_result
+                })
+        }).bind(this)
         console.log(query_result)
-        this.setState({
-            queryPendingList: query_result
-        })
-        }
+    }
 
     
     async getPodCastData(){
@@ -57,7 +53,7 @@ export default class EventDenied extends React.Component{
 
     componentWillMount(){
         this.getPodCastData()
-        this.queryPendingInvite()
+        this.queryUsersTable()
     }
     
 
@@ -75,6 +71,16 @@ export default class EventDenied extends React.Component{
         return ct
     }
 
+    getList(array){
+        list = []
+        for (var i=0;i<array.length;i++){
+            if (array[i]){
+                list.push(i+1)
+            }
+        }
+        return list
+    }
+
     handleChange (index){
     
         let newChecked = [...this.state.checked];
@@ -84,6 +90,9 @@ export default class EventDenied extends React.Component{
         ct = this.countArr(newChecked)
         this.props.countSelected(ct)
         console.log(newChecked)
+        sendToList = this.getList(newChecked)
+        this.props.getSendTo(sendToList)
+        console.log(sendToList)
       }
 
     renderRow({item,index}){
@@ -99,8 +108,8 @@ export default class EventDenied extends React.Component{
                     <View style={styles.top}>
                     <Image style={styles.avatar} source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}/>
                     <View style={{paddingLeft: 0.008 * windowWidth, flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start'}}>
-                    <Text style={{fontFamily: 'System', fontSize: 14, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>Alma Evans</Text>
-                    <Text style={{fontFamily: 'System', fontSize: 14, opacity: 0.5, color: '#000000', letterSpacing:0}}>456-984-0797</Text>
+                    <Text style={{fontFamily: 'System', fontSize: 14, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>{item.name}</Text>
+                    <Text style={{fontFamily: 'System', fontSize: 14, opacity: 0.5, color: '#000000', letterSpacing:0}}>{item.phone_num}</Text>
                     </View>
                     
 
@@ -125,14 +134,14 @@ export default class EventDenied extends React.Component{
     }
 
     render(){
-        if(this.state.podCastList !== null){
+        if(this.state.queryPendingList !== null){
         return(
             
             <View style={styles.container}>
             
                  <FlatList
                     style={styles.ScollablePodCasts}
-                    data={this.state.podCastList}
+                    data={this.state.queryPendingList}
                     extraData={this.state}
                     renderItem={this.renderRow.bind(this)}
                     keyExtractor={this.keyExtractor}
