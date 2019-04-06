@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions } from 'react-native';
 import { Constants } from 'expo'
 import Header from './Header'
-import InviteHoriScroll from './InviteHoriScroll'
 import InviteVertiScroll from './InviteVertiScroll'
 import InvitePending from './InvitePending'
 // import 'firebase/firestore';
@@ -18,6 +17,8 @@ export default class App extends React.Component {
   constructor(props){
     super(props);
   }
+
+  
 
   render() {
     return (
