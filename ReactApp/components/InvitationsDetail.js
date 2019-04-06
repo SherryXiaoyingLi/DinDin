@@ -27,13 +27,12 @@ export default class App extends React.Component {
 
   render() {
     //console.log(this.state.chosenDate)
-    const {navi} = this.props
-    const testID = navi
-    console.log(testID)
+    const params = this.props.navigation.state.params
+    // console.log(params)
         return (
           <View style={styles.container}>
 
-          <EventHeader navigation={this.props.navigation} value={false} />
+          <EventHeader navigation={this.props.navigation} value={false} edit={false}/>
           
           <LinearGradient 
                   style={{width: windowWidth, height:  0.22 * windowHeight, flex: 1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}
@@ -45,6 +44,10 @@ export default class App extends React.Component {
   
           <View style={styles.card}>
             <View style={styles.top}>
+            <Image style={styles.avatar} source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}/>
+            <Text style={{fontSize:20}}>{params.invitePending.location}</Text>
+            <Text style={{fontSize:13,paddingTop:1}}>{params.invitePending.time}</Text>
+            <Text style={{fontSize:13,opacity:0.5,paddingTop: 6,fontWeight:'bold'}}>{utility.t('hostby')} {params.inviter.name}</Text>
             </View>
             <View style={styles.bottom}>
               <View style={styles.bottomLeft} >
@@ -84,7 +87,7 @@ export default class App extends React.Component {
          
       },
       card: {
-        backgroundColor: 'green',
+        backgroundColor: 'white',
         height: 0.34 * windowHeight, 
         width: 0.92 * windowWidth,
         flexDirection: 'column',
@@ -97,7 +100,7 @@ export default class App extends React.Component {
           height: 0.24 * windowHeight,
           borderBottomWidth: 0.5,
           borderBottomColor: '#D3D3D3',
-          flexDirection: 'row',
+          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'space-evenly'
       },

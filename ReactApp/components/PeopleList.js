@@ -39,7 +39,7 @@ export default class EventDenied extends React.Component{
                     queryPendingList: query_result
 
                 })
-                console.log(query_result)
+                // console.log(query_result)
         }).bind(this)
         
     }
