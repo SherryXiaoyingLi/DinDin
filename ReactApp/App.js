@@ -14,28 +14,22 @@ import invitation from './components/InvitationsDetail'
 import { Facebook } from 'expo';
 import m from './components/MapComponent'
 
-const homeStack = createDrawerNavigator({home: HomeScreen}) 
+const homeStack = createDrawerNavigator(
+  {homeSreen: HomeScreen,
+    invitationDetail:invitation,
+    createEvent:create, 
+    createEvent2:create2,
+    eventDetail: event
+  }) 
 const authStack = createDrawerNavigator({login: Login})
-const eventStack = createDrawerNavigator({eventDetail: event})
-const createStack = createDrawerNavigator({createEvent: create})
-const createStack2 = createDrawerNavigator({createEvent2:create2})
-const invitationStack = createDrawerNavigator({invitation: invitation})
-// const cardStack = createDrawerNavigator({card: cardHori})
-// const pendingStack = createDrawerNavigator({pending: invitePending})
-const mapStack = createDrawerNavigator({map: m})
+
 
 const AppContainer = createAppContainer(
   createSwitchNavigator({
     spl: Splash,
     home: homeStack,
     auth: authStack,
-    eventDetail: eventStack,
-    createEvent: createStack,
-    createEvent2: createStack2,
-    // card: cardStack,
-    // pending: pendingStack
-    invitationDetail: invitationStack,
-    map: mapStack
+    
   },
   {
 
@@ -43,6 +37,8 @@ const AppContainer = createAppContainer(
     initialRouteName: 'home'
   }
   ))
+
+
 
  export default AppContainer;
 

@@ -13,12 +13,17 @@ export default class Header extends React.Component{
     }
 
     render(){
-        return(
+        console.log(this.props.edit)
+        console.log(this.props.search)
+         return(
             <View style={styles.container}>
-            <TouchableOpacity onPress={()=>{this.props.navigation.navigate('home')}}>
+            <TouchableOpacity onPress={()=>{this.props.navigation.goBack()}}>
                 <Image style={styles.left} source={require('../assets/Sliced/back3x.png')}/>
             </TouchableOpacity><Text style={styles.text}>{utility.t('dindin')}</Text>
-            <Text style={styles.edit}>{utility.t('edit')}</Text>
+            {this.props.edit 
+                ? <Text style={styles.edit}>{utility.t('edit')}</Text>
+                : this.props.search ? <Image style={{margin:15}} source={require('../assets/Sliced/searchbtn.png')}></Image>
+                : <Text style={styles.edit}></Text>}
         
         
             </View>
