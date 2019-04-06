@@ -14,4 +14,6 @@ export default {
     invitePeople: 'ادعو الناس',
     whoinvite:'من الذي تريد دعوته؟',
     send:'يرسل دعوات',
+    selected:'المحدد',
+    
 }

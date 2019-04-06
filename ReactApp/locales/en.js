@@ -13,5 +13,6 @@ export default {
     loginfb: 'Login With Facebook',
     invitePeople: 'Invite People',
     whoinvite:'Who do you want to invite?',
-    send:'Send Invitations'
+    send:'Send Invitations',
+    selected:'Selected',
 }

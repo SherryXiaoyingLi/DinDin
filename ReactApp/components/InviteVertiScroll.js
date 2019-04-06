@@ -1,53 +1,83 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Dimensions} from 'react-native';
 import { Constants } from 'expo'
-import firebase from '../constants/firebase'
 import 'firebase/firestore';
+import firebase from '../constants/firebase'
+
 
 var windowWidth = Dimensions.get('window').width
 var windowHeight = Dimensions.get('window').height
-var db = firebase.firestore()
+var db = firebase.database()
+var leadsRef_Accpeted = db.ref('Accepted');
+var leadsRef_Users = db.ref('UsersTable');
+
 //var uid = '1IGWOQNMDL9CsnEV6vtO'
 
 export default class InviteVertiScroll extends React.Component{
     constructor(prop){
         super(prop)
         this.state ={
-            queryAcceptedList: null
+            queryAcceptedList: null,
+            queryUserNames: null
         }
     }
 
-    async queryAcceptedInvite(){
-        var uid = this.props.uid
+    async queryAcceptedInvite() {
         var query_result = []
-        var query = await db.collection('users')
-        .doc(uid)
-        .get()
-        .then( 
-            async function (udoc) {
-            var subresult = await udoc.ref.collection('accepted').get()
-            .then(function(snapshot){
-                snapshot.forEach(async function(doc){
-                    var obj = doc.data()
-                    Object.assign(obj, {id: doc.id})
-                    query_result.push(obj)
-                })
+        var that = this
+        var res = await leadsRef_Accpeted.on('value', async function(snapshot){
+            var subresult = await snapshot.forEach( function(childSnapshot){
+                var item = childSnapshot.toJSON()
+                var key = childSnapshot.key;
+                var obj = Object.assign(item, {id: key})
+                query_result.push(obj)
+               
             })
-            
-        })
-        //console.log(query_result)
-        this.setState({
-            queryAcceptedList: query_result
-        })
+            that.setState({
+                    queryAcceptedList: query_result
+                })
+                // console.log(query_result)
+        }).bind(this)
+        
+    }
+
+    async queryUsersTable() {
+        var query_result = []
+        var that = this
+        var res = await leadsRef_Users.on('value', async function(snapshot){
+            var subresult = await snapshot.forEach( function(childSnapshot){
+                var item = childSnapshot.toJSON()
+                var key = childSnapshot.key;
+                var obj = Object.assign(item, {id: key})
+                query_result.push(obj)
+               
+            })
+            that.setState({
+                    queryUserNames: query_result
+            })
+            // console.log(query_result)
+        }).bind(this)
+        
+    }
+
+    getUserName(uid){
+        return (this.state.queryUserNames[uid-1].name);
+    }
+
+    getPhoneNum(uid){
+        return (this.state.queryUserNames[uid-1].phone_num)
     }
 
     componentWillMount(){
+        this.queryUsersTable();
         this.queryAcceptedInvite();
+         
+        
     }
     
 
     keyExtractor(item){
-        return item.id.toString()
+        return item.id.toString();
     }
 
     renderRow({item}){
@@ -61,8 +91,8 @@ export default class InviteVertiScroll extends React.Component{
                     <View style={styles.top}>
                     <Image style={styles.avatar} source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}/>
                     <View style={{paddingLeft: 0.008 * windowWidth, flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start'}}>
-                    <Text style={{fontFamily: 'System', fontSize: 14, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>{item.inviter}</Text>
-                    <Text style={{fontFamily: 'System', fontSize: 14, opacity: 0.5, color: '#000000', letterSpacing:0}}>{item.time.seconds}</Text>
+                    <Text style={{fontFamily: 'System', fontSize: 14, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>{this.getUserName(item.inviter)}</Text>
+                    <Text style={{fontFamily: 'System', fontSize: 14, opacity: 0.5, color: '#000000', letterSpacing:0}}>{this.getPhoneNum(item.inviter)}</Text>
                     </View>
                     
                     </View>
@@ -82,13 +112,14 @@ export default class InviteVertiScroll extends React.Component{
     }
 
     render(){
-        if(this.state.queryAcceptedList !== null){
+        if(this.state.queryPendingList !== null){
         return(
             <View style={styles.container}>
                  <FlatList
                     style={styles.ScollablePodCasts}
                     data={this.state.queryAcceptedList}
-                    renderItem={this.renderRow}
+                    extraData={this.state}
+                    renderItem={this.renderRow.bind(this)}
                     keyExtractor={this.keyExtractor}
                 /> 
             </View>
