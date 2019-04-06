@@ -16,6 +16,7 @@
     "react-native-elements": "^1.1.0",
     "react-native-i18n": "^2.0.15",
     "react-native-localization": "^2.1.0",
+    "react-native-maps": "^0.23.0",
     "react-native-modal-datetime-picker": "^6.1.0",
     "react-navigation": "^3.3.2",
     "rn-nodeify": "^10.0.1"
