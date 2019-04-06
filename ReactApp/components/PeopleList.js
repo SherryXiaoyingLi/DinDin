@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Dimensions} from 'react-native';
 import {CheckBox} from 'react-native-elements'
-// import {CheckBox} from 'native-base'
 import { Constants } from 'expo'
 import 'firebase/firestore';
 import firebase from '../constants/firebase'
@@ -64,7 +63,7 @@ export default class EventDenied extends React.Component{
     }
 
     countArr(array){
-        ct = 0
+        var ct = 0
         for (var i=0; i<array.length;i++){
             if (array[i]==true){
                 ct ++
@@ -74,7 +73,7 @@ export default class EventDenied extends React.Component{
     }
 
     getList(array){
-        list = []
+        var list = []
         for (var i=0;i<array.length;i++){
             if (array[i]){
                 list.push(i+1)
@@ -89,10 +88,10 @@ export default class EventDenied extends React.Component{
 
         newChecked[index] = !newChecked[index];
         this.setState({ checked:newChecked });
-        ct = this.countArr(newChecked)
+        var ct = this.countArr(newChecked)
         this.props.countSelected(ct)
         console.log(newChecked)
-        sendToList = this.getList(newChecked)
+        var sendToList = this.getList(newChecked)
         this.props.getSendTo(sendToList)
         console.log(sendToList)
       }

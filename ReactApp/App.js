@@ -12,7 +12,6 @@ import invitePending from './components/InvitePending'
 import invitation from './components/InvitationsDetail'
 //import testscreen from './components/testscreen'
 import { Facebook } from 'expo';
-import m from './components/MapComponent'
 
 const homeStack = createDrawerNavigator(
   {homeSreen: HomeScreen,
@@ -23,7 +22,6 @@ const homeStack = createDrawerNavigator(
   }) 
 const authStack = createDrawerNavigator({login: Login})
 
-
 const AppContainer = createAppContainer(
   createSwitchNavigator({
     spl: Splash,
@@ -32,9 +30,8 @@ const AppContainer = createAppContainer(
     
   },
   {
-
     // initialRouteName: 'createEvent2'
-    initialRouteName: 'home'
+    initialRouteName: 'create'
   }
   ))
 
