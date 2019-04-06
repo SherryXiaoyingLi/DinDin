@@ -1,11 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Dimensions} from 'react-native';
-<<<<<<< HEAD
 import {CheckBox} from 'react-native-elements'
 // import {CheckBox} from 'native-base'
-=======
-//import {CheckBox} from 'react-native-elements'
->>>>>>> cfbdb1e2853d123d86e5239189fb939772175988
 import { Constants } from 'expo'
 import 'firebase/firestore';
 import firebase from '../constants/firebase'
@@ -41,9 +37,11 @@ export default class EventDenied extends React.Component{
             })
             that.setState({
                     queryPendingList: query_result
+
                 })
+                console.log(query_result)
         }).bind(this)
-        console.log(query_result)
+        
     }
 
     
@@ -100,10 +98,7 @@ export default class EventDenied extends React.Component{
       }
 
     renderRow({item,index}){
-        // console.log(item)
-        // console.log(index)
-        // console.log(this.state)
-        // console.log(this.state.checked)
+
         return(
             <View style={styles.rowContainer}>
                 <View style={styles.podCastContainer}>

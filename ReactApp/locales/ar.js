@@ -15,4 +15,5 @@ export default {
     whoinvite:'من الذي تريد دعوته؟',
     send:'يرسل دعوات',
     selected:'المحدد',
+    
 }
