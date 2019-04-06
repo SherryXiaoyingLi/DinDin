@@ -1,10 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions} from 'react-native';
 import { Constants,LinearGradient } from 'expo'
-//import {CheckBox} from 'react-native-elements'
+import {CheckBox} from 'react-native-elements'
 import EventHeader from './EventHeader'
 import utility from './language.utility'
 import PeopleList from './PeopleList';
+
 
 
 var windowWidth = Dimensions.get('window').width
@@ -47,8 +48,8 @@ export default class EventDetail extends React.Component {
             <View style={styles.card}>
             <Image style={{height:24,width:24}}source={require('../assets/Sliced/food.png')}></Image>
             <View style={{paddingLeft: 0.008 * windowWidth, flexDirection: 'column', justifyContent: 'center'}}>
-                <Text style={{textAlign:'center', fontFamily: 'System', fontSize: 20, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>Raymond House, Nabor Way</Text>
-                <Text style={{textAlign:'center', fontFamily: 'System', fontSize: 14, opacity: 0.55, color: '#000000', letterSpacing:0}}>Sunday 10 March - 16:30pm</Text>
+                <Text style={{textAlign:'center', fontFamily: 'System', fontSize: 20, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>{this.props.navigation.state.params.location}</Text>
+                <Text style={{textAlign:'center', fontFamily: 'System', fontSize: 14, opacity: 0.55, color: '#000000', letterSpacing:0}}>{this.props.navigation.state.params.time}</Text>
             </View>
             </View>
             </View>

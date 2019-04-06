@@ -4,7 +4,7 @@ import { Constants, LinearGradient, MapView } from 'expo'
 import utility from './language.utility'
 import EventHeader from './EventHeader'
 //import DateTimePicker from 'react-native-modal-datetime-picker';
-import MapComponent from './MapComponent'
+
 
 
 var windowWidth = Dimensions.get('window').width
