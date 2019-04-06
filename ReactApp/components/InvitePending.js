@@ -5,7 +5,6 @@ import { LinearGradient } from 'expo';
 import firebase from '../constants/firebase'
 //import 'firebase/firestore';
 import utility from './language.utility'
-//import console = require('console');
 //import { database } from 'firebase';
 
 
@@ -13,13 +12,15 @@ var windowWidth = Dimensions.get('window').width
 var windowHeight = Dimensions.get('window').height
 var db = firebase.database()
 var leadsRef_Users = db.ref('UsersTable');
-
+var leadsRef_Pendings = db.ref('Pending');
 
 export default class InviteHoriScroll extends React.Component{
     constructor(prop){
         super(prop)
         this.state ={
-            queryPendingList: null
+            queryPendingList: null,
+            queryUserList: null,
+            test:'a'
         }
     }
     
@@ -35,22 +36,43 @@ export default class InviteHoriScroll extends React.Component{
                
             })
             that.setState({
-                    queryPendingList: query_result
+                    queryUserList: query_result
                 })
+            // console.log('abc')
+            // console.log(query_result)
         }).bind(this)
     }
 
-    async writeUserTable() {
-            firebase.database().ref('Accepted/' + 1).set(
-{inviter: 2,accepted: [3,4], declined:[], pending: [1], location: 'Richmond', time: '2019-04-8T00:59:01.000z',month:4}                
-            )
-            }
+    async queryPending() {
+        var query_result = []
+        var that = this
+        var res = await leadsRef_Pendings.on('value', async function(snapshot){
+            var subresult = await snapshot.forEach( function(childSnapshot){
+                var item = childSnapshot.toJSON()
+                var key = childSnapshot.key;
+                var obj = Object.assign(item, {id: key})
+                query_result.push(obj)
+               
+            })
+            that.setState({
+                    queryPendingList: query_result
+                })
+            // console.log(query_result)
+        }).bind(this)
+    }
+
+//     async writeUserTable() {
+//             firebase.database().ref('Accepted/' + 1).set(
+// {inviter: 2,accepted: [3,4], declined:[], pending: [1], location: 'Richmond', time: '2019-04-8T00:59:01.000z',month:4}                
+//             )
+//             }
 
     componentWillMount(){
         this.queryUsersTable()
         // this.writeUserTable()
+        this.queryPending()
     }
-    
+
 
     keyExtractor(item){
         return item.id.toString()
@@ -62,7 +84,7 @@ export default class InviteHoriScroll extends React.Component{
         return(
             <View style={styles.rowContainer}>
                 <View style={styles.podCastContainer}>
-                    <CardHori invitePending = {item}/>
+                    <CardHori navigation={this.props.navigation} invitePending = {item} inviter = {this.state.queryUserList[item.inviter-1]}/>
                 </View> 
             </View>
         )
@@ -70,7 +92,7 @@ export default class InviteHoriScroll extends React.Component{
 
     render(){
         if(this.state.queryPendingList !== null){
-            console.log(this.state.queryPendingList)
+            // console.log(this.state.queryPendingList)
         return(
             <View style={styles.container}>
                 <LinearGradient 
@@ -88,7 +110,8 @@ export default class InviteHoriScroll extends React.Component{
                  <FlatList 
                     style={styles.ScollablePodCasts}
                     data={this.state.queryPendingList}
-                    renderItem={this.renderRow}
+                    extraData={this.state}
+                    renderItem={this.renderRow.bind(this)}
                     keyExtractor={this.keyExtractor}
                     horizontal={true}
                 /> 
