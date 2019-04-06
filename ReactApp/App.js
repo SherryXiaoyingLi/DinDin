@@ -6,8 +6,10 @@ import Login from './components/Login'
 import event from './components/EventDetail'
 import create from './components/CreateEvent'
 import create2 from './components/CreateEvent2'
+import testScreen from './components/testscreen'
 import cardHori from './components/CardHori'
 import invitePending from './components/InvitePending'
+import invitation from './components/InvitationsDetail'
 //import testscreen from './components/testscreen'
 import { Facebook } from 'expo';
 
@@ -22,8 +24,9 @@ const homeStack = createDrawerNavigator(
 const authStack = createDrawerNavigator({login: Login})
 const createEventStack = createDrawerNavigator(
   {
-    createEvent2:create2,
     createEvent:create, 
+    createEvent2:create2,
+   
     
   }
 )

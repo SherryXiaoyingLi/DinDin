@@ -7,6 +7,7 @@ import utility from './language.utility'
 import PeopleList from './PeopleList';
 
 
+
 var windowWidth = Dimensions.get('window').width
 var windowHeight = Dimensions.get('window').height
 
@@ -15,10 +16,22 @@ export default class EventDetail extends React.Component {
       super(props);
       this.state = {
         checked:false,
+        numSelected:0,
+        sendTo:[]
       }
   
     }
+    countSelected(num){
+      this.setState({
+        numSelected:num,
+      })
+    }
 
+    getSendTo(arr){
+      this.setState({
+        sendTo:arr,
+      })
+    }
   
     render() {
       return (
@@ -35,18 +48,19 @@ export default class EventDetail extends React.Component {
             <View style={styles.card}>
             <Image style={{height:24,width:24}}source={require('../assets/Sliced/food.png')}></Image>
             <View style={{paddingLeft: 0.008 * windowWidth, flexDirection: 'column', justifyContent: 'center'}}>
-                <Text style={{textAlign:'center', fontFamily: 'System', fontSize: 20, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>Raymond House, Nabor Way</Text>
-                <Text style={{textAlign:'center', fontFamily: 'System', fontSize: 14, opacity: 0.55, color: '#000000', letterSpacing:0}}>Sunday 10 March - 16:30pm</Text>
+                <Text style={{textAlign:'center', fontFamily: 'System', fontSize: 20, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>{this.props.navigation.state.params.location}</Text>
+                <Text style={{textAlign:'center', fontFamily: 'System', fontSize: 14, opacity: 0.55, color: '#000000', letterSpacing:0}}>{this.props.navigation.state.params.time}</Text>
             </View>
             </View>
             </View>
         </LinearGradient>
-        <View style={{justifyContent:'center',alignItems:'flex-start', margin:10,height:0.06*windowHeight,width:windowWidth}}>
+        <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'flex-start', margin:10,height:0.06*windowHeight,width:0.96*windowWidth}}>
             <Text style={{opacity:0.55,color: '#000000',}}>{utility.t('whoinvite')}</Text>
+            <Text style={{color: '#1e90ff',}}>{this.state.numSelected} {utility.t('selected')}</Text>
         </View>
         <View 
             style={{justifyContent:'center',alignItems:'center',width:windowWidth,height:0.5*windowHeight,flexDirection:'row'}}>
-            <PeopleList value={false}/>
+            <PeopleList countSelected={this.countSelected.bind(this)} getSendTo={this.getSendTo.bind(this)}/>
         </View>
        
 

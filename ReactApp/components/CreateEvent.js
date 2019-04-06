@@ -14,6 +14,8 @@ export default class App extends React.Component {
       super(props);
       this.state = {
         chosenDate: new Date(),
+        time: new Date().toLocaleString("en-US",{timeZone:"America/New_York"}),
+        month: new Date().toLocaleString("en-US", {month: "long"}),
         mapRegion: null,
         //hasLocationPermissions: false,
         valueInput: ''
@@ -24,9 +26,9 @@ export default class App extends React.Component {
 
 
   setDate(newDate) {
-    this.setState({chosenDate: newDate});
-    var time = newDate.toLocaleString("en-US",{timeZone:"America/New_York"})
-    var month = newDate.toLocaleString("en-US", {month: "long"})
+    var ti = newDate.toLocaleString("en-US",{timeZone:"America/New_York"})
+    var mon = newDate.toLocaleString("en-US", {month: "long"})
+    this.setState({chosenDate: newDate, time:ti, month: mon});
   }
 
   componentDidMount(){
@@ -40,7 +42,8 @@ export default class App extends React.Component {
   }
 
   handlePress(){
-    console.log(this.state.valueInput)
+    // console.log(this.state.valueInput)
+    this.props.navigation.navigate('createEvent2', {location: this.state.valueInput, time: this.state.time, month: this.state.month})
   }
   
 
@@ -48,6 +51,7 @@ export default class App extends React.Component {
     if (this.state.valueInput !== null){
       console.log(this.state.valueInput)
     }
+    console.log(this.state.time)
         return (
           <View style={styles.container}>
           <EventHeader navigation={this.props.navigation} value={false} />

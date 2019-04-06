@@ -17,16 +17,18 @@ export default class cardHori extends React.Component{
 
 
     render(){
-       console.log(this.props.invitePending)
+    //    console.log(this.props.inviter)
         return(
             <View style={styles.container}>
+            <TouchableOpacity onPress={() => (this.props.navigation.navigate('invitationDetail'))}>
             <View style={styles.top}>
             <Image style={styles.avatar} source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}/>
             <View style={{paddingLeft: 0.008 * windowWidth, flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start'}}>
-                <Text style={{fontFamily: 'System', fontSize: 14, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>{this.props.invitePending.name}</Text>
-                <Text style={{fontFamily: 'System', fontSize: 14, opacity: 0.5, color: '#000000', letterSpacing:0}}>{this.props.invitePending.phone_num}</Text>
+                <Text style={{fontFamily: 'System', fontSize: 14, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>{this.props.inviter.name}</Text>
+                <Text style={{fontFamily: 'System', fontSize: 14, opacity: 0.5, color: '#000000', letterSpacing:0}}>{this.props.invitePending.time}</Text>
             </View>
             </View>
+            </TouchableOpacity>
             <View style={styles.bottom}>
             <TouchableOpacity onPress={() => this.props.navigation.navigate()}>
             <View style={styles.bottomLeft}>
@@ -41,6 +43,7 @@ export default class cardHori extends React.Component{
             </View>
             </TouchableOpacity>
             </View>
+            
             </View>
         )
     }
