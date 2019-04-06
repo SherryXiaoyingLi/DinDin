@@ -28,10 +28,11 @@ const AppContainer = createAppContainer(
     home: homeStack,
     auth: authStack,
     
+    
   },
   {
     // initialRouteName: 'createEvent2'
-    initialRouteName: 'create'
+    initialRouteName: 'home'
   }
   ))
 
