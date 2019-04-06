@@ -38,7 +38,7 @@ const AppContainer = createAppContainer(
   },
   {
     // initialRouteName: 'createEvent2'
-    initialRouteName: 'spl'
+    initialRouteName: 'home'
   }
   ))
 

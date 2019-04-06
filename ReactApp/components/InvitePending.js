@@ -44,20 +44,23 @@ export default class InviteHoriScroll extends React.Component{
     }
 
     async queryPending() {
+       
         var query_result = []
         var that = this
         var res = await leadsRef_Pendings.on('value', async function(snapshot){
             var subresult = await snapshot.forEach( function(childSnapshot){
                 var item = childSnapshot.toJSON()
+                console.log("success")
                 var key = childSnapshot.key;
                 var obj = Object.assign(item, {id: key})
                 query_result.push(obj)
                
             })
+            
             that.setState({
                     queryPendingList: query_result
                 })
-            // console.log(query_result)
+            
         }).bind(this)
     }
 
@@ -68,7 +71,7 @@ export default class InviteHoriScroll extends React.Component{
 //             }
 
     componentWillMount(){
-        this.queryUsersTable()
+        //this.queryUsersTable()
         // this.writeUserTable()
         this.queryPending()
     }
@@ -91,6 +94,8 @@ export default class InviteHoriScroll extends React.Component{
     }
 
     render(){
+        // console.log("checccck")
+        // console.log(this.state.queryPendingList)
         if(this.state.queryPendingList !== null){
             // console.log(this.state.queryPendingList)
         return(
