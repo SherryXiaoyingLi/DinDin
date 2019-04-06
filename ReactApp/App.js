@@ -10,33 +10,34 @@ import cardHori from './components/CardHori'
 import invitePending from './components/InvitePending'
 //import testscreen from './components/testscreen'
 import { Facebook } from 'expo';
-import m from './components/MapComponent'
 
-const homeStack = createDrawerNavigator({home: HomeScreen}) 
+const homeStack = createDrawerNavigator(
+  {
+    homeSreen: HomeScreen,
+    //invitationDetail: invitation,
+    createEvent:create, 
+    createEvent2:create2,
+    eventDetail: event
+  }) 
 const authStack = createDrawerNavigator({login: Login})
-const eventStack = createDrawerNavigator({eventDetail: event})
-const createStack = createDrawerNavigator({createEvent: create})
-const createStack2 = createDrawerNavigator({createEvent2:create2})
-// const cardStack = createDrawerNavigator({card: cardHori})
-// const pendingStack = createDrawerNavigator({pending: invitePending})
-const mapStack = createDrawerNavigator({map: m})
+const createEventStack = createDrawerNavigator(
+  {
+    createEvent2:create2,
+    createEvent:create, 
+    
+  }
+)
 
 const AppContainer = createAppContainer(
   createSwitchNavigator({
     spl: Splash,
     home: homeStack,
     auth: authStack,
-    eventDetail: eventStack,
-    createEvent: createStack,
-    //createEvent2: createStack2,
-    // card: cardStack,
-    // pending: pendingStack
-    map: mapStack
+    create: createEventStack
   },
   {
-
-    //initialRouteName: 'createEvent'
-    initialRouteName: 'map'
+    // initialRouteName: 'createEvent2'
+    initialRouteName: 'create'
   }
   ))
 
