@@ -26,8 +26,6 @@ const createEventStack = createDrawerNavigator(
   {
     createEvent:create, 
     createEvent2:create2,
-   
-    
   }
 )
 
@@ -40,7 +38,7 @@ const AppContainer = createAppContainer(
   },
   {
     // initialRouteName: 'createEvent2'
-    initialRouteName: 'create'
+    initialRouteName: 'spl'
   }
   ))
 
