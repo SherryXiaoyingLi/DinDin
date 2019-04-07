@@ -1,13 +1,15 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity} from 'react-native';
-//import firebase from '../constants/firebase'
+import firebase from '../constants/firebase'
 import utility from './language.utility'
 //import console = require('console');
 
 
 var windowWidth = Dimensions.get('window').width
 var windowHeight = Dimensions.get('window').height
-//var db = firebase.firestore()
+var db = firebase.database()
+var leadsRef_Accepted = db.ref('Accepted/');
+var leadsRef_Pending = db.ref('Pending')
 
 export default class cardHori extends React.Component{
     constructor(prop){
@@ -15,6 +17,21 @@ export default class cardHori extends React.Component{
 
     }
 
+    handleAccept(){
+    var invitePending = this.props.invitePending
+    var inviter = this.props.inviter
+        leadsRef_Accepted.push(
+            {
+                inviter: invitePending.inviter,
+                location: invitePending.location,
+                time: invitePending.time,
+                month: invitePending.month, 
+            }
+        )
+        console.log(invitePending.id)
+        leadsRef_Pending.child(invitePending.id).remove()
+        // this.props.navigation.navigate('home', {refresh: true})
+    }
 
     render(){
     //    console.log(this.props.inviter)
@@ -36,7 +53,7 @@ export default class cardHori extends React.Component{
                 <Text style={{fontFamily: 'System',color: '#FF3B3B', fontSize:13, paddingLeft: 0.02 * windowWidth}}>{utility.t('decline')}</Text>
             </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate()}>
+            <TouchableOpacity onPress={() => this.handleAccept()}>
             <View style={styles.bottomRight}>
                 <Image style={styles.check} source={require('../assets/Sliced/check.png')}></Image>
                 <Text style={{fontFamily: 'System',color: '#38D459', fontSize:13, paddingLeft: 0.02 * windowWidth}}>{utility.t('accept')}</Text>

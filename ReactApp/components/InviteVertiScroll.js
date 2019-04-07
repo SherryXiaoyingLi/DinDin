@@ -28,6 +28,7 @@ export default class InviteVertiScroll extends React.Component{
         var res = await leadsRef_Accpeted.on('value', async function(snapshot){
             var subresult = await snapshot.forEach( function(childSnapshot){
                 var item = childSnapshot.toJSON()
+                console.log(item)
                 var key = childSnapshot.key;
                 var obj = Object.assign(item, {id: key})
                 query_result.push(obj)
@@ -70,11 +71,20 @@ export default class InviteVertiScroll extends React.Component{
 
     componentWillMount(){
         this.queryUsersTable();
-        this.queryAcceptedInvite();
-         
-        
+        this.queryAcceptedInvite();    
     }
-    
+
+    // componentDidMount(){
+    //     this.queryUsersTable();
+    //     this.queryAcceptedInvite();    
+    // }
+
+    // componentWillReceiveProps(props){
+    //     if (props.refresh){
+    //         this.queryUsersTable();
+    //         this.queryAcceptedInvite();    
+    //     }
+    // }
 
     keyExtractor(item){
         return item.id.toString();

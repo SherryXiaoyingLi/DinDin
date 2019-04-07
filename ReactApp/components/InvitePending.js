@@ -44,13 +44,12 @@ export default class InviteHoriScroll extends React.Component{
     }
 
     async queryPending() {
-       
         var query_result = []
         var that = this
         var res = await leadsRef_Pendings.on('value', async function(snapshot){
             var subresult = await snapshot.forEach( function(childSnapshot){
                 var item = childSnapshot.toJSON()
-                console.log("success")
+                //console.log("success")
                 var key = childSnapshot.key;
                 var obj = Object.assign(item, {id: key})
                 query_result.push(obj)
@@ -64,18 +63,40 @@ export default class InviteHoriScroll extends React.Component{
         }).bind(this)
     }
 
-//     async writeUserTable() {
-//             firebase.database().ref('Accepted/' + 1).set(
-// {inviter: 2,accepted: [3,4], declined:[], pending: [1], location: 'Richmond', time: '2019-04-8T00:59:01.000z',month:4}                
-//             )
-//             }
+    async writeTable() {
+            firebase.database().ref('Pending/').push(
+{inviter: '-LbtcPxMy4fcvY2uDJwJ' , location: 'Downtown', time: '2019-04-8T00:59:01.000z', month:4}                
+            )
+        // firebase.database().ref('UsersTable/').push(
+        //     {name: 'White', phone_num: 123456}
+        // )
+            }
 
+    findUser(array, id){
+        // console.log(id)
+        return array.find(function(element){
+            return element.id == id
+        })
+    }
     componentWillMount(){
+        //this.writeTable()
         this.queryUsersTable()
-        // this.writeUserTable()
         this.queryPending()
     }
 
+    // componentDidMount(){
+    //     this.queryUsersTable()
+    //     // this.writeUserTable()
+    //     this.queryPending()
+    // }
+    // componentWillReceiveProps(props){
+    //     console.log("successss")
+    //     console.log(props)
+    //     if (props.refresh){
+    //         this.queryUsersTable()
+    //         this.queryPending()
+    //     }
+    // }
 
     keyExtractor(item){
         return item.id.toString()
@@ -84,13 +105,16 @@ export default class InviteHoriScroll extends React.Component{
     renderRow({item}){
         //console.log("Success")
         //console.log(item)
+        if (this.findUser(this.state.queryUserList, item.inviter)!== undefined){
+        // console.log(this.findUser(this.state.queryUserList, item.inviter))
         return(
             <View style={styles.rowContainer}>
                 <View style={styles.podCastContainer}>
-                    <CardHori navigation={this.props.navigation} invitePending = {item} inviter = {this.state.queryUserList[item.inviter-1]}/>
+                    <CardHori navigation={this.props.navigation} invitePending = {item} inviter = {this.findUser(this.state.queryUserList, item.inviter)}/>
                 </View> 
             </View>
         )
+        }
     }
 
     render(){

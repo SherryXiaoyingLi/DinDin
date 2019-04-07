@@ -8,11 +8,6 @@ import PeopleList from './PeopleList';
 import 'firebase/firestore';
 import firebase from '../constants/firebase'
 
-
-
-
-
-
 var windowWidth = Dimensions.get('window').width
 var windowHeight = Dimensions.get('window').height
 
