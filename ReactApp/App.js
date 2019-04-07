@@ -14,33 +14,37 @@ import invitation from './components/InvitationsDetail'
 import { Facebook } from 'expo';
 
 const homeStack = createDrawerNavigator(
-  {
-    homeSreen: HomeScreen,
-    //invitationDetail: invitation,
+  {homeSreen: HomeScreen,
+    invitationDetail:invitation,
     createEvent:create, 
     createEvent2:create2,
     eventDetail: event
   }) 
 const authStack = createDrawerNavigator({login: Login})
-const createEventStack = createDrawerNavigator(
-  {
-    createEvent:create, 
-    createEvent2:create2,
-  }
-)
 
+// const createEventStack = createDrawerNavigator(
+//   {
+//     createEvent:create, 
+//     createEvent2:create2,
+//   }
+// )
 const AppContainer = createAppContainer(
   createSwitchNavigator({
     spl: Splash,
     home: homeStack,
     auth: authStack,
-    create: createEventStack
+    
+    
   },
   {
     // initialRouteName: 'createEvent2'
+
     initialRouteName: 'home'
+
   }
   ))
+
+
 
  export default AppContainer;
 
