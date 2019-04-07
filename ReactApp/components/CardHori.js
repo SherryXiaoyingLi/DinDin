@@ -20,7 +20,7 @@ export default class cardHori extends React.Component{
     //    console.log(this.props.inviter)
         return(
             <View style={styles.container}>
-            <TouchableOpacity onPress={() => (this.props.navigation.navigate('invitationDetail'))}>
+            <TouchableOpacity onPress={() => (this.props.navigation.navigate('invitationDetail',{inviter:this.props.inviter,invitePending:this.props.invitePending}))}>
             <View style={styles.top}>
             <Image style={styles.avatar} source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}/>
             <View style={{paddingLeft: 0.008 * windowWidth, flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start'}}>

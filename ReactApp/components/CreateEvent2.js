@@ -1,10 +1,15 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions} from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions, Alert} from 'react-native';
 import { Constants,LinearGradient } from 'expo'
 import {CheckBox} from 'react-native-elements'
 import EventHeader from './EventHeader'
 import utility from './language.utility'
 import PeopleList from './PeopleList';
+import 'firebase/firestore';
+import firebase from '../constants/firebase'
+
+
+
 
 
 
@@ -32,11 +37,42 @@ export default class EventDetail extends React.Component {
         sendTo:arr,
       })
     }
-  
+    writeToDB(loc, t, m, pend){
+
+      firebase.database().ref('MyCreate/').push({
+        location:loc, time: t, month: m, pending: pend
+      }).then((data)=>{
+        //success callback
+        Alert.alert(
+          'Alert Title',
+          'su',
+  [
+    {text: 'Ask me later', onPress: () => navigate('home')},
+    {
+      text: 'Cancel',
+      onPress: () => console.log('Cancel Pressed'),
+      style: 'cancel',
+    },
+    {text: 'OK', onPress: () => console.log('OK Pressed')},
+  ],
+        )
+        
+      }).catch((error)=>{
+        //error callback
+        Alert.alert('error ' , error)
+        console.log('error ' , error)
+      })
+      
+
+      
+    }
+
+
     render() {
+      const params = this.props.navigation.state.params
       return (
         <View style={styles.container}>
-        <EventHeader navigation={this.props.navigation}/>
+        <EventHeader navigation={this.props.navigation} search={true}/>
         <LinearGradient 
                 //colors={['#4c669f', '#3b5998', '#192f6a']}
                 style={{width: windowWidth, height:  0.22 * windowHeight, flex: 1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}
@@ -48,8 +84,8 @@ export default class EventDetail extends React.Component {
             <View style={styles.card}>
             <Image style={{height:24,width:24}}source={require('../assets/Sliced/food.png')}></Image>
             <View style={{paddingLeft: 0.008 * windowWidth, flexDirection: 'column', justifyContent: 'center'}}>
-                <Text style={{textAlign:'center', fontFamily: 'System', fontSize: 20, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>{this.props.navigation.state.params.location}</Text>
-                <Text style={{textAlign:'center', fontFamily: 'System', fontSize: 14, opacity: 0.55, color: '#000000', letterSpacing:0}}>{this.props.navigation.state.params.time}</Text>
+                <Text style={{textAlign:'center', fontFamily: 'System', fontSize: 20, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>{params.location}</Text>
+                <Text style={{textAlign:'center', fontFamily: 'System', fontSize: 14, opacity: 0.55, color: '#000000', letterSpacing:0}}>{params.time}</Text>
             </View>
             </View>
             </View>
@@ -64,7 +100,7 @@ export default class EventDetail extends React.Component {
         </View>
        
 
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('eventDetail')}>
+        <TouchableOpacity onPress={() => this.writeToDB(params.location, params.time, params.month, this.state.sendTo)}>
                 <Image style={{height:0.076*windowHeight}}  source={require('../assets/Sliced/buttonBar.png')}></Image>
                 <View style={styles.textView}><Text style={styles.buttonText}>{utility.t('send')}</Text></View>
         </TouchableOpacity>
