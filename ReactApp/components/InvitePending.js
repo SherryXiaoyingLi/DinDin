@@ -71,7 +71,7 @@ export default class InviteHoriScroll extends React.Component{
 //             }
 
     componentWillMount(){
-        //this.queryUsersTable()
+        this.queryUsersTable()
         // this.writeUserTable()
         this.queryPending()
     }
