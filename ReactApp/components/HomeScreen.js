@@ -16,6 +16,9 @@ var windowHeight = Dimensions.get('window').height
 export default class App extends React.Component {
   constructor(props){
     super(props);
+    // this.state = {
+    //   refresh: false
+    // }
   }
 
   
@@ -24,8 +27,8 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
       <Header navigation={this.props.navigation} style={styles.header}/>
-      <InvitePending navigation={this.props.navigation} uid = {uid}/>
-      <InviteVertiScroll style={{paddingTop: 10} }  uid = {uid}/>
+      <InvitePending navigation={this.props.navigation} />
+      <InviteVertiScroll style={{paddingTop: 10} } />
  
        {/* <TouchableOpacity onPress={() => this.props.navigation.navigate('createEvent')}>
            <View style={{width: 0.5 * windowWidth, height: 0.05 * windowHeight, borderColor:'#D3D3D3', borderWidth: 0.5}}><Text style={{}}>+ Add New Event</Text></View>
