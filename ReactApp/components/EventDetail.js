@@ -22,6 +22,12 @@ export default class EventDetail extends React.Component {
 
   
     render() {
+      console.log('successfully get to de p')
+
+      // console.log(this.props.state)
+      // console.log(this.props.letter)
+      console.log(this.props)
+      params = this.props.navigation.state.params
       return (
         <View style={styles.container}>
         <EventHeader navigation={this.props.navigation}/>
@@ -36,8 +42,8 @@ export default class EventDetail extends React.Component {
             <View style={styles.card}>
             <Image style={{height:24,width:24}}source={require('../assets/Sliced/food.png')}></Image>
             <View style={{paddingLeft: 0.008 * windowWidth, flexDirection: 'column', justifyContent: 'center'}}>
-                <Text style={{fontFamily: 'System', fontSize: 14, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>Alma Evans</Text>
-                <Text style={{fontFamily: 'System', fontSize: 14, opacity: 0.55, color: '#000000', letterSpacing:0}}>Sunday 10 March - 16:30pm</Text>
+                <Text style={{fontFamily: 'System', fontSize: 14, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>{params.location}</Text>
+                <Text style={{fontFamily: 'System', fontSize: 14, opacity: 0.55, color: '#000000', letterSpacing:0}}>{params.time}</Text>
                 <Text style={{fontFamily: 'System', fontSize: 14, opacity: 0.45, color: '#000000', letterSpacing:0}}> {utility.t('hostby')}</Text>
             </View>
             </View>

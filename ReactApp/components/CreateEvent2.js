@@ -20,7 +20,6 @@ export default class EventDetail extends React.Component {
     constructor(props){
       super(props);
       this.state = {
-        checked:false,
         numSelected:0,
         sendTo:[]
       }
@@ -39,28 +38,19 @@ export default class EventDetail extends React.Component {
     }
     writeToDB(loc, t, m, pend){
 
-      firebase.database().ref('MyCreate/').push({
+      firebase.database().ref('MyCreated/').push({
         location:loc, time: t, month: m, pending: pend
       }).then((data)=>{
         //success callback
         Alert.alert(
-          'Alert Title',
-          'su',
-  [
-    {text: 'Ask me later', onPress: () => navigate('home')},
-    {
-      text: 'Cancel',
-      onPress: () => console.log('Cancel Pressed'),
-      style: 'cancel',
-    },
-    {text: 'OK', onPress: () => console.log('OK Pressed')},
-  ],
-        )
-        
+          'Successful',
+          'Go to the detail page',
+          [{text: 'OK', 
+          onPress: () => {this.props.navigation.navigate('eventDetail',{location:loc,time:t,month:m,pending:pend}),console.log(data)}},],) 
       }).catch((error)=>{
         //error callback
-        Alert.alert('error ' , error)
-        console.log('error ' , error)
+        Alert.alert('Error' , error,[{text:'OK'}])
+        
       })
       
 
