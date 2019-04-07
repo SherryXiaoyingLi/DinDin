@@ -21,15 +21,6 @@ const homeStack = createDrawerNavigator(
     eventDetail: event
   }) 
 const authStack = createDrawerNavigator({login: Login})
-<<<<<<< HEAD
-=======
-const createEventStack = createDrawerNavigator(
-  {
-    createEvent:create, 
-    createEvent2:create2,
-  }
-)
->>>>>>> 75d181c46007e72b5f451dc6dbf14933ae9345be
 
 const AppContainer = createAppContainer(
   createSwitchNavigator({
@@ -41,11 +32,7 @@ const AppContainer = createAppContainer(
   },
   {
     // initialRouteName: 'createEvent2'
-<<<<<<< HEAD
     initialRouteName: 'home'
-=======
-    initialRouteName: 'spl'
->>>>>>> 75d181c46007e72b5f451dc6dbf14933ae9345be
   }
   ))
 
