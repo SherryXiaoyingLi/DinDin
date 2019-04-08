@@ -7,35 +7,33 @@ import InvitePending from './InvitePending'
 // import 'firebase/firestore';
 // import firebase from '../constants/firebase'
 import utility from './language.utility'
-// var db = firebase.firestore()
-//var uid = '1IGWOQNMDL9CsnEV6vtO'
-var uid = 2
 var windowWidth = Dimensions.get('window').width
 var windowHeight = Dimensions.get('window').height
 
 export default class App extends React.Component {
   constructor(props){
     super(props);
-    // this.state = {
-    //   refresh: false
-    // }
+    
   }
 
   
 
   render() {
+    
+    // console.log("home page")
+    // console.log(this.props.navigation.state.params !== undefined && this.props.navigation.state.params.refresh !== undefined? this.props.navigation.state.params.refresh: false)
     return (
       <View style={styles.container}>
       <Header navigation={this.props.navigation} style={styles.header}/>
       <InvitePending navigation={this.props.navigation} />
-      <InviteVertiScroll style={{paddingTop: 10} } />
+      <InviteVertiScroll style={{paddingTop: 10}} />
  
        {/* <TouchableOpacity onPress={() => this.props.navigation.navigate('createEvent')}>
            <View style={{width: 0.5 * windowWidth, height: 0.05 * windowHeight, borderColor:'#D3D3D3', borderWidth: 0.5}}><Text style={{}}>+ Add New Event</Text></View>
        </TouchableOpacity> */}
 
       </View>
-    );
+    )
   }
 }
 
