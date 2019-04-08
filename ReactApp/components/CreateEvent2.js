@@ -65,7 +65,7 @@ export default class EventDetail extends React.Component {
       const params = this.props.navigation.state.params
       return (
         <View style={styles.container}>
-        <EventHeader navigation={this.props.navigation} search={true}/>
+        <EventHeader navigation={this.props.navigation} search={true} create1={true}/>
         <LinearGradient 
                 //colors={['#4c669f', '#3b5998', '#192f6a']}
                 style={{width: windowWidth, height:  0.22 * windowHeight, flex: 1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}

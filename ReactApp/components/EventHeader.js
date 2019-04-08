@@ -15,11 +15,21 @@ export default class Header extends React.Component{
     render(){
         console.log(this.props.edit)
         console.log(this.props.search)
+        console.log('create1'+this.props.create1)
+
          return(
             <View style={styles.container}>
-            <TouchableOpacity onPress={()=>{this.props.navigation.goBack()}}>
+            {this.props.create1 ?
+                <TouchableOpacity onPress={()=>{this.props.navigation.navigate('createEvent')}}>
                 <Image style={styles.left} source={require('../assets/Sliced/back3x.png')}/>
-            </TouchableOpacity><Text style={styles.text}>{utility.t('dindin')}</Text>
+            </TouchableOpacity> :
+            <TouchableOpacity onPress={()=>{this.props.navigation.goBack()}}>
+            <Image style={styles.left} source={require('../assets/Sliced/back3x.png')}/>
+        </TouchableOpacity>
+            }
+            <Text style={styles.text}>{utility.t('dindin')}</Text>
+            
+            
             {this.props.edit 
                 ? <Text style={styles.edit}>{utility.t('edit')}</Text>
                 : this.props.search ? <Image style={{margin:15}} source={require('../assets/Sliced/searchbtn.png')}></Image>
