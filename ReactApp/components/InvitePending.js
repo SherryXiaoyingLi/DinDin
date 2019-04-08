@@ -76,14 +76,24 @@ export default class InvitePending extends React.Component{
                 }
             )
             await leadsRef_Pending.child(invitePending.id).remove()
-            // this.setState({queryPendingList:null, queryUserList:null})
+            this.setState({queryPendingList:null, queryUserList:null})
             //this.props.navigation.navigate('home')
             // this.setState({refresh: true})
         }
 
+    async handleDecline(invitePending){
+        await leadsRef_Pending.child(invitePending.id).remove()
+        // console.log("pending list 1")
+        // console.log(this.state.queryPendingList)
+        // var result_list = this.state.queryPendingList.remove(invitePending)
+        // console.log("pending list 2")
+        // console.log(result_list)
+        // this.setState({queryPendingList: result_list})
+    }
+
     componentWillMount(){
             this.TimerID = setInterval(()=>( this.queryUsersTable(),
-            this.queryPending()), 4000) 
+            this.queryPending()), 1000) 
     }
 
     componentWillUnmount(){
@@ -117,7 +127,7 @@ export default class InvitePending extends React.Component{
             </View>
             </TouchableOpacity>
             <View style={styles.bottom}>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate()}>
+            <TouchableOpacity onPress={() => this.handleDecline(item)}>
             <View style={styles.bottomLeft}>
                 <Image style={styles.cross} source={require('../assets/Sliced/cross.png')}></Image>
                 <Text style={{fontFamily: 'System',color: '#FF3B3B', fontSize:13, paddingLeft: 0.02 * windowWidth}}>{utility.t('decline')}</Text>
