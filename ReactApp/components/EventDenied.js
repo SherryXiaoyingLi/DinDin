@@ -1,16 +1,24 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Dimensions} from 'react-native';
 import { Constants } from 'expo'
+import 'firebase/firestore';
+import firebase from '../constants/firebase'
+
 
 var windowWidth = Dimensions.get('window').width
 var windowHeight = Dimensions.get('window').height
 var bool = null
+var db = firebase.database()
+var leadsRef_MyCreate = db.ref('MyCreate');
+var leadsRef_Users = db.ref('UsersTable');
+
 export default class EventDenied extends React.Component{
     constructor(prop){
         super(prop)
         bool = this.props.value
         this.state ={
             podCastList: null,
+            queryEvent:null,
 
         }
     }
@@ -22,9 +30,74 @@ export default class EventDenied extends React.Component{
             podCastList: extractedJson.podCastList
         })
     }
+    async queryUsersTable() {
+        var query_result = []
+        var that = this
+        var res = await leadsRef_Users.on('value', async function(snapshot){
+            var subresult = await snapshot.forEach( function(childSnapshot){
+                var item = childSnapshot.toJSON()
+                var key = childSnapshot.key;
+                var obj = Object.assign(item, {id: key})
+                query_result.push(obj)
+               
+            })
+            that.setState({
+                    queryUsersList: query_result
+
+                })
+                // console.log(query_result)
+        }).bind(this)
+        return query_result
+        
+    }
+    async queryEventTable(users) {
+        var query_result = []
+        var that = this
+        var e_key = this.props.event_key
+        var res = await leadsRef_MyCreate.on('value', async function(snapshot){
+            var subresult = await snapshot.forEach( function(childSnapshot){
+                var item = childSnapshot.toJSON()
+                var key = String(childSnapshot.key);
+                if (key==e_key){
+                    var obj = Object.assign(item, {id: key})
+                    query_result=obj['pending']
+                }    
+            })
+            that.setState({
+                    queryEvent: query_result
+
+                })
+            var finalUsers = []
+            for (const u of users){
+                for (const key of Object.keys(query_result)){
+                    // console.log(u.id)
+                    // console.log(query_result[key])
+                    if (u.id==query_result[key]){
+                        finalUsers.push(u)
+                    }
+                    
+                }
+            }
+            that.setState({
+                eventUsers:finalUsers
+            })
+        
+        }).bind(this)
+
+
+        
+    }
+    getUsers(){
+        console.log('abc')
+        console.log(this.state.queryEvent)
+    }
 
     componentWillMount(){
         this.getPodCastData()
+        this.queryUsersTable().then((users)=>this.queryEventTable(users))
+        // this.queryEventTable()
+
+        // this.getUsers()
     }
     
 
@@ -33,6 +106,7 @@ export default class EventDenied extends React.Component{
     }
 
     renderRow({item}){
+        
         return(
             <View style={styles.rowContainer}>
                 <View style={styles.podCastContainer}>
@@ -41,8 +115,8 @@ export default class EventDenied extends React.Component{
                     <View style={styles.top}>
                     <Image style={styles.avatar} source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}/>
                     <View style={{paddingLeft: 0.008 * windowWidth, flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start'}}>
-                    <Text style={{fontFamily: 'System', fontSize: 14, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>Alma Evans</Text>
-                    <Text style={{fontFamily: 'System', fontSize: 14, opacity: 0.5, color: '#000000', letterSpacing:0}}>16:30pm</Text>
+                    <Text style={{fontFamily: 'System', fontSize: 14, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>{item.name}</Text>
+                    <Text style={{fontFamily: 'System', fontSize: 14, opacity: 0.5, color: '#000000', letterSpacing:0}}>{item.phone_num}</Text>
                     </View>
                     
 
@@ -62,12 +136,13 @@ export default class EventDenied extends React.Component{
     }
 
     render(){
-        if(this.state.podCastList !== null){
+        console.log(this.state.eventUsers)
+        if(this.state.eventUsers !== null){
         return(
-            <View style={styles.container}>
+            <View style={styles.container}> 
                  <FlatList
                     style={styles.ScollablePodCasts}
-                    data={this.state.podCastList}
+                    data={this.state.eventUsers} 
                     renderItem={this.renderRow}
                     keyExtractor={this.keyExtractor}
                 /> 

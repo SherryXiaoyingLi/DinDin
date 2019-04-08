@@ -21,6 +21,7 @@ const homeStack = createDrawerNavigator(
     eventDetail: event
   }) 
 const authStack = createDrawerNavigator({login: Login})
+const testStack = createDrawerNavigator({test:event})
 
 // const createEventStack = createDrawerNavigator(
 //   {
@@ -33,13 +34,14 @@ const AppContainer = createAppContainer(
     spl: Splash,
     home: homeStack,
     auth: authStack,
+    test: testStack,
     
     
   },
   {
     // initialRouteName: 'createEvent2'
 
-    initialRouteName: 'home'
+    initialRouteName: 'test'
 
   }
   ))
