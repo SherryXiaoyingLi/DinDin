@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Dimensions} from 'react-native';
-import CardHori from './CardHori'
 import { LinearGradient } from 'expo';
 import firebase from '../constants/firebase'
 //import 'firebase/firestore';

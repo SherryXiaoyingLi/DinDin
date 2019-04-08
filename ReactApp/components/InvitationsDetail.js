@@ -3,12 +3,14 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions, DatePicker
 import { Constants, LinearGradient, MapView } from 'expo'
 import utility from './language.utility'
 import EventHeader from './EventHeader'
-//import DateTimePicker from 'react-native-modal-datetime-picker';
-
-
+import firebase from '../constants/firebase'
 
 var windowWidth = Dimensions.get('window').width
 var windowHeight = Dimensions.get('window').height
+var db = firebase.database()
+var leadsRef_Users = db.ref('UsersTable');
+var leadsRef_Accepted = db.ref('Accepted/');
+var leadsRef_Pending = db.ref('Pending')
 
 export default class App extends React.Component {
     constructor(props){
@@ -23,6 +25,24 @@ export default class App extends React.Component {
     //console.log(newDate.getMonth())
     var time = newDate.toLocaleString("en-US",{timeZone:"America/New_York"})
     var month = newDate.toLocaleString("en-US", {month: "long"})
+  }
+
+  async handleAccept(invitePending){
+    await leadsRef_Accepted.push(
+        {
+            inviter: invitePending.inviter,
+            location: invitePending.location,
+            time: invitePending.time,
+            month: invitePending.month, 
+        }
+    )
+    await leadsRef_Pending.child(invitePending.id).remove()
+    // this.props.navigation.navigate('home')
+}
+
+  async handleDecline(invitePending){
+  await leadsRef_Pending.child(invitePending.id).remove()
+  // this.props.navigation.navigate('home')
   }
 
   render() {
@@ -50,14 +70,18 @@ export default class App extends React.Component {
             <Text style={{fontSize:13,opacity:0.5,paddingTop: 6,fontWeight:'bold'}}>{utility.t('hostby')} {params.inviter.name}</Text>
             </View>
             <View style={styles.bottom}>
+            <TouchableOpacity onPress={() => this.handleDecline(params.invitePending)}>
               <View style={styles.bottomLeft} >
                 <Image style={styles.cross} source={require('../assets/Sliced/cross.png')}></Image>
                 <Text style={{fontFamily: 'System',color: '#FF3B3B', fontSize:14, paddingLeft: 0.02 * windowWidth}}>{utility.t('decline')}</Text>
               </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this.handleAccept(params.invitePending)}>
               <View style={styles.bottomRight} >
                 <Image style={styles.check} source={require('../assets/Sliced/check.png')}></Image>
                 <Text style={{fontFamily: 'System',color: '#38D459', fontSize:14, paddingLeft: 0.02 * windowWidth}}>{utility.t('accept')}</Text>
               </View>
+            </TouchableOpacity>
             </View>
         
           </View>

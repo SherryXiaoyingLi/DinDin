@@ -19,9 +19,6 @@ export default class App extends React.Component {
   
 
   render() {
-    
-    // console.log("home page")
-    // console.log(this.props.navigation.state.params !== undefined && this.props.navigation.state.params.refresh !== undefined? this.props.navigation.state.params.refresh: false)
     return (
       <View style={styles.container}>
       <Header navigation={this.props.navigation} style={styles.header}/>
