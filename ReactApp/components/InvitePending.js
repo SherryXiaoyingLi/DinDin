@@ -12,15 +12,15 @@ var windowWidth = Dimensions.get('window').width
 var windowHeight = Dimensions.get('window').height
 var db = firebase.database()
 var leadsRef_Users = db.ref('UsersTable');
-var leadsRef_Pendings = db.ref('Pending');
+var leadsRef_Accepted = db.ref('Accepted/');
+var leadsRef_Pending = db.ref('Pending')
 
-export default class InviteHoriScroll extends React.Component{
+export default class InvitePending extends React.Component{
     constructor(prop){
         super(prop)
         this.state ={
             queryPendingList: null,
             queryUserList: null,
-            test:'a'
         }
     }
     
@@ -38,65 +38,69 @@ export default class InviteHoriScroll extends React.Component{
             that.setState({
                     queryUserList: query_result
                 })
-            // console.log('abc')
-            // console.log(query_result)
         }).bind(this)
     }
 
     async queryPending() {
         var query_result = []
         var that = this
-        var res = await leadsRef_Pendings.on('value', async function(snapshot){
+        var res = await leadsRef_Pending.on('value', async function(snapshot){
             var subresult = await snapshot.forEach( function(childSnapshot){
                 var item = childSnapshot.toJSON()
-                //console.log("success")
                 var key = childSnapshot.key;
                 var obj = Object.assign(item, {id: key})
                 query_result.push(obj)
                
             })
-            
+            var filtered_result = Array.from(new Set(query_result.map((item)=>item)))
             that.setState({
-                    queryPendingList: query_result
+                    queryPendingList: filtered_result
                 })
             
         }).bind(this)
     }
 
-    async writeTable() {
-            firebase.database().ref('Pending/').push(
-{inviter: '-LbtcPxMy4fcvY2uDJwJ' , location: 'Downtown', time: '2019-04-8T00:59:01.000z', month:4}                
-            )
-        // firebase.database().ref('UsersTable/').push(
-        //     {name: 'White', phone_num: 123456}
-        // )
-            }
 
     findUser(array, id){
-        // console.log(id)
         return array.find(function(element){
             return element.id == id
         })
     }
-    componentWillMount(){
-        //this.writeTable()
-        this.queryUsersTable()
-        this.queryPending()
+    async handleAccept(inviter, invitePending){
+            await leadsRef_Accepted.push(
+                {
+                    inviter: invitePending.inviter,
+                    location: invitePending.location,
+                    time: invitePending.time,
+                    month: invitePending.month, 
+                }
+            )
+            await leadsRef_Pending.child(invitePending.id).remove()
+            this.setState({queryPendingList:null, queryUserList:null})
+            //this.props.navigation.navigate('home')
+            // this.setState({refresh: true})
+        }
+
+    async handleDecline(invitePending){
+        await leadsRef_Pending.child(invitePending.id).remove()
+        // console.log("pending list 1")
+        // console.log(this.state.queryPendingList)
+        // var result_list = this.state.queryPendingList.remove(invitePending)
+        // console.log("pending list 2")
+        // console.log(result_list)
+        // this.setState({queryPendingList: result_list})
     }
 
-    // componentDidMount(){
-    //     this.queryUsersTable()
-    //     // this.writeUserTable()
-    //     this.queryPending()
-    // }
-    // componentWillReceiveProps(props){
-    //     console.log("successss")
-    //     console.log(props)
-    //     if (props.refresh){
-    //         this.queryUsersTable()
-    //         this.queryPending()
-    //     }
-    // }
+    componentWillMount(){
+            this.TimerID = setInterval(()=>( this.queryUsersTable(),
+            this.queryPending()), 1000) 
+    }
+
+    componentWillUnmount(){
+        clearInterval(this.TimerID)
+
+      }
+
 
     keyExtractor(item){
         return item.id.toString()
@@ -104,13 +108,41 @@ export default class InviteHoriScroll extends React.Component{
 
     renderRow({item}){
         //console.log("Success")
-        //console.log(item)
+        
         if (this.findUser(this.state.queryUserList, item.inviter)!== undefined){
         // console.log(this.findUser(this.state.queryUserList, item.inviter))
         return(
             <View style={styles.rowContainer}>
                 <View style={styles.podCastContainer}>
-                    <CardHori navigation={this.props.navigation} invitePending = {item} inviter = {this.findUser(this.state.queryUserList, item.inviter)}/>
+                    {/* <CardHori navigation={this.props.navigation} invitePending = {item} inviter = {this.findUser(this.state.queryUserList, item.inviter)}/> */}
+                    
+                    <View style={styles.cardContainer}>
+            <TouchableOpacity onPress={() => (this.props.navigation.navigate('invitationDetail',{inviter:this.findUser(this.state.queryUserList, item.inviter),invitePending:item}))}>
+            <View style={styles.top}>
+            <Image style={styles.avatar} source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}/>
+            <View style={{paddingLeft: 0.008 * windowWidth, flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start'}}>
+                <Text style={{fontFamily: 'System', fontSize: 14, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>{this.findUser(this.state.queryUserList, item.inviter).name}</Text>
+                <Text style={{fontFamily: 'System', fontSize: 14, opacity: 0.5, color: '#000000', letterSpacing:0}}>{item.time}</Text>
+            </View>
+            </View>
+            </TouchableOpacity>
+            <View style={styles.bottom}>
+            <TouchableOpacity onPress={() => this.handleDecline(item)}>
+            <View style={styles.bottomLeft}>
+                <Image style={styles.cross} source={require('../assets/Sliced/cross.png')}></Image>
+                <Text style={{fontFamily: 'System',color: '#FF3B3B', fontSize:13, paddingLeft: 0.02 * windowWidth}}>{utility.t('decline')}</Text>
+            </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this.handleAccept(this.findUser(this.state.queryUserList, item.inviter), item)}>
+            <View style={styles.bottomRight}>
+                <Image style={styles.check} source={require('../assets/Sliced/check.png')}></Image>
+                <Text style={{fontFamily: 'System',color: '#38D459', fontSize:13, paddingLeft: 0.02 * windowWidth}}>{utility.t('accept')}</Text>
+            </View>
+            </TouchableOpacity>
+            </View>
+            
+            </View>
+
                 </View> 
             </View>
         )
@@ -120,7 +152,7 @@ export default class InviteHoriScroll extends React.Component{
     render(){
         // console.log("checccck")
         // console.log(this.state.queryPendingList)
-        if(this.state.queryPendingList !== null){
+        if(this.state.queryPendingList != null && this.state.queryUserList!=null){
             // console.log(this.state.queryPendingList)
         return(
             <View style={styles.container}>
@@ -213,7 +245,66 @@ const styles = StyleSheet.create(
             backgroundColor: '#FFFFFF',
             height: 0.2 * windowHeight, 
             width: 0.86 * windowWidth,
-        }
+        },
+
+        cardContainer: {
+            backgroundColor: '#FFFFFF',
+            height: 0.22 * windowHeight, 
+            width: 0.86 * windowWidth,
+            flexDirection: 'column',
+            borderRadius: 10,
+            borderWidth: 0.5,
+            borderColor: '#D3D3D3'
+        },
+        top: {
+            width: 0.86 * windowWidth,
+            height: 0.12 * windowHeight,
+            borderBottomWidth: 0.5,
+            borderBottomColor: '#D3D3D3',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-evenly'
+        },
+        bottom: {
+            flexDirection: 'row',
+            width: 0.86 * windowWidth,
+            height: 0.08 * windowHeight,
+        },
+        bottomLeft:{
+            width: 0.43 * windowWidth,
+            height: 0.08 * windowHeight,
+            borderRightWidth: 0.5,
+            borderRightColor: '#D3D3D3',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        bottomRight: {
+            width: 0.43 * windowWidth,
+            height: 0.08 * windowHeight,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+           
+        },
+        cross:{
+            width: 13,
+            height: 13
+        },
+        check:{
+            width: 13,
+            height: 13
+        },
+        avatar:{
+            borderWidth:1,
+            borderColor:'rgba(0,0,0,0.2)',
+            alignItems:'center',
+            justifyContent:'center',
+            width: 0.076 * windowHeight,
+            height: 0.076 * windowHeight,
+            backgroundColor:'#fff',
+            borderRadius: 0.076 * windowHeight/2,
+          }
 
     }
 )

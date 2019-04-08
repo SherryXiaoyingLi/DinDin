@@ -7,9 +7,10 @@ import event from './components/EventDetail'
 import create from './components/CreateEvent'
 import create2 from './components/CreateEvent2'
 import testScreen from './components/testscreen'
-import cardHori from './components/CardHori'
+import card from './components/CardHori'
 import invitePending from './components/InvitePending'
 import invitation from './components/InvitationsDetail'
+import write from './components/writeTable'
 //import testscreen from './components/testscreen'
 import { Facebook } from 'expo';
 
@@ -18,10 +19,12 @@ const homeStack = createDrawerNavigator(
     invitationDetail:invitation,
     createEvent:create, 
     createEvent2:create2,
-    eventDetail: event
+    eventDetail: event,
+    cardHori: card
   }) 
 const authStack = createDrawerNavigator({login: Login})
 const testStack = createDrawerNavigator({test:event})
+const writeStack = createDrawerNavigator({writeTable: write})
 
 // const createEventStack = createDrawerNavigator(
 //   {
@@ -36,13 +39,14 @@ const AppContainer = createAppContainer(
     auth: authStack,
     test: testStack,
     
+    w: writeStack
     
   },
   {
     // initialRouteName: 'createEvent2'
 
-    initialRouteName: 'test'
-
+    initialRouteName: 'home'
+    //initialRouteName: 'w'
   }
   ))
 
