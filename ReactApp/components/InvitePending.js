@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Dimensions} from 'react-native';
-import CardHori from './CardHori'
 import { LinearGradient } from 'expo';
 import firebase from '../constants/firebase'
 //import 'firebase/firestore';
@@ -25,9 +24,10 @@ export default class InvitePending extends React.Component{
     }
     
     async queryUsersTable() {
-        var query_result = []
-        var that = this
-        var res = await leadsRef_Users.on('value', async function(snapshot){
+        
+        let that = this
+        let res = await leadsRef_Users.on('value', async function(snapshot){
+            let query_result = []
             var subresult = await snapshot.forEach( function(childSnapshot){
                 var item = childSnapshot.toJSON()
                 var key = childSnapshot.key;
@@ -42,9 +42,10 @@ export default class InvitePending extends React.Component{
     }
 
     async queryPending() {
-        var query_result = []
-        var that = this
-        var res = await leadsRef_Pending.on('value', async function(snapshot){
+       
+        let that = this
+        let res = await leadsRef_Pending.on('value', async function(snapshot){
+            let query_result = []
             var subresult = await snapshot.forEach( function(childSnapshot){
                 var item = childSnapshot.toJSON()
                 var key = childSnapshot.key;
@@ -52,11 +53,10 @@ export default class InvitePending extends React.Component{
                 query_result.push(obj)
                
             })
-            var filtered_result = Array.from(new Set(query_result.map((item)=>item)))
+            // var filtered_result = Array.from(new Set(query_result.map((item)=>item)))
             that.setState({
-                    queryPendingList: filtered_result
+                    queryPendingList: query_result
                 })
-            
         }).bind(this)
     }
 
@@ -76,30 +76,16 @@ export default class InvitePending extends React.Component{
                 }
             )
             await leadsRef_Pending.child(invitePending.id).remove()
-            this.setState({queryPendingList:null, queryUserList:null})
-            //this.props.navigation.navigate('home')
-            // this.setState({refresh: true})
         }
 
     async handleDecline(invitePending){
         await leadsRef_Pending.child(invitePending.id).remove()
-        // console.log("pending list 1")
-        // console.log(this.state.queryPendingList)
-        // var result_list = this.state.queryPendingList.remove(invitePending)
-        // console.log("pending list 2")
-        // console.log(result_list)
-        // this.setState({queryPendingList: result_list})
     }
 
     componentWillMount(){
-            this.TimerID = setInterval(()=>( this.queryUsersTable(),
-            this.queryPending()), 1000) 
+            this.queryPending()
+            this.queryUsersTable()
     }
-
-    componentWillUnmount(){
-        clearInterval(this.TimerID)
-
-      }
 
 
     keyExtractor(item){
@@ -107,16 +93,11 @@ export default class InvitePending extends React.Component{
     }
 
     renderRow({item}){
-        //console.log("Success")
-        
-        if (this.findUser(this.state.queryUserList, item.inviter)!== undefined){
-        // console.log(this.findUser(this.state.queryUserList, item.inviter))
+         if (this.findUser(this.state.queryUserList, item.inviter)!== undefined){
         return(
             <View style={styles.rowContainer}>
                 <View style={styles.podCastContainer}>
-                    {/* <CardHori navigation={this.props.navigation} invitePending = {item} inviter = {this.findUser(this.state.queryUserList, item.inviter)}/> */}
-                    
-                    <View style={styles.cardContainer}>
+                 <View style={styles.cardContainer}>
             <TouchableOpacity onPress={() => (this.props.navigation.navigate('invitationDetail',{inviter:this.findUser(this.state.queryUserList, item.inviter),invitePending:item}))}>
             <View style={styles.top}>
             <Image style={styles.avatar} source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}/>
@@ -150,10 +131,7 @@ export default class InvitePending extends React.Component{
     }
 
     render(){
-        // console.log("checccck")
-        // console.log(this.state.queryPendingList)
         if(this.state.queryPendingList != null && this.state.queryUserList!=null){
-            // console.log(this.state.queryPendingList)
         return(
             <View style={styles.container}>
                 <LinearGradient 

@@ -7,7 +7,6 @@ import event from './components/EventDetail'
 import create from './components/CreateEvent'
 import create2 from './components/CreateEvent2'
 import testScreen from './components/testscreen'
-import card from './components/CardHori'
 import invitePending from './components/InvitePending'
 import invitation from './components/InvitationsDetail'
 import write from './components/writeTable'
@@ -20,7 +19,6 @@ const homeStack = createDrawerNavigator(
     createEvent:create, 
     createEvent2:create2,
     eventDetail: event,
-    cardHori: card
   }) 
 const authStack = createDrawerNavigator({login: Login})
 const writeStack = createDrawerNavigator({writeTable: write})

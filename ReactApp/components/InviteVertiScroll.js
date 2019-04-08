@@ -11,8 +11,6 @@ var db = firebase.database()
 var leadsRef_Accpeted = db.ref('Accepted');
 var leadsRef_Users = db.ref('UsersTable');
 
-//var uid = '1IGWOQNMDL9CsnEV6vtO'
-
 export default class InviteVertiScroll extends React.Component{
     constructor(prop){
         super(prop)
@@ -23,9 +21,9 @@ export default class InviteVertiScroll extends React.Component{
     }
 
     async queryAcceptedInvite() {
-        var query_result = []
-        var that = this
+        let that = this
         var res = await leadsRef_Accpeted.on('value', async function(snapshot){
+            let query_result = []
             var subresult = await snapshot.forEach( function(childSnapshot){
                 var item = childSnapshot.toJSON()
                 var key = childSnapshot.key;
@@ -33,18 +31,17 @@ export default class InviteVertiScroll extends React.Component{
                 query_result.push(obj)
                
             })
-            var filtered_result = Array.from(new Set(query_result.map((item)=>item)))
             that.setState({
-                    queryAcceptedList: filtered_result
+                    queryAcceptedList: query_result
                 })
         }).bind(this)
         
     }
 
     async queryUsersTable() {
-        var query_result = []
-        var that = this
+        let that = this
         var res = await leadsRef_Users.on('value', async function(snapshot){
+            let query_result = []
             var subresult = await snapshot.forEach( function(childSnapshot){
                 var item = childSnapshot.toJSON()
                 var key = childSnapshot.key;
@@ -55,7 +52,6 @@ export default class InviteVertiScroll extends React.Component{
             that.setState({
                     queryUserList: query_result
             })
-            // console.log(query_result)
         }).bind(this)
         
     }
@@ -68,16 +64,9 @@ export default class InviteVertiScroll extends React.Component{
     }
 
     componentWillMount(){
-        this.TimerID = setInterval(()=>(  this.queryUsersTable(),
-        this.queryAcceptedInvite()), 4000) 
+        this.queryUsersTable()
+        this.queryAcceptedInvite()
     }
-
-    componentWillUnmount(){
-        clearInterval(this.TimerID)
-        // this.setState({queryAcceptedList:null, queryUserList:null})
-    }
-
-
     keyExtractor(item){
         return item.id.toString();
     }
