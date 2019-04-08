@@ -17,6 +17,15 @@ var windowHeight = Dimensions.get('window').height
 export default class EventDetail extends React.Component {
     constructor(props){
       super(props);
+      this.state = {
+        params: {
+          location:'loc',
+          time:"2019-04-10",
+          event_key:'-Lbl21eC2SAUUa16nrX7',
+        },
+        ab:0,
+
+      }
   
     }
 
@@ -26,8 +35,9 @@ export default class EventDetail extends React.Component {
 
       // console.log(this.props.state)
       // console.log(this.props.letter)
-      console.log(this.props)
-      params = this.props.navigation.state.params
+      // console.log(this.props)
+      // params = this.props.navigation.state.params
+      params = this.state.params
       return (
         <View style={styles.container}>
         <EventHeader navigation={this.props.navigation}/>
@@ -52,11 +62,11 @@ export default class EventDetail extends React.Component {
         <View style={{justifyContent:'center',alignItems:'center', height:0.06*windowHeight,width:0.3*windowWidth}}>
             <Text style={{opacity:0.55,color: '#000000',}}>{utility.t('whoscoming')}</Text>
         </View>
-        <EventAccepted value={true}/>
+        <EventAccepted event_key = {params.event_key} value={true}/>
         <View style={{justifyContent:'center',alignItems:'center', height:0.06*windowHeight,width:0.3*windowWidth}}>
             <Text style={{opacity:0.55,color: '#000000',}}>{utility.t('cantmakeit')}</Text>
         </View>
-        <EventDenied value={false}/>
+        <EventDenied event_key = {params.event_key} value={false}/>
 
 
         <TouchableOpacity onPress={() => this.props.navigation.navigate('home')}>
