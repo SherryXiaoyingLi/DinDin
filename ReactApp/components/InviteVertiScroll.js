@@ -18,7 +18,7 @@ export default class InviteVertiScroll extends React.Component{
         super(prop)
         this.state ={
             queryAcceptedList: null,
-            queryUserNames: null
+            queryUserList: null
         }
     }
 
@@ -28,16 +28,15 @@ export default class InviteVertiScroll extends React.Component{
         var res = await leadsRef_Accpeted.on('value', async function(snapshot){
             var subresult = await snapshot.forEach( function(childSnapshot){
                 var item = childSnapshot.toJSON()
-                console.log(item)
                 var key = childSnapshot.key;
                 var obj = Object.assign(item, {id: key})
                 query_result.push(obj)
                
             })
+            var filtered_result = Array.from(new Set(query_result.map((item)=>item)))
             that.setState({
-                    queryAcceptedList: query_result
+                    queryAcceptedList: filtered_result
                 })
-                // console.log(query_result)
         }).bind(this)
         
     }
@@ -54,37 +53,30 @@ export default class InviteVertiScroll extends React.Component{
                
             })
             that.setState({
-                    queryUserNames: query_result
+                    queryUserList: query_result
             })
             // console.log(query_result)
         }).bind(this)
         
     }
 
-    getUserName(uid){
-        return (this.state.queryUserNames[uid-1].name);
-    }
 
-    getPhoneNum(uid){
-        return (this.state.queryUserNames[uid-1].phone_num)
+    findUser(array, id){
+        return array.find(function(element){
+            return element.id == id
+        })
     }
 
     componentWillMount(){
-        this.queryUsersTable();
-        this.queryAcceptedInvite();    
+        this.TimerID = setInterval(()=>(  this.queryUsersTable(),
+        this.queryAcceptedInvite()), 4000) 
     }
 
-    // componentDidMount(){
-    //     this.queryUsersTable();
-    //     this.queryAcceptedInvite();    
-    // }
+    componentWillUnmount(){
+        clearInterval(this.TimerID)
+        // this.setState({queryAcceptedList:null, queryUserList:null})
+    }
 
-    // componentWillReceiveProps(props){
-    //     if (props.refresh){
-    //         this.queryUsersTable();
-    //         this.queryAcceptedInvite();    
-    //     }
-    // }
 
     keyExtractor(item){
         return item.id.toString();
@@ -101,8 +93,8 @@ export default class InviteVertiScroll extends React.Component{
                     <View style={styles.top}>
                     <Image style={styles.avatar} source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}/>
                     <View style={{paddingLeft: 0.008 * windowWidth, flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start'}}>
-                    <Text style={{fontFamily: 'System', fontSize: 14, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>{this.getUserName(item.inviter)}</Text>
-                    <Text style={{fontFamily: 'System', fontSize: 14, opacity: 0.5, color: '#000000', letterSpacing:0}}>{this.getPhoneNum(item.inviter)}</Text>
+                    <Text style={{fontFamily: 'System', fontSize: 14, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>{this.findUser(this.state.queryUserList, item.inviter).name}</Text>
+                    <Text style={{fontFamily: 'System', fontSize: 14, opacity: 0.5, color: '#000000', letterSpacing:0}}>{this.findUser(this.state.queryUserList, item.inviter).phone_num}</Text>
                     </View>
                     
                     </View>
@@ -122,7 +114,7 @@ export default class InviteVertiScroll extends React.Component{
     }
 
     render(){
-        if(this.state.queryPendingList !== null){
+        if(this.state.queryPendingList !== null && this.state.queryUserList !==null){
         return(
             <View style={styles.container}>
                  <FlatList

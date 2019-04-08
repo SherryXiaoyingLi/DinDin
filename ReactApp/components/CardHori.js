@@ -14,12 +14,15 @@ var leadsRef_Pending = db.ref('Pending')
 export default class cardHori extends React.Component{
     constructor(prop){
         super(prop);
-
+        // this.state={
+        //     refresh: false
+        // }
     }
 
     handleAccept(){
     var invitePending = this.props.invitePending
     var inviter = this.props.inviter
+
         leadsRef_Accepted.push(
             {
                 inviter: invitePending.inviter,
@@ -28,9 +31,9 @@ export default class cardHori extends React.Component{
                 month: invitePending.month, 
             }
         )
-        console.log(invitePending.id)
         leadsRef_Pending.child(invitePending.id).remove()
-        // this.props.navigation.navigate('home', {refresh: true})
+        //this.props.navigation.navigate('home')
+        // this.setState({refresh: true})
     }
 
     render(){
