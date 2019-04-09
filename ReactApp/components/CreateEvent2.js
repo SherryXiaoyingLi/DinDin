@@ -27,21 +27,29 @@ export default class EventDetail extends React.Component {
     }
 
     getSendTo(arr){
+      new_arr = arr
+      for (var i = 0; i<arr.length; i++){
+
+      }
       this.setState({
-        sendTo:arr,
+        sendTo:new_arr,
       })
     }
     writeToDB(loc, t, m, pend){
-
+      var newRef = firebase.database().ref('MyCreated/').push()
+      var key = newRef.key
+      console.log('key is: '+key)
       firebase.database().ref('MyCreated/').push({
-        location:loc, time: t, month: m, pending: pend
+         id:key,location:loc, time: t, month: m, pending: pend
       }).then((data)=>{
         //success callback
+        console.log(data)
+
         Alert.alert(
           'Successful',
           'Go to the detail page',
           [{text: 'OK', 
-          onPress: () => {this.props.navigation.navigate('eventDetail',{location:loc,time:t,month:m,pending:pend}),console.log(data)}},],) 
+          onPress: () => {this.props.navigation.navigate('eventDetail',{location:loc,time:t,month:m,pending:pend,event_key:key}),console.log(data)}},],) 
       }).catch((error)=>{
         //error callback
         Alert.alert('Error' , error,[{text:'OK'}])
@@ -57,7 +65,7 @@ export default class EventDetail extends React.Component {
       const params = this.props.navigation.state.params
       return (
         <View style={styles.container}>
-        <EventHeader navigation={this.props.navigation} search={true}/>
+        <EventHeader navigation={this.props.navigation} search={true} create1={true}/>
         <LinearGradient 
                 //colors={['#4c669f', '#3b5998', '#192f6a']}
                 style={{width: windowWidth, height:  0.22 * windowHeight, flex: 1,alignItems:'center',justifyContent:'center',flexDirection:'row'}}
@@ -83,7 +91,7 @@ export default class EventDetail extends React.Component {
             style={{justifyContent:'center',alignItems:'center',width:windowWidth,height:0.5*windowHeight,flexDirection:'row'}}>
             <PeopleList countSelected={this.countSelected.bind(this)} getSendTo={this.getSendTo.bind(this)}/>
         </View>
-       
+       <Text>{this.state.sendTo}</Text>
 
         <TouchableOpacity onPress={() => this.writeToDB(params.location, params.time, params.month, this.state.sendTo)}>
                 <Image style={{height:0.076*windowHeight}}  source={require('../assets/Sliced/buttonBar.png')}></Image>

@@ -23,6 +23,7 @@ export default class App extends React.Component {
       <View style={styles.container}>
       <Header navigation={this.props.navigation} style={styles.header}/>
       <InvitePending navigation={this.props.navigation} />
+      {/* <InviteVertiScroll style={{paddingTop: 10} } /> */}
       <InviteVertiScroll style={{paddingTop: 10}} />
  
        {/* <TouchableOpacity onPress={() => this.props.navigation.navigate('createEvent')}>
