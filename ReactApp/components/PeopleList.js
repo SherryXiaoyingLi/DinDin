@@ -20,8 +20,10 @@ export default class EventDenied extends React.Component{
           checked:[false,false,false,false,false],
           sendTo:[],
           podCastList:null,
-          queryPendingList: null
+          queryUsersList: null
         };
+        this.getList = this.getList.bind(this)
+        this.handleChange = this.handleChange.bind(this)
     }
     async queryUsersTable() {
         var query_result = []
@@ -35,7 +37,7 @@ export default class EventDenied extends React.Component{
                
             })
             that.setState({
-                    queryPendingList: query_result
+                    queryUsersList: query_result
 
                 })
                 // console.log(query_result)
@@ -85,15 +87,20 @@ export default class EventDenied extends React.Component{
     handleChange (index){
     
         let newChecked = [...this.state.checked];
-
+        let usersList = [...this.state.queryUsersList]
         newChecked[index] = !newChecked[index];
         this.setState({ checked:newChecked });
         var ct = this.countArr(newChecked)
         this.props.countSelected(ct)
         console.log(newChecked)
-        var sendToList = this.getList(newChecked)
+        var sendTo = this.getList(newChecked)
+        var sendToList = []
+
+        for(var i = 0; i< sendTo.length;i++){
+            u = usersList[sendTo[i]-1]
+            sendToList.push(u['id'])
+        } 
         this.props.getSendTo(sendToList)
-        console.log(sendToList)
       }
 
     renderRow({item,index}){
@@ -139,7 +146,7 @@ export default class EventDenied extends React.Component{
             
                  <FlatList
                     style={styles.ScollablePodCasts}
-                    data={this.state.queryPendingList}
+                    data={this.state.queryUsersList}
                     extraData={this.state}
                     renderItem={this.renderRow.bind(this)}
                     keyExtractor={this.keyExtractor}

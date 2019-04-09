@@ -21,6 +21,7 @@ const homeStack = createDrawerNavigator(
     eventDetail: event,
   }) 
 const authStack = createDrawerNavigator({login: Login})
+const testStack = createDrawerNavigator({test:event})
 const writeStack = createDrawerNavigator({writeTable: write})
 
 // const createEventStack = createDrawerNavigator(
@@ -34,6 +35,8 @@ const AppContainer = createAppContainer(
     spl: Splash,
     home: homeStack,
     auth: authStack,
+    test: testStack,
+    
     w: writeStack
     
   },

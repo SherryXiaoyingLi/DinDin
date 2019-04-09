@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Dimensions} from 'react-native';
 import { Constants } from 'expo'
+import 'firebase/firestore';
+import firebase from '../constants/firebase'
 
 var windowWidth = Dimensions.get('window').width
 var windowHeight = Dimensions.get('window').height
