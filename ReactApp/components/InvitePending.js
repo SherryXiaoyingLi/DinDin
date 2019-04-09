@@ -13,18 +13,21 @@ var db = firebase.database()
 var leadsRef_Users = db.ref('UsersTable');
 var leadsRef_Accepted = db.ref('Accepted/');
 var leadsRef_Pending = db.ref('Pending')
+var today = new Date()
+var current_month = today.toLocaleString("en-US", {month: "long"})
+var next_month = new Date(today.getFullYear(), today.getMonth()+1, 1).toLocaleString("en-US", {month: "long"})
 
 export default class InvitePending extends React.Component{
     constructor(prop){
         super(prop)
         this.state ={
             queryPendingList: null,
+            queryPendingList2: null,
             queryUserList: null,
         }
     }
     
     async queryUsersTable() {
-        
         let that = this
         let res = await leadsRef_Users.on('value', async function(snapshot){
             let query_result = []
@@ -38,13 +41,12 @@ export default class InvitePending extends React.Component{
             that.setState({
                     queryUserList: query_result
                 })
-        }).bind(this)
+        })
     }
 
     async queryPending() {
-       
         let that = this
-        let res = await leadsRef_Pending.on('value', async function(snapshot){
+        let res = await leadsRef_Pending.orderByChild('month').equalTo(current_month).on('value', async function(snapshot){
             let query_result = []
             var subresult = await snapshot.forEach( function(childSnapshot){
                 var item = childSnapshot.toJSON()
@@ -55,9 +57,26 @@ export default class InvitePending extends React.Component{
             })
             // var filtered_result = Array.from(new Set(query_result.map((item)=>item)))
             that.setState({
-                    queryPendingList: query_result
-                })
-        }).bind(this)
+                queryPendingList: query_result
+            })
+        })
+    }
+
+    async queryPending2(){
+        let that = this
+        let res2 = await leadsRef_Pending.orderByChild('month').equalTo(next_month).on('value', async function(snapshot){
+            let query_result = []
+            var subresult2 = await snapshot.forEach( function(childSnapshot){
+                var item2 = childSnapshot.toJSON()
+                var key2 = childSnapshot.key;
+                var obj2 = Object.assign(item2, {id: key2})
+                query_result.push(obj2)
+            })
+            // console.log(query_result)
+            that.setState({
+                queryPendingList2: query_result
+            })
+        })
     }
 
 
@@ -85,6 +104,7 @@ export default class InvitePending extends React.Component{
     componentWillMount(){
             this.queryPending()
             this.queryUsersTable()
+            this.queryPending2()
     }
 
 
@@ -94,15 +114,16 @@ export default class InvitePending extends React.Component{
 
     renderRow({item}){
          if (this.findUser(this.state.queryUserList, item.inviter)!== undefined){
+        var item_inviter = this.findUser(this.state.queryUserList, item.inviter)
         return(
             <View style={styles.rowContainer}>
                 <View style={styles.podCastContainer}>
                  <View style={styles.cardContainer}>
-            <TouchableOpacity onPress={() => (this.props.navigation.navigate('invitationDetail',{inviter:this.findUser(this.state.queryUserList, item.inviter),invitePending:item}))}>
+            <TouchableOpacity onPress={() => (this.props.navigation.navigate('invitationDetail',{inviter:item_inviter,invitePending:item}))}>
             <View style={styles.top}>
             <Image style={styles.avatar} source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}/>
             <View style={{paddingLeft: 0.008 * windowWidth, flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start'}}>
-                <Text style={{fontFamily: 'System', fontSize: 14, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>{this.findUser(this.state.queryUserList, item.inviter).name}</Text>
+                <Text style={{fontFamily: 'System', fontSize: 14, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>{item_inviter.name}</Text>
                 <Text style={{fontFamily: 'System', fontSize: 14, opacity: 0.5, color: '#000000', letterSpacing:0}}>{item.time}</Text>
             </View>
             </View>
@@ -114,7 +135,7 @@ export default class InvitePending extends React.Component{
                 <Text style={{fontFamily: 'System',color: '#FF3B3B', fontSize:13, paddingLeft: 0.02 * windowWidth}}>{utility.t('decline')}</Text>
             </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => this.handleAccept(this.findUser(this.state.queryUserList, item.inviter), item)}>
+            <TouchableOpacity onPress={() => this.handleAccept(item_inviter, item)}>
             <View style={styles.bottomRight}>
                 <Image style={styles.check} source={require('../assets/Sliced/check.png')}></Image>
                 <Text style={{fontFamily: 'System',color: '#38D459', fontSize:13, paddingLeft: 0.02 * windowWidth}}>{utility.t('accept')}</Text>
@@ -131,7 +152,8 @@ export default class InvitePending extends React.Component{
     }
 
     render(){
-        if(this.state.queryPendingList != null && this.state.queryUserList!=null){
+        if(this.state.queryPendingList != null && this.state.queryPendingList2 != null && this.state.queryUserList!=null){
+        let pendingResultList = this.state.queryPendingList.concat(this.state.queryPendingList2)
         return(
             <View style={styles.container}>
                 <LinearGradient 
@@ -148,7 +170,7 @@ export default class InvitePending extends React.Component{
                 <View style={{height: 0.22 * windowHeight, width: 0.92 * windowWidth, }}>
                  <FlatList 
                     style={styles.ScollablePodCasts}
-                    data={this.state.queryPendingList}
+                    data={pendingResultList}
                     extraData={this.state}
                     renderItem={this.renderRow.bind(this)}
                     keyExtractor={this.keyExtractor}
