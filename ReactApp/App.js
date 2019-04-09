@@ -42,7 +42,6 @@ const AppContainer = createAppContainer(
   },
   {
     // initialRouteName: 'createEvent2'
-
     initialRouteName: 'home'
     //initialRouteName: 'w'
   }

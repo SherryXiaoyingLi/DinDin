@@ -72,18 +72,21 @@ export default class InviteVertiScroll extends React.Component{
     }
 
     renderRow({item}){
+        if (this.findUser(this.state.queryUserList, item.inviter)!== undefined){
+            var item_inviter = this.findUser(this.state.queryUserList, item.inviter)
+            var date = new Date(item.time).toLocaleDateString()
         return(
             <View style={styles.rowContainer}>
                 <View style={styles.podCastContainer}>
                     <View style={styles.titleView}>
-                    <Text style={{fontFamily: 'System', fontSize: 13, color: '#000000', letterSpacing: 0 }}>Thursday 7 March</Text>
+                    <Text style={{fontFamily: 'System', fontSize: 13, color: '#000000', letterSpacing: 0 }}>{date}</Text>
                     </View>
                     <View style={styles.card}>
                     <View style={styles.top}>
                     <Image style={styles.avatar} source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}/>
                     <View style={{paddingLeft: 0.008 * windowWidth, flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start'}}>
-                    <Text style={{fontFamily: 'System', fontSize: 14, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>{this.findUser(this.state.queryUserList, item.inviter).name}</Text>
-                    <Text style={{fontFamily: 'System', fontSize: 14, opacity: 0.5, color: '#000000', letterSpacing:0}}>{this.findUser(this.state.queryUserList, item.inviter).phone_num}</Text>
+                    <Text style={{fontFamily: 'System', fontSize: 14, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>{item_inviter.name}</Text>
+                    <Text style={{fontFamily: 'System', fontSize: 14, opacity: 0.5, color: '#000000', letterSpacing:0}}>{item_inviter.phone_num}</Text>
                     </View>
                     
                     </View>
@@ -100,6 +103,7 @@ export default class InviteVertiScroll extends React.Component{
                 </View> 
             </View>
         )
+        }
     }
 
     render(){
