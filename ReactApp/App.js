@@ -30,6 +30,7 @@ const writeStack = createDrawerNavigator({writeTable: write})
 //     createEvent2:create2,
 //   }
 // )
+
 const AppContainer = createAppContainer(
   createSwitchNavigator({
     spl: Splash,
