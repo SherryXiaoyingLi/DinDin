@@ -104,6 +104,7 @@ export default class InvitePending extends React.Component{
         await leadsRef_Pending.child(invitePending.id).remove()
     }
 
+    
     onViewableItemsChanged = ({viewableItems, changed}) =>{
         // console.log("Visible items are", viewableItems);
         // console.log("Changed in this iteration", changed);
