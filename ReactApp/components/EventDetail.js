@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions, Alert, } from 'react-native';
 import { Constants,LinearGradient } from 'expo'
 import Header from './Header'
 import InviteHoriScroll from './InviteHoriScroll'
@@ -27,6 +27,24 @@ export default class EventDetail extends React.Component {
 
       }
   
+    }
+    cancelEvent(data) {
+      Alert.alert(
+        'Are you sure you want to delete this event?',
+        'You cannot undo this action.',
+        [
+          {text: 'Yes', 
+          onPress:  ()=>{this.props.navigation.navigate('homeScreen')}
+          },
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          
+        ],
+        {cancelable: false},
+      );
     }
 
   
@@ -69,7 +87,7 @@ export default class EventDetail extends React.Component {
         <EventDenied event_key = {params.event_key} value={false}/>
 
 
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('home')}>
+        <TouchableOpacity onPress={() => this.cancelEvent('abc')}>
                 <Image style={{height:0.076*windowHeight}}  source={require('../assets/Sliced/cancelbtn.png')}></Image>
                 <View style={styles.textView}><Text style={styles.buttonText}>{utility.t('cancel')}</Text></View>
         </TouchableOpacity>

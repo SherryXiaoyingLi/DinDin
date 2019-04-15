@@ -14,7 +14,7 @@ import write from './components/writeTable'
 import { Facebook } from 'expo';
 
 const homeStack = createDrawerNavigator(
-  {homeSreen: HomeScreen,
+  {homeScreen: HomeScreen,
     invitationDetail:invitation,
     createEvent:create, 
     createEvent2:create2,
