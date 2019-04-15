@@ -4,6 +4,7 @@ import { LinearGradient } from 'expo';
 import firebase from '../constants/firebase'
 //import 'firebase/firestore';
 import utility from './language.utility'
+//import console = require('console');
 //import { database } from 'firebase';
 
 
@@ -23,7 +24,8 @@ export default class InvitePending extends React.Component{
             queryUserList: null,
             last_view_time: "",
             onEndReachedCalledDuringMomentum : true,
-            addedToList2: false
+            addedToList2: false,
+            alreadyFetched1: false
         }
     }
     
@@ -44,43 +46,85 @@ export default class InvitePending extends React.Component{
         })
     }
 
+    async queryPending2(next_month){
+        let that = this
+        let leadsRef_Pending_month = db.ref('Pending/' + next_month)
+        let res2 = await leadsRef_Pending_month.on('value', async function(snapshot){
+            let m_test = next_month
+            //console.log(m_test)
+            
+            let query_result = []
+            let subresult2 = await snapshot.forEach( function(childSnapshot){
+                let item2 = childSnapshot.toJSON()
+                let key2 = childSnapshot.key;
+                let obj2 = Object.assign(item2, {id: key2})
+                query_result.push(obj2)
+            })
+            
+            // let check = true
+            // if (this.state.queryPendingList2!==null) {
+            //let prev = this.state.queryPendingList2[this.state.queryPendingList2.length-1]["time"]
+            // if (prev.toLocaleString("en-US", {month: "long"})!== next_month) {
+            //     check = false
+            // }
+            // }
+            
+            // let viewing = new Date(query_result[query_result.length-1]["time"])
+            // let compare_month = new Date(viewing.getFullYear(), viewing.getMonth(), 1).toLocaleString("en-US", {month: "long"})
+            // // if (this.state != undefined 
+            // //     && this.state.queryPendingList2!==null 
+            // //     && current_loading_month_plus_one_month===this.state.queryPendingList2[this.state.queryPendingList2.length-1]["time"].toLocaleString("en-US", {month: "long"})) {
+            // //         check = false
+            // // }
+            // if (compare_month === next_month ) {
+            //     check = false
+            // }
+            let check = true
+            if (check) {
+            that.setState({
+                queryPendingList2: query_result,
+                onEndReachedCalledDuringMomentum: true,
+                addedToList2: true,
+                last_view_time: query_result[query_result.length-1]["time"], 
+                alreadyFetched1: false
+            })
+            }
+            else {
+                that.setState({
+                    queryPendingList: query_result,
+                    //onEndReachedCalledDuringMomentum: true,
+                    addedToList2: false,
+                    last_view_time: query_result[query_result.length-1]["time"], 
+                    alreadyFetched1: true,
+                })
+            }
+        })
+    }
     async queryPending(current_month) {
         let that = this 
-        
-        let res = await leadsRef_Pending.orderByChild('month').equalTo(current_month).on('value', async function(snapshot){
+        let leadsRef_Pending_month = db.ref('Pending/' + current_month)
+        let res = await leadsRef_Pending_month.on('value', async function(snapshot){
+            let m_test = current_month
+            //console.log(m_test)
             let query_result = []
-            var subresult = await snapshot.forEach( function(childSnapshot){
-                var item = childSnapshot.toJSON()
-                var key = childSnapshot.key;
-                var obj = Object.assign(item, {id: key})
+            let subresult = await snapshot.forEach( function(childSnapshot){
+                let item = childSnapshot.toJSON()
+                let key = childSnapshot.key;
+                let obj = Object.assign(item, {id: key})
                 query_result.push(obj)
             })
             // var filtered_result = Array.from(new Set(query_result.map((item)=>item)))
             that.setState({
                 queryPendingList: query_result,
-                last_view_time: query_result[query_result.length-1]["time"]
+                //last_view_time: query_result[query_result.length-1]["time"],
+                alreadyFetched1: true,
+                addedToList2: false,
+                //queryPendingList2: null
             })
         })
     }
 
-    async queryPending2(next_month){
-        let that = this
-        let res2 = await leadsRef_Pending.orderByChild('month').equalTo(next_month).on('value', async function(snapshot){
-            let query_result = []
-            var subresult2 = await snapshot.forEach( function(childSnapshot){
-                var item2 = childSnapshot.toJSON()
-                var key2 = childSnapshot.key;
-                var obj2 = Object.assign(item2, {id: key2})
-                query_result.push(obj2)
-            })
-            that.setState({
-                queryPendingList2: query_result,
-                onEndReachedCalledDuringMomentum: true,
-                addedToList2: true,
-                last_view_time: query_result[query_result.length-1]["time"]
-            })
-        })
-    }
+  
 
 
     findUser(array, id){
@@ -97,34 +141,55 @@ export default class InvitePending extends React.Component{
                     month: invitePending.month, 
                 }
             )
-            await leadsRef_Pending.child(invitePending.id).remove()
+            let leadsRef_Pending_month = db.ref("Pending/"+invitePending.month)
+            await leadsRef_Pending_month.child(invitePending.id).remove()
         }
 
     async handleDecline(invitePending){
-        await leadsRef_Pending.child(invitePending.id).remove()
+        let leadsRef_Pending_month = db.ref("Pending/"+invitePending.month)
+        await leadsRef_Pending_month.child(invitePending.id).remove()
     }
 
 
     
-    onViewableItemsChanged = ({viewableItems, changed}) =>{
-        // console.log("Visible items are", viewableItems);
-        // console.log("Changed in this iteration", changed);
-        if (viewableItems!==undefined && viewableItems["0"]!==undefined){
-         let viewing_month = viewableItems["0"]["item"]["month"]
-         //console.log(viewing_month)
+    // onViewableItemsChanged = ({viewableItems, changed}) =>{
+    //     // console.log("Visible items are", viewableItems);
+    //     // console.log("Changed in this iteration", changed);
+    //     if (viewableItems!==undefined && viewableItems["0"]!==undefined){
+    //      let viewing_month = viewableItems["0"]["item"]["month"]
+    //      //console.log(viewing_month)
            
-        }
-    }
+    //     }
+    // }
     onEndReached=({distanceFromEnd}) =>{
-        if(!this.state.onEndReachedCalledDuringMomentum){
-            console.log("reached")
-            console.log(new Date(this.state.last_view_time).toLocaleString())
+        if(!this.state.onEndReachedCalledDuringMomentum ){
+            // console.log("reached")
+            // console.log(new Date(this.state.last_view_time).toLocaleString())
             let viewing = new Date(this.state.last_view_time)
-            this.queryPending(new Date(viewing.getFullYear(), viewing.getMonth()+1, 1).toLocaleString("en-US", {month: "long"}))
-            this.queryPending2(new Date(viewing.getFullYear(), viewing.getMonth()+2, 1).toLocaleString("en-US", {month: "long"}))
-            
+            let month1 = new Date(viewing.getFullYear(), viewing.getMonth(), 1).toLocaleString("en-US", {month: "long"})
+            let month2 = new Date(viewing.getFullYear(), viewing.getMonth()+1, 1).toLocaleString("en-US", {month: "long"})
+            // console.log(month1)
+            // console.log(month2)
+            //this.setState({isLoading: true, isLoading2: true})
+            if (!this.state.alreadyFetched1){
+             this.queryPending(month1)
+            }
+            if (month2!==month1) {
+                console.log(month2)
+            this.queryPending2(month2)
+            }
+            //this.setState({endReached: true})
         }
     }
+
+    // onRefresh(){
+    //     if (this.state.endReached){
+    //          let viewing = new Date(this.state.last_view_time)
+    //         this.queryPending(new Date(viewing.getFullYear(), viewing.getMonth()+1, 1).toLocaleString("en-US", {month: "long"}))
+    //         this.queryPending2(new Date(viewing.getFullYear(), viewing.getMonth()+2, 1).toLocaleString("en-US", {month: "long"}))
+    //         this.setState({isFetching: false, endReached: false})
+    //     }
+    // }
 
     componentWillMount(){
             this.queryPending(new Date().toLocaleString("en-US", {month: "long"}))
@@ -183,8 +248,21 @@ export default class InvitePending extends React.Component{
         if(this.state.queryPendingList != null  && this.state.queryUserList!=null){
         let pendingResultList = this.state.queryPendingList
         if (this.state.addedToList2 && this.state.queryPendingList2!==null){
-        pendingResultList = this.state.queryPendingList.concat(this.state.queryPendingList2)
+            let m_test1 = new Date(this.state.queryPendingList[0]["time"]).toLocaleString("en-US", {month: "long"})
+            let m_test2 = new Date(this.state.queryPendingList2[0]["time"]).toLocaleString("en-US", {month: "long"})
+            if (m_test1 === m_test2 && this.state.queryPendingList.length==this.state.queryPendingList2.length + 1){
+                let viewing = new Date(this.state.queryPendingList[0]["time"])
+                this.queryPending(m_test1)
+                this.queryPending2(new Date(viewing.getFullYear(), viewing.getMonth()+1, 1).toLocaleString("en-US", {month: "long"}))
+            }
+            else {
+                pendingResultList = this.state.queryPendingList.concat(this.state.queryPendingList2)
+            }
         }
+        // else{
+        //     return(<View style={{flex:1}}/>)
+        // }
+        console.log(pendingResultList)
         return(
             <View style={styles.container}>
                 <LinearGradient 
@@ -208,11 +286,12 @@ export default class InvitePending extends React.Component{
                     renderItem={this.renderRow.bind(this)}
                     keyExtractor={this.keyExtractor}
                     horizontal={true}
-                    onViewableItemsChanged={this.onViewableItemsChanged}
-                    onEndReachedThreshold={0.5} 
-                    onEndReached = {this.onEndReached.bind(this)}
+                    // onViewableItemsChanged={this.onViewableItemsChanged}
+                     onEndReachedThreshold={0.1} 
+                     onEndReached = {this.onEndReached.bind(this)}
                     onMomentumScrollBegin={()=>{this.setState({onEndReachedCalledDuringMomentum:false})}}
-                    
+                    // onRefresh = {()=>this.onRefresh.bind(this)}
+                    // refreshing = {this.state.isFetching}
                 /> 
                 </View>
                 </View>
