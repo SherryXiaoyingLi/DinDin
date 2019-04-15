@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Dimensions} from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Dimensions, ScrollView} from 'react-native';
 import { LinearGradient } from 'expo';
 import firebase from '../constants/firebase'
 //import 'firebase/firestore';
@@ -60,44 +60,18 @@ export default class InvitePending extends React.Component{
                 let obj2 = Object.assign(item2, {id: key2})
                 query_result.push(obj2)
             })
-            
-            // let check = true
-            // if (this.state.queryPendingList2!==null) {
-            //let prev = this.state.queryPendingList2[this.state.queryPendingList2.length-1]["time"]
-            // if (prev.toLocaleString("en-US", {month: "long"})!== next_month) {
-            //     check = false
-            // }
-            // }
-            
-            // let viewing = new Date(query_result[query_result.length-1]["time"])
-            // let compare_month = new Date(viewing.getFullYear(), viewing.getMonth(), 1).toLocaleString("en-US", {month: "long"})
-            // // if (this.state != undefined 
-            // //     && this.state.queryPendingList2!==null 
-            // //     && current_loading_month_plus_one_month===this.state.queryPendingList2[this.state.queryPendingList2.length-1]["time"].toLocaleString("en-US", {month: "long"})) {
-            // //         check = false
-            // // }
-            // if (compare_month === next_month ) {
-            //     check = false
-            // }
-            let check = true
-            if (check) {
+            let last_view_time = ""
+            if (query_result[query_result.length-1]!==undefined) {
+                last_view_time = query_result[query_result.length-1]["time"]
+            }
             that.setState({
                 queryPendingList2: query_result,
                 onEndReachedCalledDuringMomentum: true,
                 addedToList2: true,
-                last_view_time: query_result[query_result.length-1]["time"], 
+                last_view_time: last_view_time, 
                 alreadyFetched1: false
             })
-            }
-            else {
-                that.setState({
-                    queryPendingList: query_result,
-                    //onEndReachedCalledDuringMomentum: true,
-                    addedToList2: false,
-                    last_view_time: query_result[query_result.length-1]["time"], 
-                    alreadyFetched1: true,
-                })
-            }
+            
         })
     }
     async queryPending(current_month) {
@@ -125,8 +99,6 @@ export default class InvitePending extends React.Component{
     }
 
   
-
-
     findUser(array, id){
         return array.find(function(element){
             return element.id == id
@@ -150,17 +122,17 @@ export default class InvitePending extends React.Component{
         await leadsRef_Pending_month.child(invitePending.id).remove()
     }
 
-
     
-    // onViewableItemsChanged = ({viewableItems, changed}) =>{
-    //     // console.log("Visible items are", viewableItems);
-    //     // console.log("Changed in this iteration", changed);
-    //     if (viewableItems!==undefined && viewableItems["0"]!==undefined){
-    //      let viewing_month = viewableItems["0"]["item"]["month"]
-    //      //console.log(viewing_month)
-           
-    //     }
-    // }
+    onViewableItemsChanged = ({viewableItems, changed}) =>{
+        // console.log("Visible items are", viewableItems);
+        // console.log("Changed in this iteration", changed);
+        if (viewableItems!==undefined && viewableItems["0"]!==undefined){
+            let viewing_month = viewableItems["0"]["item"]["month"]
+            console.log(viewing_month)
+            
+        }
+    }
+
     onEndReached=({distanceFromEnd}) =>{
         if(!this.state.onEndReachedCalledDuringMomentum ){
             // console.log("reached")
@@ -175,22 +147,11 @@ export default class InvitePending extends React.Component{
              this.queryPending(month1)
             }
             if (month2!==month1) {
-                console.log(month2)
+                //console.log(month2)
             this.queryPending2(month2)
             }
-            //this.setState({endReached: true})
         }
     }
-
-    // onRefresh(){
-    //     if (this.state.endReached){
-    //          let viewing = new Date(this.state.last_view_time)
-    //         this.queryPending(new Date(viewing.getFullYear(), viewing.getMonth()+1, 1).toLocaleString("en-US", {month: "long"}))
-    //         this.queryPending2(new Date(viewing.getFullYear(), viewing.getMonth()+2, 1).toLocaleString("en-US", {month: "long"}))
-    //         this.setState({isFetching: false, endReached: false})
-    //     }
-    // }
-
     componentWillMount(){
             this.queryPending(new Date().toLocaleString("en-US", {month: "long"}))
             let viewing = new Date()
@@ -259,10 +220,7 @@ export default class InvitePending extends React.Component{
                 pendingResultList = this.state.queryPendingList.concat(this.state.queryPendingList2)
             }
         }
-        // else{
-        //     return(<View style={{flex:1}}/>)
-        // }
-        console.log(pendingResultList)
+        //console.log(pendingResultList)
         return(
             <View style={styles.container}>
                 <LinearGradient 
@@ -273,8 +231,26 @@ export default class InvitePending extends React.Component{
                 >
 
                 <View style={[styles.container, {alignItems:'center'}]}>
-                <View style={styles.calender}>
-                </View>
+
+                <ScrollView 
+                horizontal={true}
+                style={styles.calendar}
+                showsHorizontalScrollIndicator={false}
+                >
+                <Text style={styles.month}>January</Text>
+                <Text style={styles.month}>February</Text>
+                <Text style={styles.month}>March</Text>
+                <Text style={styles.month}>April</Text>
+                <Text style={styles.month}>May</Text>
+                <Text style={styles.month}>June</Text>
+                <Text style={styles.month}>July</Text>
+                <Text style={styles.month}>August</Text>
+                <Text style={styles.month}>September</Text>
+                <Text style={styles.month}>October</Text>
+                <Text style={styles.month}>November</Text>
+                <Text style={styles.month}>December</Text>
+                </ScrollView>
+
                 <View style={[styles.titleSection, {left: -0.4 * windowWidth}]}>
                     <Text style={styles.title}> {utility.t('pending')}</Text>
                 </View>
@@ -286,12 +262,10 @@ export default class InvitePending extends React.Component{
                     renderItem={this.renderRow.bind(this)}
                     keyExtractor={this.keyExtractor}
                     horizontal={true}
-                    // onViewableItemsChanged={this.onViewableItemsChanged}
-                     onEndReachedThreshold={0.1} 
-                     onEndReached = {this.onEndReached.bind(this)}
-                    onMomentumScrollBegin={()=>{this.setState({onEndReachedCalledDuringMomentum:false})}}
-                    // onRefresh = {()=>this.onRefresh.bind(this)}
-                    // refreshing = {this.state.isFetching}
+                    onViewableItemsChanged={this.onViewableItemsChanged}
+                    onEndReachedThreshold={0.1} 
+                    onEndReached = {this.onEndReached.bind(this)}
+                    onMomentumScrollBegin={()=>{this.setState({onEndReachedCalledDuringMomentum:false})}} 
                 /> 
                 </View>
                 </View>
@@ -315,13 +289,24 @@ const styles = StyleSheet.create(
             height:  0.31 * windowHeight,
             //backgroundColor: 'red'
         },
-        calender:{
+        calendar:{
             height: 0.04*windowHeight,
             width: windowWidth,
             //left: -0.4 * windowWidth,
             //backgroundColor: 'blue',
             borderWidth: 0.5,
-            borderColor: '#D3D3D3'
+            borderColor: '#D3D3D3',
+            
+            
+        },
+        month:{
+            fontSize: 14,
+            fontFamily: 'System',
+            opacity: 0.5,
+            color: '#000000',
+            letterSpacing: 0,
+            textAlign: 'center',
+            paddingLeft: 5
         },
 
         titleSection:{
