@@ -1,10 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Dimensions, ScrollView} from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Dimensions, ScrollView, Animated} from 'react-native';
 import { LinearGradient } from 'expo';
 import firebase from '../constants/firebase'
 //import 'firebase/firestore';
 import utility from './language.utility'
-//import console = require('console');
 //import { database } from 'firebase';
 
 
@@ -25,7 +24,9 @@ export default class InvitePending extends React.Component{
             last_view_time: "",
             onEndReachedCalledDuringMomentum : true,
             addedToList2: false,
-            alreadyFetched1: false
+            alreadyFetched1: false,
+            //April: false,
+            //May: false,
         }
     }
     
@@ -128,10 +129,22 @@ export default class InvitePending extends React.Component{
         // console.log("Changed in this iteration", changed);
         if (viewableItems!==undefined && viewableItems["0"]!==undefined){
             let viewing_month = viewableItems["0"]["item"]["month"]
-            console.log(viewing_month)
-            
+            this.scrollToMonth(viewing_month)
         }
     }
+
+    scrollToMonth(viewing_month) {
+        let months = ["January", "February", "March", "April", "May", "June","July","August","September","October", "November", "December"]
+        let numeric_month = months.indexOf(viewing_month)+1
+        //console.log(numeric_month)
+        this._scrollView.scrollTo({x: (numeric_month-1) * 41});
+        console.log(viewing_month)
+        //this.setState({viewing_month: true})
+    }
+
+    // monthStyle(viewing_month) {
+    //     return this.state.May ? styles.month2 : styles.month
+    // }
 
     onEndReached=({distanceFromEnd}) =>{
         if(!this.state.onEndReachedCalledDuringMomentum ){
@@ -208,7 +221,7 @@ export default class InvitePending extends React.Component{
     render(){
         if(this.state.queryPendingList != null  && this.state.queryUserList!=null){
         let pendingResultList = this.state.queryPendingList
-        if (this.state.addedToList2 && this.state.queryPendingList2!==null){
+        if (this.state.addedToList2 && this.state.queryPendingList2!==null && this.state.queryPendingList2[0]!==undefined){
             let m_test1 = new Date(this.state.queryPendingList[0]["time"]).toLocaleString("en-US", {month: "long"})
             let m_test2 = new Date(this.state.queryPendingList2[0]["time"]).toLocaleString("en-US", {month: "long"})
             if (m_test1 === m_test2 && this.state.queryPendingList.length==this.state.queryPendingList2.length + 1){
@@ -236,10 +249,13 @@ export default class InvitePending extends React.Component{
                 horizontal={true}
                 style={styles.calendar}
                 showsHorizontalScrollIndicator={false}
+                ref={view=>this._scrollView = view}
                 >
                 <Text style={styles.month}>January</Text>
                 <Text style={styles.month}>February</Text>
                 <Text style={styles.month}>March</Text>
+                {/* <Text style={this.monthStyle('April')}>April</Text>
+                <Text style={this.monthStyle('May')}>May</Text> */}
                 <Text style={styles.month}>April</Text>
                 <Text style={styles.month}>May</Text>
                 <Text style={styles.month}>June</Text>
@@ -300,13 +316,25 @@ const styles = StyleSheet.create(
             
         },
         month:{
-            fontSize: 14,
+            fontSize: 15,
             fontFamily: 'System',
-            opacity: 0.5,
+            opacity: 0.4,
             color: '#000000',
             letterSpacing: 0,
             textAlign: 'center',
-            paddingLeft: 5
+            paddingLeft: 26,
+            paddingTop: 10
+        },
+
+        month2:{
+            fontSize: 15,
+            fontFamily: 'System',
+            // opacity: 0.4,
+            // color: '#000000',
+            letterSpacing: 0,
+            textAlign: 'center',
+            paddingLeft: 26,
+            paddingTop: 10
         },
 
         titleSection:{
