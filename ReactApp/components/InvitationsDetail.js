@@ -1,9 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions, DatePickerIOS } from 'react-native';
-import { Constants, LinearGradient, MapView } from 'expo'
+import { Constants, LinearGradient } from 'expo'
 import utility from './language.utility'
 import EventHeader from './EventHeader'
 import firebase from '../constants/firebase'
+import MapView from 'react-native-maps'
+
 
 var windowWidth = Dimensions.get('window').width
 var windowHeight = Dimensions.get('window').height
@@ -15,8 +17,12 @@ var leadsRef_Pending = db.ref('Pending')
 export default class App extends React.Component {
     constructor(props){
       super(props);
-      this.state = {chosenDate: new Date()};
+      this.state = {
+        chosenDate: new Date(),
+        mapRegion: null,
+      };
       this.setDate = this.setDate.bind(this);
+      
     }
 
 
@@ -40,15 +46,54 @@ export default class App extends React.Component {
     // this.props.navigation.navigate('home')
 }
 
+  componentDidMount(){
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.setState({mapRegion: { latitude: position.coords.latitude, longitude: position.coords.longitude, latitudeDelta: 0.01, longitudeDelta: 0.01 }});
+      },
+      (error) => this.setState({ error: error.message }),
+      { enableHighAccuracy: true, timeout: 200000, maximumAge: 1000 },
+    );
+    this.handleLocationPin()
+  }
+
+
+  handleLocationPin(){
+    this.setState({showCurrent: true})
+  }
+
   async handleDecline(invitePending){
-  await leadsRef_Pending.child(invitePending.id).remove()
-  // this.props.navigation.navigate('home')
+    let leadsRef_Pending_month = db.ref("Pending/"+invitePending.month)
+    await leadsRef_Pending_month.child(invitePending.id).remove()
+}
+
+  findUser(array, id){
+    return array.find(function(element){
+      return element.id == id
+    })
+  }
+  async handleAccept(inviter, invitePending){
+    await leadsRef_Accepted.push(
+      {
+          inviter: invitePending.inviter,
+          location: invitePending.location,
+          time: invitePending.time,
+          month: invitePending.month, 
+      }
+    )
+  let leadsRef_Pending_month = db.ref("Pending/"+invitePending.month)
+  await leadsRef_Pending_month.child(invitePending.id).remove()
+  }
+
+  keyExtractor(item){
+    return item.id.toString()
   }
 
   render() {
     //console.log(this.state.chosenDate)
     const params = this.props.navigation.state.params
-    // console.log(params)
+    console.log('params')
+    console.log(params)
         return (
           <View style={styles.container}>
 
@@ -70,13 +115,13 @@ export default class App extends React.Component {
             <Text style={{fontSize:13,opacity:0.5,paddingTop: 6,fontWeight:'bold'}}>{utility.t('hostby')} {params.inviter.name}</Text>
             </View>
             <View style={styles.bottom}>
-            <TouchableOpacity onPress={() => this.handleDecline(params.invitePending)}>
+            <TouchableOpacity onPress={() => this.handleDecline(item)}>
               <View style={styles.bottomLeft} >
                 <Image style={styles.cross} source={require('../assets/Sliced/cross.png')}></Image>
                 <Text style={{fontFamily: 'System',color: '#FF3B3B', fontSize:14, paddingLeft: 0.02 * windowWidth}}>{utility.t('decline')}</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => this.handleAccept(params.invitePending)}>
+            <TouchableOpacity onPress={() => this.handleAccept(item_inviter, item)}>
               <View style={styles.bottomRight} >
                 <Image style={styles.check} source={require('../assets/Sliced/check.png')}></Image>
                 <Text style={{fontFamily: 'System',color: '#38D459', fontSize:14, paddingLeft: 0.02 * windowWidth}}>{utility.t('accept')}</Text>
@@ -91,12 +136,33 @@ export default class App extends React.Component {
          
   
           
-          <View style={{width:windowWidth,height:0.52*windowHeight,backgroundColor:'yellow'}}>
+
+          <View style = {styles.map}>
+              {/* <GooglePlacesAutocomplete
+                place
+              /> */}
+
+
+              <MapView  
+            style={{alignSelf: 'stretch', height: 0.52 * windowHeight}}
+  
+            region = {this.state.mapRegion}
+            >
+            {
+            (this.state.mapRegion !== null  ) && (this.state.showCurrent) &&
+            <MapView.Marker
+         coordinate={{"latitude":this.state.mapRegion.latitude,"longitude":this.state.mapRegion.longitude}}
+         title={"Your Location"}
+            />
+            }
+            </MapView>
+
+              </View>
 
           </View>
           
   
-          </View>
+
           //
         );
       }
@@ -157,6 +223,11 @@ export default class App extends React.Component {
       check:{
           width: 14,
           height: 14
+      },
+      map: {
+        width:windowWidth,
+        height:0.52*windowHeight,
+        backgroundColor:'yellow'
       },
       avatar:{
           borderWidth:1,

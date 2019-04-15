@@ -91,10 +91,10 @@ export default class InviteVertiScroll extends React.Component{
                     
                     </View>
                     <View style={styles.buttons}>
-                        <TouchableOpacity onPress={()=>{this.props.navigation.toggleDrawer()}}>
+                        <TouchableOpacity >
                         <Image style={{width: 0.055 * windowHeight,height: 0.055 * windowHeight,}} source={require('../assets/Sliced/call.png')}></Image>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={()=>{this.props.navigation.toggleDrawer()}}>
+                        <TouchableOpacity >
                         <Image style={{marginRight:0, width: 0.055 * windowHeight,height: 0.055 * windowHeight,}} source={require('../assets/Sliced/email.png')}></Image>
                         </TouchableOpacity>
                     </View>
