@@ -323,7 +323,7 @@ const styles = StyleSheet.create(
             letterSpacing: 0,
             textAlign: 'center',
             paddingLeft: 26,
-            paddingTop: 10
+            paddingTop: 0.02*windowHeight
         },
 
         month2:{
@@ -334,7 +334,7 @@ const styles = StyleSheet.create(
             letterSpacing: 0,
             textAlign: 'center',
             paddingLeft: 26,
-            paddingTop: 10
+            paddingTop: 0.02*windowHeight
         },
 
         titleSection:{
