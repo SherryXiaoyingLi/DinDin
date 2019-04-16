@@ -46,6 +46,24 @@ export default class EventDetail extends React.Component {
         {cancelable: false},
       );
     }
+    async handleAccept(inviter, invitePending){
+      await leadsRef_Accepted.push(
+          {
+              inviter: invitePending.inviter,
+              location: invitePending.location,
+              time: invitePending.time,
+              month: invitePending.month, 
+          }
+      )
+      let leadsRef_Pending_month = db.ref("Pending/"+invitePending.month)
+      await leadsRef_Pending_month.child(invitePending.id).remove()
+    }
+
+    async handleDecline(invitePending){
+      let leadsRef_Pending_month = db.ref("Pending/"+invitePending.month)
+      await leadsRef_Pending_month.child(invitePending.id).remove()
+    }   
+
 
   
     render() {
