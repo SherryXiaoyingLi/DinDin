@@ -3,13 +3,14 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Dimensions} 
 import { Constants } from 'expo'
 import 'firebase/firestore';
 import firebase from '../constants/firebase'
+import { user } from 'firebase-functions/lib/providers/auth';
 
 
 var windowWidth = Dimensions.get('window').width
 var windowHeight = Dimensions.get('window').height
 var bool = null
 var db = firebase.database()
-var leadsRef_MyCreate = db.ref('MyCreate');
+var leadsRef_MyCreate = db.ref('MyCreated');
 var leadsRef_Users = db.ref('UsersTable');
 
 export default class EventDenied extends React.Component{
@@ -19,6 +20,7 @@ export default class EventDenied extends React.Component{
         this.state ={
             podCastList: null,
             queryEvent:null,
+            eventUsers:null,
 
         }
     }
@@ -31,53 +33,67 @@ export default class EventDenied extends React.Component{
         })
     }
     async queryUsersTable() {
-        var query_result = []
-        var that = this
-        var res = await leadsRef_Users.on('value', async function(snapshot){
+        let that = this
+        var users = []
+        let res = await leadsRef_Users.on('value', async function(snapshot){
+            let query_result = []
             var subresult = await snapshot.forEach( function(childSnapshot){
                 var item = childSnapshot.toJSON()
                 var key = childSnapshot.key;
                 var obj = Object.assign(item, {id: key})
-                query_result.push(obj)
+                users.push(obj)
                
             })
             that.setState({
-                    queryUsersList: query_result
-
+                    queryUserList: users
                 })
+
+                // console.log('result')
                 // console.log(query_result)
-        }).bind(this)
-        return query_result
-        
+                // users = query_result
+            
+        })
+        return users
     }
     async queryEventTable(users) {
         var query_result = []
-        var that = this
-        var e_key = this.props.event_key
-        var res = await leadsRef_MyCreate.on('value', async function(snapshot){
-            var subresult = await snapshot.forEach( function(childSnapshot){
-                var item = childSnapshot.toJSON()
-                var key = String(childSnapshot.key);
+        let that = this
+        let e_key = this.props.event_key
+        console.log('e_key')
+        console.log(e_key)
+        let res = await leadsRef_MyCreate.on('value', async function(snapshot){
+            let subresult = await snapshot.forEach( function(childSnapshot){
+                let item = childSnapshot.toJSON()
+                let key = String(childSnapshot.key);
+                // console.log(key)
                 if (key==e_key){
-                    var obj = Object.assign(item, {id: key})
+                    console.log(key)
+                    let obj = Object.assign(item, {id: key})
+                    console.log(item)
                     query_result=obj['pending']
+                    console.log('pending')
+                    console.log(query_result)
                 }    
             })
             that.setState({
                     queryEvent: query_result
 
-                })
-            var finalUsers = []
+            })
+            let finalUsers = []
+            console.log('users')
+            console.log(users)
             for (const u of users){
                 for (const key of Object.keys(query_result)){
-                    // console.log(u.id)
-                    // console.log(query_result[key])
+                    console.log('this key')
+                    console.log(key)
                     if (u.id==query_result[key]){
                         finalUsers.push(u)
+                        console.log('find')
                     }
                     
                 }
             }
+            console.log('eventusers')
             that.setState({
                 eventUsers:finalUsers
             })
@@ -87,17 +103,11 @@ export default class EventDenied extends React.Component{
 
         
     }
-    getUsers(){
-        console.log('abc')
-        console.log(this.state.queryEvent)
-    }
 
-    componentWillMount(){
+    componentDidMount(){
         this.getPodCastData()
         this.queryUsersTable().then((users)=>this.queryEventTable(users))
-        // this.queryEventTable()
 
-        // this.getUsers()
     }
     
 

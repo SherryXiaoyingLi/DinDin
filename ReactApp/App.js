@@ -25,26 +25,26 @@ const authStack = createDrawerNavigator({login: Login})
 const testStack = createDrawerNavigator({test:event})
 const writeStack = createDrawerNavigator({writeTable: write})
 
-// const createEventStack = createDrawerNavigator(
-//   {
-//     createEvent:create, 
-//     createEvent2:create2,
-//   }
-// )
+const createEventStack = createDrawerNavigator(
+  {
+    createEvent:create, 
+    createEvent2:create2,
+  }
+)
 
 const AppContainer = createAppContainer(
   createSwitchNavigator({
     spl: Splash,
     home: homeStack,
     auth: authStack,
-    test: testStack,
+    test: createEventStack,
     
     w: writeStack
     
   },
   {
-    // initialRouteName: 'createEvent2'
-    initialRouteName: 'home'
+    initialRouteName: 'test'
+    // initialRouteName: 'home'
     //initialRouteName: 'w'
   }
   ))

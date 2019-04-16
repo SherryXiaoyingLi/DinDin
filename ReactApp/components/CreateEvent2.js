@@ -39,7 +39,7 @@ export default class EventDetail extends React.Component {
       var newRef = firebase.database().ref('MyCreated/').push()
       var key = newRef.key
       console.log('key is: '+key)
-      firebase.database().ref('MyCreated/').push({
+      newRef.set({
         location:loc, time: t, month: m, pending: pend
       }).then((data)=>{
         //success callback
@@ -91,7 +91,6 @@ export default class EventDetail extends React.Component {
             style={{justifyContent:'center',alignItems:'center',width:windowWidth,height:0.5*windowHeight,flexDirection:'row'}}>
             <PeopleList countSelected={this.countSelected.bind(this)} getSendTo={this.getSendTo.bind(this)}/>
         </View>
-       <Text>{this.state.sendTo}</Text>
 
         <TouchableOpacity onPress={() => this.writeToDB(params.location, params.time, params.month, this.state.sendTo)}>
                 <Image style={{height:0.076*windowHeight,width:windowWidth}}  source={require('../assets/Sliced/buttonBar.png')}></Image>

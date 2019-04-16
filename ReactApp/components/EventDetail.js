@@ -72,7 +72,7 @@ export default class EventDetail extends React.Component {
 
   
     render() {
-      console.log('successfully get to de p')
+      // console.log('successfully get to de p')
 
       // console.log(this.props.state)
       // console.log(this.props.letter)
