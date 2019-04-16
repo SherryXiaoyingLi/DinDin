@@ -9,8 +9,10 @@ import EventHeader from './EventHeader'
 import EventAccepted from './EventAccepted'
 import EventDenied from './EventDenied'
 import utility from './language.utility'
+import firebase from '../constants/firebase'
 
-
+var db = firebase.database()
+var leadsRef_MyCreated = db.ref("MyCreated/")
 var windowWidth = Dimensions.get('window').width
 var windowHeight = Dimensions.get('window').height
 
@@ -26,15 +28,35 @@ export default class EventDetail extends React.Component {
         ab:0,
 
       }
-  
     }
+
+    async handleYes(){
+      let id = this.props.navigation.state.params.event_key
+      let this_navigation = this.props.navigation
+      let res = await leadsRef_MyCreated.orderByChild('id').equalTo(id).on('value', async function(snapshot){
+        let query_result = []
+        let subresult = await snapshot.forEach( function(childSnapshot){
+            let item = childSnapshot.toJSON()
+            let key = childSnapshot.key;
+            query_result.push(key)
+        })
+        if (query_result[0]!==undefined) {
+        await leadsRef_MyCreated.child(query_result[0]).remove()
+        }
+        this_navigation.navigate('homeScreen')
+        
+    }).bind(this)
+    }
+
+
+
     cancelEvent(data) {
       Alert.alert(
         'Are you sure you want to delete this event?',
         'You cannot undo this action.',
         [
           {text: 'Yes', 
-          onPress:  ()=>{this.props.navigation.navigate('homeScreen')}
+          onPress:  ()=>{this.handleYes()}
           },
           {
             text: 'Cancel',
@@ -72,8 +94,8 @@ export default class EventDetail extends React.Component {
       // console.log(this.props.state)
       // console.log(this.props.letter)
       // console.log(this.props)
-      // params = this.props.navigation.state.params
-      params = this.state.params
+      let params = this.props.navigation.state.params
+      //let params = this.state.params
       return (
         <View style={styles.container}>
         <EventHeader navigation={this.props.navigation}/>
