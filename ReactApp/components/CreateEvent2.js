@@ -94,7 +94,7 @@ export default class EventDetail extends React.Component {
        <Text>{this.state.sendTo}</Text>
 
         <TouchableOpacity onPress={() => this.writeToDB(params.location, params.time, params.month, this.state.sendTo)}>
-                <Image style={{height:0.076*windowHeight}}  source={require('../assets/Sliced/buttonBar.png')}></Image>
+                <Image style={{height:0.076*windowHeight,width:windowWidth}}  source={require('../assets/Sliced/buttonBar.png')}></Image>
                 <View style={styles.textView}><Text style={styles.buttonText}>{utility.t('send')}</Text></View>
         </TouchableOpacity>
         
