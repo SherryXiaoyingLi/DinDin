@@ -49,7 +49,7 @@ export default class EventDetail extends React.Component {
           'Successful',
           'Go to the detail page',
           [{text: 'OK', 
-          onPress: () => {this.props.navigation.navigate('eventDetail',{location:loc,time:t,month:m,pending:pend,event_key:key}),console.log(data)}},],) 
+          onPress: () => {this.props.navigation.navigate('eventDetail',{location:loc,time:t,month:m,pending:pend,event_key:key})}},],) 
       }).catch((error)=>{
         //error callback
         Alert.alert('Error' , error,[{text:'OK'}])
