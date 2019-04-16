@@ -322,7 +322,7 @@ const styles = StyleSheet.create(
             color: '#000000',
             letterSpacing: 0,
             textAlign: 'center',
-            paddingLeft: 26,
+            paddingLeft: 0.08*windowWidth,
             paddingTop: 0.02*windowHeight
         },
 
@@ -333,7 +333,7 @@ const styles = StyleSheet.create(
             // color: '#000000',
             letterSpacing: 0,
             textAlign: 'center',
-            paddingLeft: 26,
+            paddingLeft: 0.08*windowWidth,
             paddingTop: 0.02*windowHeight
         },
 
