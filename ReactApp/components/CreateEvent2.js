@@ -40,7 +40,7 @@ export default class EventDetail extends React.Component {
       var key = newRef.key
       console.log('key is: '+key)
       firebase.database().ref('MyCreated/').push({
-         id:key,location:loc, time: t, month: m, pending: pend
+        location:loc, time: t, month: m, pending: pend
       }).then((data)=>{
         //success callback
         console.log(data)

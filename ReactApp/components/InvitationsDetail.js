@@ -14,6 +14,7 @@ var leadsRef_Users = db.ref('UsersTable');
 var leadsRef_Accepted = db.ref('Accepted/');
 var leadsRef_Pending = db.ref('Pending')
 
+
 export default class App extends React.Component {
     constructor(props){
       super(props);
@@ -55,6 +56,8 @@ export default class App extends React.Component {
       { enableHighAccuracy: true, timeout: 200000, maximumAge: 1000 },
     );
     this.handleLocationPin()
+    // this.geturl('images/4.jpg')
+    
   }
 
 
@@ -88,12 +91,16 @@ export default class App extends React.Component {
   keyExtractor(item){
     return item.id.toString()
   }
+ 
 
   render() {
     //console.log(this.state.chosenDate)
     const params = this.props.navigation.state.params
-    console.log('params')
-    console.log(params)
+    var uId = this.keyExtractor(params.inviter)
+    var imgl = params.inviter.img
+
+    
+    console.log('img end')
         return (
           <View style={styles.container}>
 
@@ -109,7 +116,8 @@ export default class App extends React.Component {
   
           <View style={styles.card}>
             <View style={styles.top}>
-            <Image style={styles.avatar} source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}/>
+ 
+            <Image style={styles.avatar} source={{uri: imgl}}/>
             <Text style={{fontSize:20}}>{params.invitePending.location}</Text>
             <Text style={{fontSize:13,paddingTop:1}}>{params.invitePending.time}</Text>
             <Text style={{fontSize:13,opacity:0.5,paddingTop: 6,fontWeight:'bold'}}>{utility.t('hostby')} {params.inviter.name}</Text>
