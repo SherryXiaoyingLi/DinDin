@@ -128,7 +128,7 @@ export default class EventDetail extends React.Component {
 
 
         <TouchableOpacity onPress={() => this.cancelEvent('abc')}>
-                <Image style={{height:0.076*windowHeight}}  source={require('../assets/Sliced/cancelbtn.png')}></Image>
+                <Image style={{height:0.076*windowHeight,width:windowWidth}}  source={require('../assets/Sliced/cancelbtn.png')}></Image>
                 <View style={styles.textView}><Text style={styles.buttonText}>{utility.t('cancel')}</Text></View>
         </TouchableOpacity>
         
