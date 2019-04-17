@@ -188,7 +188,7 @@ export default class InvitePending extends React.Component{
                  <View style={styles.cardContainer}>
             <TouchableOpacity onPress={() => (this.props.navigation.navigate('invitationDetail',{inviter:item_inviter,invitePending:item}))}>
             <View style={styles.top}>
-            <Image style={styles.avatar} source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}/>
+            <Image style={styles.avatar} source={{uri: item_inviter.img}}/>
             <View style={{paddingLeft: 0.008 * windowWidth, flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start'}}>
                 <Text style={{fontFamily: 'System', fontSize: 14, color: '#000000', letterSpacing:0, paddingBottom: 0.02 * windowWidth}}>{item_inviter.name}</Text>
                 <Text style={{fontFamily: 'System', fontSize: 14, opacity: 0.5, color: '#000000', letterSpacing:0}}>{processed_time}</Text>
