@@ -413,7 +413,7 @@ const styles = StyleSheet.create(
            
         },
         cardContainer2: {
-            backgroundColor: '#38D459',
+            backgroundColor: '#90EE90',
             height: 0.22 * windowHeight, 
             width: 0.86 * windowWidth,
             flexDirection: 'column',
