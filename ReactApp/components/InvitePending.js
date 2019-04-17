@@ -25,8 +25,9 @@ export default class InvitePending extends React.Component{
             onEndReachedCalledDuringMomentum : true,
             addedToList2: false,
             alreadyFetched1: false,
-            //April: false,
-            //May: false,
+            flashGreen: '',
+            // flashRed: '',
+            styleMonth: ''
         }
     }
     
@@ -106,6 +107,7 @@ export default class InvitePending extends React.Component{
         })
     }
     async handleAccept(inviter, invitePending){
+            this.setState({flashGreen: invitePending.id})
             await leadsRef_Accepted.push(
                 {
                     inviter: invitePending.inviter,
@@ -119,10 +121,29 @@ export default class InvitePending extends React.Component{
         }
 
     async handleDecline(invitePending){
-        let leadsRef_Pending_month = db.ref("Pending/"+invitePending.month)
-        await leadsRef_Pending_month.child(invitePending.id).remove()
-    }
+            // this.setState({flashRed: invitePending.id})
+        
+            let leadsRef_Pending_month = db.ref("Pending/"+invitePending.month)
+            await leadsRef_Pending_month.child(invitePending.id).remove()
+        }
 
+    flashGreen(itemKey) {
+        if (this.state.flashGreen === itemKey ) {
+            return styles.cardContainer2
+        }  
+        // console.log("check")
+        // console.log(itemKey)
+        // console.log(this.state.flashRed)
+        // if (this.state.flashRed === itemKey) {
+        //     return styles.cardContainer3
+        // }
+         return  styles.cardContainer
+
+    }
+   
+    // flashRed(itemKey) {
+    //     return this.state.flashRed === itemKey ? styles.cardContainer3 : styles.cardContainer
+    // }
     
     onViewableItemsChanged = ({viewableItems, changed}) =>{
         // console.log("Visible items are", viewableItems);
@@ -139,12 +160,12 @@ export default class InvitePending extends React.Component{
         //console.log(numeric_month)
         this._scrollView.scrollTo({x: (numeric_month-1) * 41});
         console.log(viewing_month)
-        //this.setState({viewing_month: true})
+        this.setState({styleMonth: viewing_month})
     }
 
-    // monthStyle(viewing_month) {
-    //     return this.state.May ? styles.month2 : styles.month
-    // }
+    monthStyle(viewing_month) {
+        return this.state.styleMonth === viewing_month ? styles.month2 : styles.month
+    }
 
     onEndReached=({distanceFromEnd}) =>{
         if(!this.state.onEndReachedCalledDuringMomentum ){
@@ -185,7 +206,7 @@ export default class InvitePending extends React.Component{
         return(
             <View style={styles.rowContainer}>
                 <View style={styles.podCastContainer}>
-                 <View style={styles.cardContainer}>
+                 <View style={this.flashGreen(item.id)}>
             <TouchableOpacity onPress={() => (this.props.navigation.navigate('invitationDetail',{inviter:item_inviter,invitePending:item}))}>
             <View style={styles.top}>
             <Image style={styles.avatar} source={{uri: item_inviter.img}}/>
@@ -251,20 +272,18 @@ export default class InvitePending extends React.Component{
                 showsHorizontalScrollIndicator={false}
                 ref={view=>this._scrollView = view}
                 >
-                <Text style={styles.month}>January</Text>
-                <Text style={styles.month}>February</Text>
-                <Text style={styles.month}>March</Text>
-                {/* <Text style={this.monthStyle('April')}>April</Text>
-                <Text style={this.monthStyle('May')}>May</Text> */}
-                <Text style={styles.month}>April</Text>
-                <Text style={styles.month}>May</Text>
-                <Text style={styles.month}>June</Text>
-                <Text style={styles.month}>July</Text>
-                <Text style={styles.month}>August</Text>
-                <Text style={styles.month}>September</Text>
-                <Text style={styles.month}>October</Text>
-                <Text style={styles.month}>November</Text>
-                <Text style={styles.month}>December</Text>
+                <Text style={this.monthStyle('January')}>January</Text>
+                <Text style={this.monthStyle('February')}>February</Text>
+                <Text style={this.monthStyle('March')}>March</Text>
+                <Text style={this.monthStyle('April')}>April</Text> 
+                <Text style={this.monthStyle('May')}>May</Text>
+                <Text style={this.monthStyle('June')}>June</Text>
+                <Text style={this.monthStyle('July')}>July</Text>
+                <Text style={this.monthStyle('August')}>August</Text>
+                <Text style={this.monthStyle('September')}>September</Text>
+                <Text style={this.monthStyle('October')}>October</Text>
+                <Text style={this.monthStyle('November')}>November</Text>
+                <Text style={this.monthStyle('December')}>December</Text>
                 </ScrollView>
 
                 <View style={[styles.titleSection, {left: -0.4 * windowWidth}]}>
@@ -390,8 +409,29 @@ const styles = StyleSheet.create(
             flexDirection: 'column',
             borderRadius: 10,
             borderWidth: 0.5,
-            borderColor: '#D3D3D3'
+            borderColor: '#D3D3D3',
+           
         },
+        cardContainer2: {
+            backgroundColor: '#38D459',
+            height: 0.22 * windowHeight, 
+            width: 0.86 * windowWidth,
+            flexDirection: 'column',
+            borderRadius: 10,
+            borderWidth: 0.5,
+            borderColor: '#D3D3D3',
+           
+        },
+        cardContainer3: {
+            backgroundColor: 'red',
+            height: 0.22 * windowHeight, 
+            width: 0.86 * windowWidth,
+            flexDirection: 'column',
+            borderRadius: 10,
+            borderWidth: 0.5,
+            borderColor: '#D3D3D3',
+        },
+
         top: {
             width: 0.86 * windowWidth,
             height: 0.12 * windowHeight,
