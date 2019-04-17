@@ -43,8 +43,8 @@ const AppContainer = createAppContainer(
     
   },
   {
-    initialRouteName: 'test'
-    // initialRouteName: 'home'
+    //initialRouteName: 'spl'
+    initialRouteName: 'home'
     //initialRouteName: 'w'
   }
   ))
